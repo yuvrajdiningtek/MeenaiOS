@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="UpdateQtyView">
+            <rect key="frame" x="0.0" y="0.0" width="366" height="147"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LXA-Ng-cmn">
+                    <rect key="frame" x="5" y="5" width="356" height="137"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quantity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pvA-Ji-8Uo">
+                            <rect key="frame" x="16" y="23" width="65" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XQy-Hh-uEE" customClass="CustomStepper" customModule="TiffinApp" customModuleProvider="target">
+                            <rect key="frame" x="240" y="13" width="100" height="30"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="Gy6-gb-WHd"/>
+                                <constraint firstAttribute="width" constant="100" id="TOZ-T0-n6Q"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Utn-3U-2ca">
+                            <rect key="frame" x="103" y="81" width="150" height="30"/>
+                            <color key="backgroundColor" name="MaroonTheme"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="150" id="juZ-wI-gXm"/>
+                            </constraints>
+                            <state key="normal" title="UPDATE">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="updateBtn:" destination="iN0-l3-epB" eventType="touchUpInside" id="Igi-an-16z"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="Utn-3U-2ca" firstAttribute="centerY" secondItem="LXA-Ng-cmn" secondAttribute="centerY" multiplier="1.4" id="8Nn-M7-nTK"/>
+                        <constraint firstItem="Utn-3U-2ca" firstAttribute="centerX" secondItem="LXA-Ng-cmn" secondAttribute="centerX" id="RtY-hH-5Ge"/>
+                        <constraint firstItem="pvA-Ji-8Uo" firstAttribute="leading" secondItem="LXA-Ng-cmn" secondAttribute="leading" constant="16" id="aSj-PK-hg2"/>
+                        <constraint firstAttribute="trailing" secondItem="XQy-Hh-uEE" secondAttribute="trailing" constant="16" id="bSN-EY-jA0"/>
+                        <constraint firstItem="XQy-Hh-uEE" firstAttribute="top" secondItem="LXA-Ng-cmn" secondAttribute="top" constant="13" id="jr7-i6-Xvb"/>
+                        <constraint firstAttribute="height" constant="137" id="mjC-yW-EcL"/>
+                        <constraint firstItem="pvA-Ji-8Uo" firstAttribute="top" secondItem="LXA-Ng-cmn" secondAttribute="top" constant="23" id="u55-VE-Cqw"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="LXA-Ng-cmn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="DTq-xH-X8X"/>
+                <constraint firstItem="LXA-Ng-cmn" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="MCK-LH-7FE"/>
+                <constraint firstAttribute="bottom" secondItem="LXA-Ng-cmn" secondAttribute="bottom" constant="5" id="OeK-0h-LoA"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="LXA-Ng-cmn" secondAttribute="trailing" constant="5" id="rSV-AZ-W7s"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="stepperV" destination="XQy-Hh-uEE" id="ENf-r6-0sx"/>
+                <outlet property="updateBtn" destination="Utn-3U-2ca" id="NWo-74-DXe"/>
+            </connections>
+            <point key="canvasLocation" x="110.14492753623189" y="372.65625"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="MaroonTheme">
+            <color red="0.10980392156862745" green="0.59215686274509804" blue="0.40392156862745099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

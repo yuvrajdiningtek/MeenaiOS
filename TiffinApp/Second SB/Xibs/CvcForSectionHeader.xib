@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="glacialindifferencebold.ttf">
+            <string>GlacialIndifference-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="inK-al-n8D" customClass="CvcForSectionHeader" customModule="TiffinApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="41"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="41"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FIq-u1-vMU">
+                        <rect key="frame" x="16" y="0.0" width="343" height="41"/>
+                        <fontDescription key="fontDescription" name="GlacialIndifference-Bold" family="Glacial Indifference" pointSize="18"/>
+                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="FIq-u1-vMU" firstAttribute="top" secondItem="inK-al-n8D" secondAttribute="topMargin" id="OAB-wC-Zio"/>
+                <constraint firstItem="FIq-u1-vMU" firstAttribute="leading" secondItem="inK-al-n8D" secondAttribute="leadingMargin" id="RFT-oG-CDY"/>
+                <constraint firstAttribute="bottomMargin" secondItem="FIq-u1-vMU" secondAttribute="bottom" id="S8d-wV-aYg"/>
+                <constraint firstAttribute="trailingMargin" secondItem="FIq-u1-vMU" secondAttribute="trailing" id="xNo-W4-8z7"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="U2K-M4-Qi6"/>
+            <size key="customSize" width="227" height="41"/>
+            <point key="canvasLocation" x="125.59999999999999" y="540.17991004497753"/>
+        </collectionViewCell>
+    </objects>
+</document>

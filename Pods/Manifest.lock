@@ -1,0 +1,145 @@
+PODS:
+  - Alamofire (4.8.1)
+  - CountryPickerSwift (1.8.0)
+  - Crashlytics (3.12.0):
+    - Fabric (~> 1.9.0)
+  - CreditCardForm (0.1.8)
+  - DropDown (2.3.12)
+  - Fabric (1.9.0)
+  - FSPagerView (0.8.2)
+  - GoogleMaps/Base (3.0.2)
+  - GooglePlaces (3.0.2):
+    - GoogleMaps/Base (= 3.0.2)
+  - GoogleSignIn (4.4.0):
+    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
+    - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleToolboxForMac/DebugUtils (2.2.0):
+    - GoogleToolboxForMac/Defines (= 2.2.0)
+  - GoogleToolboxForMac/Defines (2.2.0)
+  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.2.0)":
+    - GoogleToolboxForMac/DebugUtils (= 2.2.0)
+    - GoogleToolboxForMac/Defines (= 2.2.0)
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.2.0)"
+  - "GoogleToolboxForMac/NSString+URLArguments (2.2.0)"
+  - GTMSessionFetcher/Core (1.2.1)
+  - Hero (1.4.0)
+  - HTHorizontalSelectionList (0.7.4):
+    - M13BadgeView (~> 1.0.4)
+  - IQKeyboardManagerSwift (6.0.5)
+  - M13BadgeView (1.0.4)
+  - NVActivityIndicatorView (4.6.1):
+    - NVActivityIndicatorView/Presenter (= 4.6.1)
+  - NVActivityIndicatorView/Presenter (4.6.1)
+  - ReachabilitySwift (4.3.0)
+  - Realm (3.19.0):
+    - Realm/Headers (= 3.19.0)
+  - Realm/Headers (3.19.0)
+  - RealmSwift (3.19.0):
+    - Realm (= 3.19.0)
+  - SCLAlertView (0.8.1)
+  - SDWebImage (4.4.5):
+    - SDWebImage/Core (= 4.4.5)
+  - SDWebImage/Core (4.4.5)
+  - SideMenuController (0.2.4)
+  - SkyFloatingLabelTextField (3.6.0)
+  - SRCountdownTimer (1.1)
+  - Stripe (14.0.0)
+  - SwiftMessages (6.0.2):
+    - SwiftMessages/App (= 6.0.2)
+  - SwiftMessages/App (6.0.2)
+
+DEPENDENCIES:
+  - Alamofire
+  - CountryPickerSwift
+  - Crashlytics
+  - CreditCardForm
+  - DropDown
+  - Fabric
+  - FSPagerView
+  - GooglePlaces
+  - GoogleSignIn
+  - Hero
+  - HTHorizontalSelectionList (~> 0.7.4)
+  - IQKeyboardManagerSwift (~> 6.0.4)
+  - NVActivityIndicatorView
+  - ReachabilitySwift
+  - RealmSwift (~> 3.19.0)
+  - SCLAlertView (from `https://github.com/vikmeup/SCLAlertView-Swift.git`)
+  - SDWebImage (~> 4.0)
+  - SideMenuController
+  - SkyFloatingLabelTextField (~> 3.0)
+  - SRCountdownTimer
+  - Stripe
+  - SwiftMessages
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - CountryPickerSwift
+    - Crashlytics
+    - CreditCardForm
+    - DropDown
+    - Fabric
+    - FSPagerView
+    - GoogleMaps
+    - GooglePlaces
+    - GoogleSignIn
+    - GoogleToolboxForMac
+    - GTMSessionFetcher
+    - Hero
+    - HTHorizontalSelectionList
+    - IQKeyboardManagerSwift
+    - M13BadgeView
+    - NVActivityIndicatorView
+    - ReachabilitySwift
+    - Realm
+    - RealmSwift
+    - SDWebImage
+    - SideMenuController
+    - SkyFloatingLabelTextField
+    - SRCountdownTimer
+    - Stripe
+    - SwiftMessages
+
+EXTERNAL SOURCES:
+  SCLAlertView:
+    :git: https://github.com/vikmeup/SCLAlertView-Swift.git
+
+CHECKOUT OPTIONS:
+  SCLAlertView:
+    :commit: 86ea7613c99cd4896765fabfa773b39b40bc8590
+    :git: https://github.com/vikmeup/SCLAlertView-Swift.git
+
+SPEC CHECKSUMS:
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  CountryPickerSwift: 4c328ae9687322cacf541120f5c43f0e2c1ba194
+  Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
+  CreditCardForm: 7e67bc394545eda9e502652af0858552b4931728
+  DropDown: 0bcc278799ec11a3d34ce1aac9367fbbaf5423d9
+  Fabric: f988e33c97f08930a413e08123064d2e5f68d655
+  FSPagerView: 816a18842306973cc7cc6df8a5332272f7815c30
+  GoogleMaps: 941cd655e009b4d8e42df19a3d749bc3fccec973
+  GooglePlaces: c086e0055dc5f0177d7c9d65fc77a1734f9a4825
+  GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
+  GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
+  GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
+  Hero: bac92350d7201a1a940003e0767c7b52ce7c99a1
+  HTHorizontalSelectionList: c38792f4bc87f941ab6c07b02a40abf111c68249
+  IQKeyboardManagerSwift: c14eca30f6001457d6ddf25e313f23fb6578c41c
+  M13BadgeView: 700dd0714fdc837c0cf1c8c004454963ec22441f
+  NVActivityIndicatorView: 4ca19fccc84595a78957336a086d00a49be6ce61
+  ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
+  Realm: 995d585bcf699aaff226715886c849a29dd3d07f
+  RealmSwift: 35f284a537989f2187b413e5917091948cb87a3f
+  SCLAlertView: 9fea8ac145c0bd4989ef6abe1d3859b48f458986
+  SDWebImage: ecc03494e973b93b80213649d32175f8d2d17d4d
+  SideMenuController: b463d2b3aa58e2afe57f57a07938fa9a647894ca
+  SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
+  SRCountdownTimer: 9c92e444b5403c92f01dd6610299b8c634bc8562
+  Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
+  SwiftMessages: 8b3cc68dba2f1c91aac1a74c90b10287aac35371
+
+PODFILE CHECKSUM: 24b9b348855655ff9124ba35d63cc4d89f3cf282
+
+COCOAPODS: 1.8.1

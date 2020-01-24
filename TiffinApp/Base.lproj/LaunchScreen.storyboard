@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="7Tf-vk-Ugu">
+            <objects>
+                <viewController id="Iaa-8Y-JxH" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sJV-K6-cHt">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="oldssplash" translatesAutoresizingMaskIntoConstraints="NO" id="V9f-56-NMF">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lnY-Z4-MDS">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.48595355309999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KFz-Wz-Rte">
+                                <rect key="frame" x="74.333333333333329" y="237" width="99.999999999999986" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="5U5-hf-Q75">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="150"/>
+                                    </constraint>
+                                    <constraint firstAttribute="width" secondItem="KFz-Wz-Rte" secondAttribute="height" id="eQo-Hg-Kjb"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85K-Jb-SjM">
+                                <rect key="frame" x="179.33333333333337" y="287" width="234.66666666666663" height="0.0"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="26"/>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Omp-aL-dYC" firstAttribute="trailing" secondItem="V9f-56-NMF" secondAttribute="trailing" id="6Cx-n0-nfw"/>
+                            <constraint firstItem="lnY-Z4-MDS" firstAttribute="top" secondItem="sJV-K6-cHt" secondAttribute="top" id="6KJ-Za-eFv"/>
+                            <constraint firstItem="85K-Jb-SjM" firstAttribute="centerY" secondItem="KFz-Wz-Rte" secondAttribute="centerY" id="81q-5U-9J0"/>
+                            <constraint firstItem="Omp-aL-dYC" firstAttribute="bottom" secondItem="V9f-56-NMF" secondAttribute="bottom" id="9PL-VY-lXd"/>
+                            <constraint firstItem="85K-Jb-SjM" firstAttribute="leading" secondItem="KFz-Wz-Rte" secondAttribute="trailing" constant="5" id="CIh-Lh-9Nw"/>
+                            <constraint firstItem="V9f-56-NMF" firstAttribute="top" secondItem="sJV-K6-cHt" secondAttribute="top" id="Jmg-H6-twh"/>
+                            <constraint firstItem="lnY-Z4-MDS" firstAttribute="leading" secondItem="Omp-aL-dYC" secondAttribute="leading" id="MP8-Pq-TyF"/>
+                            <constraint firstItem="Omp-aL-dYC" firstAttribute="trailing" secondItem="lnY-Z4-MDS" secondAttribute="trailing" id="TV5-dd-N8L"/>
+                            <constraint firstItem="Omp-aL-dYC" firstAttribute="bottom" secondItem="lnY-Z4-MDS" secondAttribute="bottom" id="aNv-0w-5pc"/>
+                            <constraint firstItem="V9f-56-NMF" firstAttribute="leading" secondItem="sJV-K6-cHt" secondAttribute="leading" id="bwZ-zH-rSE"/>
+                            <constraint firstItem="Omp-aL-dYC" firstAttribute="trailing" secondItem="85K-Jb-SjM" secondAttribute="trailing" id="qTm-0X-Xlg"/>
+                            <constraint firstItem="KFz-Wz-Rte" firstAttribute="centerX" secondItem="sJV-K6-cHt" secondAttribute="centerX" multiplier="0.6" id="w0m-dw-giv">
+                                <variation key="heightClass=regular-widthClass=regular" constant="50"/>
+                            </constraint>
+                            <constraint firstItem="KFz-Wz-Rte" firstAttribute="centerY" secondItem="sJV-K6-cHt" secondAttribute="centerY" multiplier="0.78" id="wy5-ch-ebI"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Omp-aL-dYC"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="abe-it-q9J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1320.289855072464" y="119.83695652173914"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="oldssplash" width="889" height="1334"/>
+    </resources>
+</document>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Timing" rowHeight="105" id="eol-Fb-Knn" customClass="Timing" customModule="TiffinApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="105"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eol-Fb-Knn" id="tqp-VG-eDa">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="104.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29g-I9-Kpl">
+                        <rect key="frame" x="52" y="15.5" width="207" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RvY-GB-SQJ">
+                        <rect key="frame" x="52" y="49.5" width="351.5" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.60392156862745094" green="0.60392156862745094" blue="0.60392156862745094" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock-circular-outline" translatesAutoresizingMaskIntoConstraints="NO" id="qHP-nb-qJj">
+                        <rect key="frame" x="6" y="13" width="29" height="26"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OPEN" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Df4-KI-fc6">
+                        <rect key="frame" x="362.5" y="5" width="41" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DINNER" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xS4-0K-o09">
+                        <rect key="frame" x="321" y="78.5" width="82.5" height="21"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="11"/>
+                        <color key="textColor" name="MaroonTheme"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="29g-I9-Kpl" firstAttribute="centerY" secondItem="tqp-VG-eDa" secondAttribute="centerY" multiplier="0.5" id="AU4-PA-8Nf"/>
+                    <constraint firstItem="Df4-KI-fc6" firstAttribute="centerY" secondItem="tqp-VG-eDa" secondAttribute="centerY" multiplier="0.3" id="BNE-hn-Tj3"/>
+                    <constraint firstItem="29g-I9-Kpl" firstAttribute="centerX" secondItem="tqp-VG-eDa" secondAttribute="centerX" multiplier="0.75" id="E55-oJ-INy"/>
+                    <constraint firstItem="RvY-GB-SQJ" firstAttribute="centerX" secondItem="tqp-VG-eDa" secondAttribute="centerX" multiplier="1.1" id="EXg-rP-6DQ"/>
+                    <constraint firstItem="qHP-nb-qJj" firstAttribute="centerX" secondItem="tqp-VG-eDa" secondAttribute="centerX" multiplier="0.1" id="GjI-ef-cgY"/>
+                    <constraint firstItem="29g-I9-Kpl" firstAttribute="height" secondItem="tqp-VG-eDa" secondAttribute="height" multiplier="0.2" id="IEA-Lf-Stb"/>
+                    <constraint firstItem="qHP-nb-qJj" firstAttribute="width" secondItem="tqp-VG-eDa" secondAttribute="width" multiplier="0.07" id="LZo-AS-BKb"/>
+                    <constraint firstItem="qHP-nb-qJj" firstAttribute="height" secondItem="tqp-VG-eDa" secondAttribute="height" multiplier="0.25" id="OF8-WU-QXx"/>
+                    <constraint firstItem="29g-I9-Kpl" firstAttribute="width" secondItem="tqp-VG-eDa" secondAttribute="width" multiplier="0.5" id="ZYF-Gb-8qy"/>
+                    <constraint firstItem="RvY-GB-SQJ" firstAttribute="centerY" secondItem="tqp-VG-eDa" secondAttribute="centerY" multiplier="1.15" id="acj-js-iXl"/>
+                    <constraint firstItem="xS4-0K-o09" firstAttribute="centerY" secondItem="tqp-VG-eDa" secondAttribute="centerY" multiplier="1.7" id="dVn-oA-YiC"/>
+                    <constraint firstItem="Df4-KI-fc6" firstAttribute="centerX" secondItem="tqp-VG-eDa" secondAttribute="centerX" multiplier="1.85" id="f2Q-Mx-c8g"/>
+                    <constraint firstItem="xS4-0K-o09" firstAttribute="width" secondItem="tqp-VG-eDa" secondAttribute="width" multiplier="0.2" id="ma2-AT-vSE"/>
+                    <constraint firstItem="xS4-0K-o09" firstAttribute="centerX" secondItem="tqp-VG-eDa" secondAttribute="centerX" multiplier="1.75" id="pTg-lq-ewm"/>
+                    <constraint firstItem="Df4-KI-fc6" firstAttribute="height" secondItem="tqp-VG-eDa" secondAttribute="height" multiplier="0.2" id="qBz-oi-QIN"/>
+                    <constraint firstItem="Df4-KI-fc6" firstAttribute="width" secondItem="tqp-VG-eDa" secondAttribute="width" multiplier="0.1" id="sYf-TV-ZFv"/>
+                    <constraint firstItem="qHP-nb-qJj" firstAttribute="centerY" secondItem="tqp-VG-eDa" secondAttribute="centerY" multiplier="0.5" id="t4q-zZ-RpL"/>
+                    <constraint firstItem="xS4-0K-o09" firstAttribute="height" secondItem="tqp-VG-eDa" secondAttribute="height" multiplier="0.2" id="vtl-IP-ZS8"/>
+                    <constraint firstItem="RvY-GB-SQJ" firstAttribute="height" secondItem="tqp-VG-eDa" secondAttribute="height" multiplier="0.2" id="wDp-aY-nak"/>
+                    <constraint firstItem="RvY-GB-SQJ" firstAttribute="width" secondItem="tqp-VG-eDa" secondAttribute="width" multiplier="0.85" id="zWb-Fb-DUX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="nameLbl" destination="29g-I9-Kpl" id="MhC-PB-EtO"/>
+                <outlet property="timeLbl" destination="RvY-GB-SQJ" id="ITQ-1B-mD9"/>
+                <outlet property="timingTypeLbl" destination="Df4-KI-fc6" id="Xuw-an-zUK"/>
+                <outlet property="typeLbl" destination="xS4-0K-o09" id="mQi-Nv-1Np"/>
+            </connections>
+            <point key="canvasLocation" x="131.8840579710145" y="96.763392857142847"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="clock-circular-outline" width="256" height="256"/>
+        <namedColor name="MaroonTheme">
+            <color red="0.10980392156862745" green="0.59215686274509804" blue="0.40392156862745099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
