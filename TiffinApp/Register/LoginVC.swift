@@ -71,6 +71,9 @@ class LoginVC: UIViewController {
     
     @IBAction func login_Btn(_ sender: Any) {
         self.view.endEditing(true)
+        
+
+        
         guard let useremail = email_TxtF.text else {return}
         guard let pswrd = passwordTxtF.text else {return}
         NetworkManager.isUnreachable { (_) in

@@ -34,7 +34,6 @@ class DeliveryMethodTV : UITableView , UITableViewDelegate, UITableViewDataSourc
     
     var pickUpid : String = ""
      var userselected_shippingMethod : String {
-        
         return selectedid ?? dataset?.shippment_method ?? ""
     }
     private var tvdataSource = [(String,String,String)](){ // (key, value, shippimgId)
@@ -51,8 +50,9 @@ class DeliveryMethodTV : UITableView , UITableViewDelegate, UITableViewDataSourc
             shop_address = (MD.object?.description_point) ?? ""
         }else { }
         
-       // var key = "Pickup at Restaurant \n \(shop_address)"
-        var key = "Pickup at the Restaurant - Free"
+//        var key = "Pickup at Restaurant \n \(shop_address)"
+        var key = "Pickup at the restaurant"
+
         var value = cleanDollars("0.0")
         var shippimgId = data.available_pickup_methods
         self.pickUpid = shippimgId
@@ -80,10 +80,17 @@ class DeliveryMethodTV : UITableView , UITableViewDelegate, UITableViewDataSourc
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DeliveryMethod_TVC
         
         cell.dataSet = tvdataSource[indexPath.row]
+       
+        
+        
         cell.radioBtn.isSelected = (cell.shippingId == userselected_shippingMethod)
+
         if selectedid != nil{
+
+
             cell.radioBtn.isSelected = (cell.shippingId == selectedid!)
         }
+        cell.radioBtn.tag = indexPath.row
         
         return cell
     }
@@ -92,6 +99,41 @@ class DeliveryMethodTV : UITableView , UITableViewDelegate, UITableViewDataSourc
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.updateDeliveryMethod(shippingId: tvdataSource[indexPath.row].2)
+        
+        if tvdataSource[indexPath.row].0 == "Pickup at the restaurant"{
+            UserDefaults.standard.setValue(true, forKey: "pickup")
+            UserDefaults.standard.setValue(false, forKey: "local")
+            UserDefaults.standard.setValue(false, forKey: "showCar")
+            UserDefaults.standard.setValue(false, forKey: "showTables")
+
+        }
+        if tvdataSource[indexPath.row].0 == "Local Delivery"{
+                   UserDefaults.standard.setValue(true, forKey: "local")
+                UserDefaults.standard.setValue(false, forKey: "pickup")
+            UserDefaults.standard.setValue(false, forKey: "showCar")
+            UserDefaults.standard.setValue(false, forKey: "showTables")
+
+               }
+               
+        
+        if tvdataSource[indexPath.row].0 == "Curbside Pickup"{
+            
+             UserDefaults.standard.setValue(false, forKey: "pickup")
+            UserDefaults.standard.setValue(true, forKey: "showCar")
+            UserDefaults.standard.setValue(false, forKey: "local")
+
+            UserDefaults.standard.setValue(false, forKey: "showTables")
+        }
+        else{
+            UserDefaults.standard.setValue(false, forKey: "pickup")
+             UserDefaults.standard.setValue(false, forKey: "showCar")
+            
+             UserDefaults.standard.setValue(true, forKey: "showTables")
+            UserDefaults.standard.setValue(false, forKey: "local")
+
+        }
+//
+        
     }
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)

@@ -50,6 +50,7 @@ class Message : NSObject{
     
     class func showSuccessmsg(style : SwiftMessages.PresentationStyle, message : String,title  : String = "Success", btnAction : (()->())? = nil){
         let success = MessageView.viewFromNib(layout: .centeredView)
+      
         success.configureTheme(.success)
         success.configureDropShadow()
         success.configureContent(title: title, body: message)

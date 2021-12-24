@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,72 +19,82 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AddTipView" customModule="TiffinApp" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="L9M-Gf-W76" customClass="AddTipView" customModule="TiffinApp" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="385" height="342"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="msP-d3-Bpl">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eQQ-Aj-qoc">
                     <rect key="frame" x="10" y="16" width="365" height="252"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Tip" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="le3-Eh-n5i">
-                            <rect key="frame" x="152" y="5" width="61.5" height="20"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Tip" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CO7-8e-mLL">
+                            <rect key="frame" x="152.5" y="5" width="60" height="20"/>
                             <fontDescription key="fontDescription" name="GlacialIndifference-Bold" family="Glacial Indifference" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="P7X-tH-VLR">
-                            <rect key="frame" x="0.0" y="34.5" width="365" height="217.5"/>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="50Q-Px-y6T">
+                            <rect key="frame" x="0.0" y="34.5" width="365" height="175.5"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tableView>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Custom Tip %" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="y6t-VT-e9o">
+                            <rect key="frame" x="91.5" y="220.5" width="182.5" height="38"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                        </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="P7X-tH-VLR" firstAttribute="leading" secondItem="msP-d3-Bpl" secondAttribute="leading" id="06K-Bq-Sa6"/>
-                        <constraint firstAttribute="trailing" secondItem="P7X-tH-VLR" secondAttribute="trailing" id="DwM-zG-A6M"/>
-                        <constraint firstAttribute="height" constant="252" id="RNl-qb-mZb"/>
-                        <constraint firstItem="le3-Eh-n5i" firstAttribute="centerX" secondItem="msP-d3-Bpl" secondAttribute="centerX" id="XfY-je-VOp"/>
-                        <constraint firstItem="le3-Eh-n5i" firstAttribute="centerY" secondItem="msP-d3-Bpl" secondAttribute="centerY" multiplier="0.12" id="doy-V7-MB1"/>
-                        <constraint firstAttribute="bottom" secondItem="P7X-tH-VLR" secondAttribute="bottom" id="ikL-Ki-Beq"/>
-                        <constraint firstItem="P7X-tH-VLR" firstAttribute="top" secondItem="le3-Eh-n5i" secondAttribute="bottom" multiplier="1.3" constant="2" id="x2f-Fa-gW8"/>
+                        <constraint firstItem="y6t-VT-e9o" firstAttribute="centerY" secondItem="eQQ-Aj-qoc" secondAttribute="centerY" multiplier="1.9" id="0IW-4k-X2W"/>
+                        <constraint firstItem="y6t-VT-e9o" firstAttribute="width" secondItem="eQQ-Aj-qoc" secondAttribute="width" multiplier="0.5" id="1BJ-Jh-ZKU"/>
+                        <constraint firstAttribute="bottom" secondItem="50Q-Px-y6T" secondAttribute="bottom" multiplier="1.2" id="8hX-xc-q2p"/>
+                        <constraint firstAttribute="height" constant="252" id="JIz-H9-WEu"/>
+                        <constraint firstAttribute="trailing" secondItem="50Q-Px-y6T" secondAttribute="trailing" id="OTq-VJ-XNm"/>
+                        <constraint firstItem="CO7-8e-mLL" firstAttribute="centerY" secondItem="eQQ-Aj-qoc" secondAttribute="centerY" multiplier="0.12" id="OwZ-qK-ae3"/>
+                        <constraint firstItem="y6t-VT-e9o" firstAttribute="height" secondItem="eQQ-Aj-qoc" secondAttribute="height" multiplier="0.15" id="Ssx-Oz-yPl"/>
+                        <constraint firstItem="50Q-Px-y6T" firstAttribute="top" secondItem="CO7-8e-mLL" secondAttribute="bottom" multiplier="1.3" constant="2" id="ekG-RE-c1f"/>
+                        <constraint firstItem="y6t-VT-e9o" firstAttribute="centerX" secondItem="eQQ-Aj-qoc" secondAttribute="centerX" id="kZQ-0u-Xxp"/>
+                        <constraint firstItem="CO7-8e-mLL" firstAttribute="centerX" secondItem="eQQ-Aj-qoc" secondAttribute="centerX" id="oNk-aw-ca3"/>
+                        <constraint firstItem="50Q-Px-y6T" firstAttribute="leading" secondItem="eQQ-Aj-qoc" secondAttribute="leading" id="ujV-sW-cso"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k0S-jp-yxD" customClass="CurveButton" customModule="TiffinApp" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WzT-OR-7sR">
                     <rect key="frame" x="52" y="288" width="281" height="40"/>
                     <color key="backgroundColor" name="MaroonTheme"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="40" id="5Ul-ES-XfO"/>
+                        <constraint firstAttribute="height" constant="40" id="eGT-35-JEh"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="GlacialIndifference-Regular" family="Glacial Indifference" pointSize="17"/>
                     <state key="normal" title="Apply">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                     <connections>
-                        <action selector="applyTip:" destination="iN0-l3-epB" eventType="touchUpInside" id="hYj-2w-bsY"/>
+                        <action selector="applyTip:" destination="L9M-Gf-W76" eventType="touchUpInside" id="bwx-Xh-7Dd"/>
                     </connections>
                 </button>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="N6v-DI-KLg"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="k0S-jp-yxD" firstAttribute="centerX" secondItem="msP-d3-Bpl" secondAttribute="centerX" id="2PT-rU-zay"/>
-                <constraint firstItem="msP-d3-Bpl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="8JR-my-wKx"/>
-                <constraint firstItem="k0S-jp-yxD" firstAttribute="top" secondItem="msP-d3-Bpl" secondAttribute="bottom" constant="20" id="HcG-su-tfB"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="msP-d3-Bpl" secondAttribute="trailing" constant="10" id="IGg-Zp-2HJ"/>
-                <constraint firstItem="msP-d3-Bpl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="Kv2-ql-F20"/>
-                <constraint firstItem="k0S-jp-yxD" firstAttribute="width" secondItem="msP-d3-Bpl" secondAttribute="width" multiplier="1:1.3" id="Y9e-9G-bEE"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="k0S-jp-yxD" secondAttribute="bottom" constant="14" id="tzJ-xy-dO5"/>
+                <constraint firstItem="WzT-OR-7sR" firstAttribute="width" secondItem="eQQ-Aj-qoc" secondAttribute="width" multiplier="1:1.3" id="9Tg-B6-C53"/>
+                <constraint firstItem="WzT-OR-7sR" firstAttribute="centerX" secondItem="eQQ-Aj-qoc" secondAttribute="centerX" id="H0K-YP-QM2"/>
+                <constraint firstItem="N6v-DI-KLg" firstAttribute="trailing" secondItem="eQQ-Aj-qoc" secondAttribute="trailing" constant="10" id="QP8-GH-5gj"/>
+                <constraint firstItem="WzT-OR-7sR" firstAttribute="top" secondItem="eQQ-Aj-qoc" secondAttribute="bottom" constant="20" id="Seu-Yw-ood"/>
+                <constraint firstItem="eQQ-Aj-qoc" firstAttribute="top" secondItem="L9M-Gf-W76" secondAttribute="top" constant="16" id="dAj-wa-GMD"/>
+                <constraint firstItem="eQQ-Aj-qoc" firstAttribute="leading" secondItem="L9M-Gf-W76" secondAttribute="leading" constant="10" id="guL-EL-D37"/>
+                <constraint firstItem="N6v-DI-KLg" firstAttribute="bottom" secondItem="WzT-OR-7sR" secondAttribute="bottom" constant="14" id="t8v-MB-aBW"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
-                <outlet property="applyBtn" destination="k0S-jp-yxD" id="R0f-ph-ZQ3"/>
-                <outlet property="tablev" destination="P7X-tH-VLR" id="2p8-Xl-Q0T"/>
+                <outlet property="applyBtn" destination="WzT-OR-7sR" id="x7D-CF-dXh"/>
+                <outlet property="customTipTF" destination="y6t-VT-e9o" id="Jcs-r6-cmd"/>
+                <outlet property="tablev" destination="50Q-Px-y6T" id="kcR-da-5tY"/>
             </connections>
             <point key="canvasLocation" x="124" y="403.89805097451278"/>
         </view>
     </objects>
     <resources>
         <namedColor name="MaroonTheme">
-            <color red="0.10980392156862745" green="0.59215686274509804" blue="0.40392156862745099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.90784353427786046" green="0.33460321564001899" blue="0.15669012971461393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

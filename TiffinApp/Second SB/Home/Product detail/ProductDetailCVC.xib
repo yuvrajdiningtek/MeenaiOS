@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -58,7 +56,7 @@
                                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L3z-rT-Hjl">
+                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L3z-rT-Hjl">
                                                         <rect key="frame" x="286" y="61.5" width="73" height="30"/>
                                                         <state key="normal" title="View More">
                                                             <color key="titleColor" red="0.10980392160000001" green="0.59215686270000001" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -76,7 +74,7 @@
                                                         <color key="textColor" name="MaroonTheme"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ync-MP-0JY">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ync-MP-0JY">
                                                         <rect key="frame" x="0.0" y="324.5" width="375" height="49"/>
                                                         <color key="backgroundColor" name="MaroonTheme"/>
                                                         <fontDescription key="fontDescription" name="GlacialIndifference-Regular" family="Glacial Indifference" pointSize="16"/>
@@ -84,14 +82,14 @@
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BPv-WW-1bZ">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BPv-WW-1bZ">
                                                         <rect key="frame" x="116.5" y="109" width="48" height="30"/>
                                                         <state key="normal" title="Variety">
                                                             <color key="titleColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kdw-WB-Pnc">
-                                                        <rect key="frame" x="169.5" y="113" width="16" height="22"/>
+                                                        <rect key="frame" x="169.5" y="113" width="12" height="22"/>
                                                         <color key="tintColor" red="0.36470588240000001" green="0.36470588240000001" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <state key="normal" image="drop-down-arrow@x1"/>
                                                     </button>
@@ -203,6 +201,7 @@
                     </view>
                 </subviews>
             </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstItem="2ab-sX-Nca" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="31l-v3-yEN"/>
                 <constraint firstAttribute="bottom" secondItem="2ab-sX-Nca" secondAttribute="bottom" id="7ta-Ik-4VE"/>
@@ -210,7 +209,6 @@
                 <constraint firstItem="5UY-p7-q1O" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" multiplier="1:3" id="jxk-ww-Oue"/>
                 <constraint firstItem="2ab-sX-Nca" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="xKs-MS-TLH"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="256" height="519"/>
             <point key="canvasLocation" x="302.39999999999998" y="364.7676161919041"/>
         </collectionViewCell>
@@ -219,7 +217,7 @@
         <image name="backgrnd_@x2" width="313" height="208.5"/>
         <image name="drop-down-arrow@x1" width="12" height="12"/>
         <namedColor name="MaroonTheme">
-            <color red="0.10980392156862745" green="0.59215686274509804" blue="0.40392156862745099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.90784353427786046" green="0.33460321564001899" blue="0.15669012971461393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

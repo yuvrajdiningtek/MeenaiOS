@@ -80,6 +80,8 @@ import UIKit
         contentV.autoresizingMask = [.flexibleHeight,.flexibleWidth]
         contentV.layer.borderWidth = 1
         contentV.layer.borderColor = UIColor(named: "MaroonTheme")?.cgColor
+        contentV.layer.cornerRadius = 5
+
     }
 }
 

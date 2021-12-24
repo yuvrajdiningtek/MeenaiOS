@@ -125,7 +125,7 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
             if success, (status as [NSDictionary]! ).count > 0 {
                 let status = (status as [NSDictionary]!)[0].value(forKey: "status") as? String ?? ""
 
-                self.status_lbl.text = status
+                self.status_lbl.text = "Payment : \(status)"
             }else{
                 SCLAlertView().showError("error")
             }
@@ -150,6 +150,8 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
     var isOrderHistory = Bool()
     var passedOrderData : DatainOrdersData?
     var items_of_taxes_tablev = [TaxesOrdersData]()
+    var additional_fees = [AdditionalFeesOrdersData]()
+
     //MARK: - VIEW LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -310,16 +312,23 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
             "Placed at : " + "\((passedOrderData?.orderedDate) ?? "")"
         
         if (passedOrderData?.orderStatus.count)! > 0{
-            status_lbl.text = passedOrderData?.orderStatus.last?.status ?? ""
+            status_lbl.text = "Payment : \(passedOrderData?.orderStatus.last?.status ?? "")"
         }
-        
-        if self.passedOrderData?.metaInfo!.COUPON != ""  {
+        if self.passedOrderData?.metaInfo != nil  {
+                 if self.passedOrderData?.metaInfo?.COUPON != ""{
+//        if self.passedOrderData?.metaInfo!.COUPON != ""  {
           //  self.coupanLbl.text = "Applied Coupan : " + (self.passedOrderData?.metaInfo!.COUPON)! + "   - " + "(" + "$" + (self.passedOrderData?.metaInfo!.COUPON_TIFFIN10_AMOUNT)! + ")"
             
             totalamount_lbl.text =  cleanDollars(String(describing: passedOrderData?.orderTotal ?? 0.0))
             coupanAmontLbl.text = "$\(self.passedOrderData!.metaInfo!.COUPON_TIFFIN10_AMOUNT)"
-            coupanLbll.text = "Applied Coupan : \(self.passedOrderData!.metaInfo!.COUPON)"
+            coupanLbll.text = "Applied Coupon : \(self.passedOrderData!.metaInfo!.COUPON)"
             orderTotalLbl.text = "Order Total"
+            }
+            else {
+                        totalamount_lbl.text =  cleanDollars(String(describing: passedOrderData?.orderTotal ?? 0.0))
+                        orderTotalLbl.text = "Order Total"
+                       coupanView.isHidden = true
+                   }
         }
         else {
              totalamount_lbl.text =  cleanDollars(String(describing: passedOrderData?.orderTotal ?? 0.0))
@@ -552,15 +561,28 @@ extension OrderDetailVC {
 
 extension OrderDetailVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        if tableView == table_v{
+//            return passedOrderData?.items.count ?? 0
+//        }else if tableView == item_fees_tv{
+//            return passedOrderData?.itemsFees.count ?? 0
+//        }else{
+//            return items_of_taxes_tablev.count
+//        }
+//    }
         if tableView == table_v{
             return passedOrderData?.items.count ?? 0
         }else if tableView == item_fees_tv{
             return passedOrderData?.itemsFees.count ?? 0
         }else{
-            return items_of_taxes_tablev.count
-        }
-    }
-    
+            
+            if additional_fees.count == 0{
+                
+                return items_of_taxes_tablev.count
+            }
+            else{
+                return 2
+            }
+        }}
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == table_v {
             return 70
@@ -618,18 +640,24 @@ extension OrderDetailVC: UITableViewDelegate, UITableViewDataSource{
             if passedOrderData?.items[indexPath.row].addons.count == 0 {
                 print("empty")
             }
-                
+            
             if passedOrderData?.items[indexPath.row].addons.count == 2 {
-                 cell.product_adon_lbl.text = (passedOrderData?.items[indexPath.row].addons[0].addon_full_name)!
+                cell.product_adon_lbl.text = (passedOrderData?.items[indexPath.row].addons[0].addon_full_name)!
                 
                 cell.product_adOnLbl2.text =  (passedOrderData?.items[indexPath.row].addons[1].addon_full_name)!
             }
+            
+            if passedOrderData?.items[indexPath.row].addons.count == 3 {
+                cell.product_adon_lbl.text = (passedOrderData?.items[indexPath.row].addons[0].addon_full_name)!
                 
-             if passedOrderData?.items[indexPath.row].addons.count == 1 {
-            
-            
-            cell.product_adon_lbl.text = (passedOrderData?.items[indexPath.row].addons[0].addon_full_name)!
+                cell.product_adOnLbl2.text =  "\((passedOrderData?.items[indexPath.row].addons[1].addon_full_name)!)\n\((passedOrderData?.items[indexPath.row].addons[2].addon_full_name)!) "
             }
+            if passedOrderData?.items[indexPath.row].addons.count == 1 {
+                
+                
+                cell.product_adon_lbl.text = (passedOrderData?.items[indexPath.row].addons[0].addon_full_name)!
+            }
+            
             
             
             
@@ -637,10 +665,44 @@ extension OrderDetailVC: UITableViewDelegate, UITableViewDataSource{
         }else if tableView == item_fees_tv{
             let cell = tableView.dequeueReusableCell(withIdentifier: "cellof_item_fee", for: indexPath) as! Taxes_TVC
             
+//            cell.title_lbl.text = passedOrderData?.itemsFees[indexPath.row].name
+//            if indexPath.row == 1 {
+//                if passedOrderData?.itemsFees[1].name == "LOCAL_PICKUP" {
+//                    cell.title_lbl.text = "Pickup at the Restaurant - Free"
+//                }
+//            }
+//            if indexPath.row == 1 {
+//                if passedOrderData?.itemsFees[1].name == "LOCAL_DELIVERY" {
+//                    cell.title_lbl.text = "Local Delivery"
+//                }
+//            }
+//
+//
+////            if passedOrderData?.itemsFees[0].name == "Tip" {
+////                cell.title_lbl.text = "Tip"
+////            }
+//            //sabmai..hojjata hai index  1 krwana h bs..
+//            cell.detail_lbl.text = cleanDollars(String(passedOrderData?.itemsFees[indexPath.row].amount ?? 0.0))
+//            return cell
+//        }else{
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "cellof_tax", for: indexPath) as! Taxes_TVC
+//
+//
+//
+//            cell.title_lbl.text = items_of_taxes_tablev[indexPath.row].name
+//
+//            cell.detail_lbl.text = cleanDollars(String(items_of_taxes_tablev[indexPath.row].amount))
+//
+//
+//            return cell
+//        }
+//
+//    }
+//}
             cell.title_lbl.text = passedOrderData?.itemsFees[indexPath.row].name
             if indexPath.row == 1 {
                 if passedOrderData?.itemsFees[1].name == "LOCAL_PICKUP" {
-                    cell.title_lbl.text = "Pickup at the Restaurant - Free"
+                    cell.title_lbl.text = "Curbside Pickup"
                 }
             }
             if indexPath.row == 1 {
@@ -649,29 +711,56 @@ extension OrderDetailVC: UITableViewDelegate, UITableViewDataSource{
                 }
             }
             
-           
-//            if passedOrderData?.itemsFees[0].name == "Tip" {
-//                cell.title_lbl.text = "Tip"
-//            }
+            if indexPath.row == 2 {
+                if passedOrderData?.itemsFees[2].name == "LOCAL_PICKUP" {
+                    cell.title_lbl.text = "Curbside Pickup"
+                }
+            }
+            if indexPath.row == 2 {
+                if passedOrderData?.itemsFees[2].name == "LOCAL_DELIVERY" {
+                    cell.title_lbl.text = "Local Delivery"
+                }
+            }
+            
+            
+            //            if passedOrderData?.itemsFees[0].name == "Tip" {
+            //                cell.title_lbl.text = "Tip"
+            //            }
             //sabmai..hojjata hai index  1 krwana h bs..
             cell.detail_lbl.text = cleanDollars(String(passedOrderData?.itemsFees[indexPath.row].amount ?? 0.0))
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "cellof_tax", for: indexPath) as! Taxes_TVC
             
-            
-
-            cell.title_lbl.text = items_of_taxes_tablev[indexPath.row].name
-            
-            cell.detail_lbl.text = cleanDollars(String(items_of_taxes_tablev[indexPath.row].amount))
-            
-            
-            return cell
+            if additional_fees.count == 0{
+                
+                cell.title_lbl.text = items_of_taxes_tablev[indexPath.row].name
+                
+                cell.detail_lbl.text = cleanDollars(String(items_of_taxes_tablev[indexPath.row].amount))
+                
+                
+                return cell
+            }
+            else{
+                
+                if indexPath.row == 0{
+                    cell.title_lbl.text = items_of_taxes_tablev[0].name
+                    
+                    cell.detail_lbl.text = cleanDollars(String(items_of_taxes_tablev[0].amount))
+                }
+                if indexPath.row == 1{
+                    cell.title_lbl.text = additional_fees[0].name
+                    
+                    cell.detail_lbl.text = cleanDollars(String(additional_fees[0].amount))
+                    
+                    
+                }
+                
+                return cell
+            }
         }
-        
-    }    
+    }
 }
-
 class AllProductOrderDetailTVC:UITableViewCell{
     
     var dataSet : ItemsOrdersData?

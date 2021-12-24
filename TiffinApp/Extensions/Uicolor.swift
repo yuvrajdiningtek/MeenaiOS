@@ -23,6 +23,8 @@ extension UIColor {
 //        static var marooncolor: UIColor { return UIColor(hex: 0x1C9767) }
                 static var marooncolor: UIColor { return UIColor(named: "MaroonTheme")! }
         
+        static var supportcolor: UIColor { return UIColor(named: "supportcolor")! }
+        
     }
 }
 

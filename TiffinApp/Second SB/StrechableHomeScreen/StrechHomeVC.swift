@@ -2,9 +2,11 @@
 import UIKit
 import Crashlytics
 import Alamofire
+import NVActivityIndicatorView
 
 class StrechHomeVC: UIViewController {
-    
+    var activityIndicator  : NVActivityIndicatorView?
+
     var accesstoken = String()
     var accessT = String()
     var emailuser = String()
@@ -16,6 +18,16 @@ class StrechHomeVC: UIViewController {
     @IBOutlet weak var timingTableView: UITableView!
     @IBOutlet weak var cross: UIButton!
     @IBOutlet weak var timeView: UIView!
+    @IBOutlet weak var timeRoundView: UIView!
+    @IBOutlet weak var timeDoneBtn: UIButton!
+    @IBOutlet weak var hostoryView: UIView!
+    @IBOutlet weak var stackVieww: UIView!
+    @IBOutlet weak var stackViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var orderImg: UIImageView!
+    @IBOutlet weak var orderLbl: UILabel!
+    @IBOutlet weak var historyImg: UIImageView!
+    @IBOutlet weak var historyLbl: UILabel!
+    @IBOutlet weak var withoutLoginHeight: NSLayoutConstraint!
     
     var collapseCntrl : CollapseControl!
     var productArr = [String:[Products]]()
@@ -37,6 +49,40 @@ class StrechHomeVC: UIViewController {
     var upperView : CollapseViewHeader?
     var restrauntOpen = true
     @IBOutlet weak var phoneTitleBtn: UIButton!
+    private func add(asChildViewController viewController: UIViewController) {
+        
+        addChild(viewController)
+        hostoryView.addSubview(viewController.view)
+        viewController.view.frame = hostoryView.bounds
+        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        viewController.didMove(toParent: self)
+    }
+    
+    lazy var ordersList : OrdersVC = {
+        let storyBoard = UIStoryboard(name: "Second", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: "OrdersVC") as! OrdersVC
+        return vc
+    }()
+    @IBAction func showww(_ sender: Any) {
+        hostoryView.isHidden = false
+        
+        historyImg.tintColor = UIColor.black
+        historyLbl.textColor = UIColor.black
+        orderImg.tintColor = UIColor.lightGray
+        orderLbl.textColor = UIColor.lightGray
+        self.add(asChildViewController: ordersList)
+
+    }
+    
+    @IBAction func hideee(_ sender: Any) {
+        
+        historyImg.tintColor = UIColor.lightGray
+        historyLbl.textColor = UIColor.lightGray
+        orderImg.tintColor = UIColor.black
+        orderLbl.textColor = UIColor.black
+        hostoryView.isHidden = true
+    }
+    
     @IBAction func searchBtnAction(_ sender: Any) {
         let vc = secondSBVC("SearchProductVC")
         self.present(vc, animated: true, completion: nil)
@@ -72,9 +118,50 @@ class StrechHomeVC: UIViewController {
 }
 
 extension StrechHomeVC{
+    
+    
+    @objc func homeReloadforCartValue(){
+//        floatingBasketView.setAmount()
+        self.getAlOredrs(completion: {
+            (succ,error) in
+            if !succ{
+                print(error)
+                if (error?.contains("Invalid") ?? false) {
+                    return
+                }
+            }
+            else{
+            }
+        })
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        withoutLoginHeight.constant = 0
+
+        historyImg.tintColor = UIColor.lightGray
+        historyLbl.textColor = UIColor.lightGray
         
+        if isUserLoggedIn{
+            stackVieww.isHidden = false
+            stackViewHeight.constant = 60
+            withoutLoginHeight.constant = 60
+
+        }
+        else{
+            stackVieww.isHidden = true
+            stackViewHeight.constant = 0
+            withoutLoginHeight.constant = 0
+        }
+        
+        hostoryView.isHidden = true
+
+        NotificationCenter.default.addObserver(self, selector: #selector(homeReloadforCartValue), name: Notification.Name("MoveToHome"), object: nil)
+
+        phoneTitleBtn.layer.cornerRadius = 5
+        timeRoundView.layer.cornerRadius = 10
+        timeRoundView.clipsToBounds = false
+        timeDoneBtn.layer.cornerRadius = 10
         if isUserLoggedIn == true {
             let logindata = DBManager.sharedInstance.get_loginUser_DataFromDB()[0] as LoginUserDAta
             accessT = (logindata.object?.access_token)!
@@ -118,7 +205,8 @@ extension StrechHomeVC{
         let top = CollapsablePublicTerms().hederViewHeight-(CollapsablePublicTerms.topSafeAreaMargin ?? 20)
         self.setUpperView()
         collectionView.contentInset = UIEdgeInsets(top: top , left: 0, bottom: 50, right: 0)
-        self.setcollectionViewiewDataSet()  // define in extension i.e. file StrechableHome
+//        self.setcollectionViewiewDataSet()  // define in extension i.e. file StrechableHome
+        self.merchant_id()
         collectionView.register(UINib(nibName: "CollectionVXibs", bundle: nil), forCellWithReuseIdentifier: "HomeCVC")
         collectionView.register(UINib(nibName: "CvcForSectionHeader", bundle: nil), forCellWithReuseIdentifier: "sectionCell")
         self.checkRestrauntIsOpen()
@@ -145,7 +233,58 @@ extension StrechHomeVC{
         })
         
     }
-    
+    func merchant_id(){
+        showLoader()
+        var apiurl = URLComponents(string: ApiKeys.merchantID)
+        if isUserLoggedIn {
+            let logindata = DBManager.sharedInstance.get_loginUser_DataFromDB()[0] as LoginUserDAta
+            let accesstoken = (logindata.object?.access_token)!
+            
+            apiurl?.queryItems = [
+                URLQueryItem(name: "access_token", value: accesstoken)
+            ]
+            
+        }else{
+            let accesstoken = GuestUserCredential.access_token
+            
+            apiurl?.queryItems = [
+                URLQueryItem(name: "access_token", value: accesstoken)
+            ]
+        }
+        Alamofire.request(apiurl!,method: .get, encoding: JSONEncoding.default).responseJSON { (respose) in
+            
+            if respose.result.value != nil{
+                self.hideLoader()
+
+                if let a = respose.result.value as? NSDictionary{
+                    
+                    if let request_status = a.value(forKey: "request_status") as? Int {
+                        if request_status == 1{
+                            
+                            self.hideLoader()
+                            DBManager.sharedInstance.create_merchantIDData_DB(value: a)
+                            
+                            let MD  = DBManager.sharedInstance.get_merchntId_DataFromDB()[0] as MerchantID
+                           
+                            let isShopOpen = MD.object?.IS_SHOP_OPEN
+                            let PRODUCT_IMAGE_PREVIEW = MD.object?.PRODUCT_IMAGE_PREVIEW
+                            UserDefaults.standard.setValue(PRODUCT_IMAGE_PREVIEW, forKey: "PRODUCT_IMAGE_PREVIEW")
+                            self.setcollectionViewiewDataSet()
+                            return
+                        }else{
+                            self.hideLoader()
+
+                            //callback(false,a,nil)
+                            return
+                        }
+                    }
+                }
+                //   callback(false,nil,nil)
+            }else{
+                // callback(false, nil, nil)
+            }
+        }
+    }
     @objc func appMovedToBackground() {
         
         let MM = UserDefaults.standard.value(forKey: "MM") as? Bool
@@ -350,11 +489,10 @@ extension StrechHomeVC{
     }
     
     func getAlOredrs(completion: @escaping (Bool,String?)->()){
-        
-        
+
+
         
         ProductsApi.detail_Cart_Info { (success, result,_) in
-            
             
             
             if success{
@@ -362,19 +500,21 @@ extension StrechHomeVC{
                 
                 
             }
+
             
-            
-            
+            self.floatingBasketView.isHidden = true
+
             if DBManager.sharedInstance.get_CartData_DataFromDB().count > 0 {
                 
                 self.orderData = DBManager.sharedInstance.get_CartData_DataFromDB()[0] as CartData
                 
                 if self.orderData.object?.items.count != 0 {
                     self.floatingBasketView.isHidden = false
-                    
+                    self.floatingBasketView.setAmount()
+
                 }
                 else {
-                    self.floatingBasketView.isHidden = true
+                    self.floatingBasketView.isHidden = true//true
                 }
                 
             }
@@ -463,7 +603,18 @@ extension StrechHomeVC : UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
-    
+    func showLoader(){
+        guard let tv = collectionView else{return}
+        let vc = tv.viewContainingController()!
+        let view = vc.view!
+        activityIndicator = loader(at: view, active: .circleStrokeSpin)
+        
+        view.addSubview(activityIndicator!)// or use  webView.addSubview(activityIndicator)
+        activityIndicator!.startAnimating()
+    }
+    func hideLoader(){
+        activityIndicator?.removeFromSuperview()
+    }
     
 }
 extension String {

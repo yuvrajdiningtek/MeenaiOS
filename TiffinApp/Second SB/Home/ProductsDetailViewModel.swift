@@ -27,10 +27,10 @@ class ProductsDetailViewModel{
     }
     var activityIndicator : NVActivityIndicatorView!
     var vc : UIViewController!
-    func    AddToCart(productid:String,productVariationId:String,quantity:String,addons : [AddOnForAddToCart]?, completion : @escaping (Bool,String)->()){
-
-
-        addToCart_api(productid: productid, productVariationId: productVariationId, quantity: quantity, addons: addons, completion: { (success,msg) in
+    func    AddToCart(cookingInstruction:String,productid:String,productVariationId:String,quantity:String,addons : [AddOnForAddToCart]?, completion : @escaping (Bool,String)->()){
+        
+        
+        addToCart_api(cookingInstruction: cookingInstruction, productid: productid, productVariationId: productVariationId, quantity: quantity, addons: addons, completion: { (success,msg) in
             
             completion(success,msg)
 
@@ -43,12 +43,12 @@ class ProductsDetailViewModel{
             let cart_max_item_qty = merchntdetail.object?.cart_max_item_qty ?? 0
             let cart_min_item_qty = merchntdetail.object?.cart_min_item_qty ?? 10
             
-            return (cart_min_item_qty,cart_max_item_qty)
+            return (Int(cart_min_item_qty),Int(cart_max_item_qty))
         }
         return ( 0,10)
     }
     
-    private func addToCart_api(productid:String,productVariationId:String,quantity:String,addons : [AddOnForAddToCart]?, completion:@escaping (Bool,String)->() ){
+    private func addToCart_api(cookingInstruction:String,productid:String,productVariationId:String,quantity:String,addons : [AddOnForAddToCart]?, completion:@escaping (Bool,String)->() ){
         var userid =  ""
         
         if isUserLoggedIn{
@@ -76,7 +76,8 @@ class ProductsDetailViewModel{
                 "productId" : productid,
                 "productVariationId" : productVariationId,
                 "quantity" : quantity,
-                "addOns":adonDict
+                "addOns":adonDict,
+                "cookingInstruction":cookingInstruction
             ]
         ]
          showLoader()

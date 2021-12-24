@@ -13,6 +13,8 @@ class EventsVC: UIViewController {
 
     var eventsArr = NSArray()
     @IBOutlet weak var eventsTableView: UITableView!
+    @IBOutlet weak var noEventLbl: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -82,8 +84,17 @@ class EventsVC: UIViewController {
 //                        let loginvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginVC")
 //                        self.navigationController?.pushViewController(loginvc, animated: true)
 //                    }))
-                    
+                
+                    print(data)
+                          
                     self.eventsArr = data
+                    if self.eventsArr.count == 0{
+                        self.noEventLbl.isHidden = false
+                    }
+                    else{
+                        self.noEventLbl.isHidden = true
+
+                    }
                     self.eventsTableView.reloadData()
                     
 //                    self.present(alert, animated: true, completion: nil)
@@ -299,7 +310,7 @@ extension EventsVC : UITableViewDataSource,UITableViewDelegate {
 //
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return 250
     }
     
     

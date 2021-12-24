@@ -30,8 +30,16 @@ class AdOnRadioTVC: UITableViewCell, CustomStepperDelegate {
     var stepperValueChange : ((Int)->())?
     func configure(){
         if dataSet == nil, lbl == nil{return}
+        let price = dataSet?.unitPrice
+        let priceString:String = String(format:"%.1f", price ?? 0.0)
+        if priceString == "0.0"{
+
         
         lbl.text = dataSet?.name
+        }
+        else{
+            lbl.text = dataSet!.name + "  ($\(priceString))"
+        }
     }
     func setQuantity(value : CGFloat){
         stepper?.value = value
@@ -75,7 +83,20 @@ class AdOnCheckBoxTVC: UITableViewCell , CustomStepperDelegate{
     }
     private func configure(){
         if dataSet == nil, lbl == nil{return}
-        lbl.text = dataSet?.name
+        
+        
+        let price = dataSet?.unitPrice
+        let priceString:String = String(format:"%.1f", price ?? 0)
+        if priceString == "0.0"{
+            
+            
+            lbl.text = dataSet?.name
+        }
+        else{
+            lbl.text = dataSet!.name + "  ($\(priceString))"
+        }
+        
+       // lbl.text = dataSet?.name
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -149,7 +170,19 @@ class AdOnSelectTVC: UITableViewCell , CustomStepperDelegate{
 //            self.changeHeight()
 
         }
-        dropDownLbl.text = selectedAdon?.name ?? ds.first
+        
+        let price = selectedAdon?.unitPrice
+        let priceString:String = String(format:"%.1f", price ?? 0)
+        if priceString == "0.0"{
+            
+            
+            dropDownLbl.text = selectedAdon?.name ?? ds.first
+        }
+        else{
+            dropDownLbl.text = selectedAdon!.name + "  ($\(priceString))"
+        }
+        
+//        dropDownLbl.text = selectedAdon?.name ?? ds.first
         self.stepperContainView.isHidden = (self.addOnsArr?.first?.quantitative == 0)
     }
     private func dropDownDataSource()->[String]{

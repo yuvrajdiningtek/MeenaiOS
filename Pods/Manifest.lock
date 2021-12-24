@@ -4,28 +4,16 @@ PODS:
   - Crashlytics (3.12.0):
     - Fabric (~> 1.9.0)
   - CreditCardForm (0.1.8)
-  - DropDown (2.3.12)
+  - DropDown (2.3.13)
   - Fabric (1.9.0)
   - FSPagerView (0.8.2)
   - GoogleMaps/Base (3.0.2)
   - GooglePlaces (3.0.2):
     - GoogleMaps/Base (= 3.0.2)
-  - GoogleSignIn (4.4.0):
-    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
-    - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
-    - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleToolboxForMac/DebugUtils (2.2.0):
-    - GoogleToolboxForMac/Defines (= 2.2.0)
-  - GoogleToolboxForMac/Defines (2.2.0)
-  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.2.0)":
-    - GoogleToolboxForMac/DebugUtils (= 2.2.0)
-    - GoogleToolboxForMac/Defines (= 2.2.0)
-    - "GoogleToolboxForMac/NSString+URLArguments (= 2.2.0)"
-  - "GoogleToolboxForMac/NSString+URLArguments (2.2.0)"
-  - GTMSessionFetcher/Core (1.2.1)
   - Hero (1.4.0)
   - HTHorizontalSelectionList (0.7.4):
     - M13BadgeView (~> 1.0.4)
+  - Instabug (10.7.4)
   - IQKeyboardManagerSwift (6.0.5)
   - M13BadgeView (1.0.4)
   - NVActivityIndicatorView (4.6.1):
@@ -44,7 +32,7 @@ PODS:
   - SideMenuController (0.2.4)
   - SkyFloatingLabelTextField (3.6.0)
   - SRCountdownTimer (1.1)
-  - Stripe (14.0.0)
+  - Stripe (14.0.1)
   - SwiftMessages (6.0.2):
     - SwiftMessages/App (= 6.0.2)
   - SwiftMessages/App (6.0.2)
@@ -58,9 +46,9 @@ DEPENDENCIES:
   - Fabric
   - FSPagerView
   - GooglePlaces
-  - GoogleSignIn
   - Hero
   - HTHorizontalSelectionList (~> 0.7.4)
+  - Instabug
   - IQKeyboardManagerSwift (~> 6.0.4)
   - NVActivityIndicatorView
   - ReachabilitySwift
@@ -70,7 +58,7 @@ DEPENDENCIES:
   - SideMenuController
   - SkyFloatingLabelTextField (~> 3.0)
   - SRCountdownTimer
-  - Stripe
+  - Stripe (~> 14.0.0)
   - SwiftMessages
 
 SPEC REPOS:
@@ -84,11 +72,9 @@ SPEC REPOS:
     - FSPagerView
     - GoogleMaps
     - GooglePlaces
-    - GoogleSignIn
-    - GoogleToolboxForMac
-    - GTMSessionFetcher
     - Hero
     - HTHorizontalSelectionList
+    - Instabug
     - IQKeyboardManagerSwift
     - M13BadgeView
     - NVActivityIndicatorView
@@ -114,18 +100,16 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   CountryPickerSwift: 4c328ae9687322cacf541120f5c43f0e2c1ba194
-  Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
+  Crashlytics: a33af323773f73904037dc2e684cd2f0d29f4fe2
   CreditCardForm: 7e67bc394545eda9e502652af0858552b4931728
-  DropDown: 0bcc278799ec11a3d34ce1aac9367fbbaf5423d9
-  Fabric: f988e33c97f08930a413e08123064d2e5f68d655
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
+  Fabric: 09ef2d9b99b104702bede1acaf469fb8f20a9146
   FSPagerView: 816a18842306973cc7cc6df8a5332272f7815c30
   GoogleMaps: 941cd655e009b4d8e42df19a3d749bc3fccec973
   GooglePlaces: c086e0055dc5f0177d7c9d65fc77a1734f9a4825
-  GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
-  GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
-  GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   Hero: bac92350d7201a1a940003e0767c7b52ce7c99a1
   HTHorizontalSelectionList: c38792f4bc87f941ab6c07b02a40abf111c68249
+  Instabug: 320f19dc1271ef81d9912d1b8c49cd0c2d52c818
   IQKeyboardManagerSwift: c14eca30f6001457d6ddf25e313f23fb6578c41c
   M13BadgeView: 700dd0714fdc837c0cf1c8c004454963ec22441f
   NVActivityIndicatorView: 4ca19fccc84595a78957336a086d00a49be6ce61
@@ -137,9 +121,9 @@ SPEC CHECKSUMS:
   SideMenuController: b463d2b3aa58e2afe57f57a07938fa9a647894ca
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
   SRCountdownTimer: 9c92e444b5403c92f01dd6610299b8c634bc8562
-  Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
+  Stripe: 4305b646743612854819fb5d5cf67aaeb93577c0
   SwiftMessages: 8b3cc68dba2f1c91aac1a74c90b10287aac35371
 
-PODFILE CHECKSUM: 24b9b348855655ff9124ba35d63cc4d89f3cf282
+PODFILE CHECKSUM: eb6d0a05b8e441431c6773485dc74d87189f90a9
 
-COCOAPODS: 1.8.1
+COCOAPODS: 1.10.1

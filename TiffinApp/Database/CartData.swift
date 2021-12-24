@@ -13,6 +13,8 @@ class ObjectCartData:Object{
     var items = List<ItemsObjectOrdersData>()
     var fees = List<FeesObjectOrdersData>()
     var taxes = List<TaxesObjectOrdersData>()
+    var additional_fees = List<AdditionalFeesOrdersData>()
+
     @objc dynamic var shippment_price = 0.0
     @objc dynamic var shippment_tax = 0.0
     @objc dynamic var shippment_method = ""
@@ -37,6 +39,8 @@ class ItemsObjectOrdersData:Object{
     @objc dynamic var unit_price = 0.0
     @objc dynamic var shipment_price = 0.0
     var taxes = List<TaxesObjectOrdersData>()
+    var customerInstruction = List<String>()
+
     var addons = List<AdOnObjectModel>()
     var variations_attrubutes = List<CategoryVarianceAttribute>()
     override init(value: Any) {

@@ -117,7 +117,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
         else if stateid == nil{SCLAlertView().showNotice("fill all the fields")}
         else if cityTxt_F.text == ""{SCLAlertView().showNotice("fill all the fields")}
         else if postal_txtF.text == ""{SCLAlertView().showNotice("fill all the fields")}
-        else if email_txtF.text != nil , !isValidEmail(testStr: email_txtF.text!){SCLAlertView().showNotice("email is not valid")}
+        else if email_txtF.text != nil , !isValidEmail(testStr: email_txtF.text!){SCLAlertView().showNotice("Email is not valid")}
         
         else if phone_txtF.text?.isValidPhone == false {
             SCLAlertView().showNotice("Phone number should be 10 digit number.")
@@ -158,6 +158,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        add_address_btn.layer.cornerRadius = 15
         countryId = 254
         phone_txtF.delegate = self
         postal_txtF.delegate = self

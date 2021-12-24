@@ -5,13 +5,18 @@ import UIKit
 class AddOnsListVC: UIViewController {
 
     @IBOutlet weak var tableV : UITableView!
+    @IBOutlet weak var apply : UIButton!
+
     @IBAction func applyAdons(_ sender : UIButton){
         if !checkMandatoryFilledIsSelectedOrNot(){
-            Message.showErrorMessage(style: .center, message: "Please add mandatory feilds", title: "")
+            Message.showErrorMessage(style: .center, message: "Please add mandatory fields", title: "")
             return
         }
         delegate?.selectedAddOns(addOns: (selectedAddOnIDs))
         self.dismiss(animated: true, completion: nil)
+    }
+    @IBAction func back(_ sender: Any) {
+         self.dismiss(animated: true, completion: nil)
     }
     
     
@@ -26,7 +31,11 @@ class AddOnsListVC: UIViewController {
         
         tableV.delegate = self
         tableV.dataSource = self
-        
+        tableV.layer.cornerRadius = 15
+        apply.layer.cornerRadius = 10
+        apply.clipsToBounds = true
+
+        tableV.clipsToBounds = true
         self.getDataSource()
         self.setDefaultSelectedAdon()
         if let a = delegate?.alreadySelectedAdons(), a.count > 0{
@@ -37,6 +46,10 @@ class AddOnsListVC: UIViewController {
         
         
     }
+    @IBAction private  func crossBtn(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
+    
     func setDefaultSelectedAdon(){
         // in drop down i.e. adontype = "SELECT" im displaying first adon so for that selected adon append the first adon of "selected" type
         for i in addOns{
@@ -147,8 +160,14 @@ extension AddOnsListVC : UITableViewDelegate, UITableViewDataSource{
         return UITableView.automaticDimension
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return addOns[section].name
-    }
+         if addOns[section].isRequired == 0{
+                   return addOns[section].name
+              }
+              else{
+              
+              return addOns[section].name + "  (Required)"
+              }}
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }

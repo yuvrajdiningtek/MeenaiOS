@@ -12,13 +12,12 @@ class EventDetailVC: UIViewController {
 
     @IBOutlet weak var mainImageView: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
-    @IBOutlet weak var descLbl: UILabel!
-     @IBOutlet weak var descLbl2: UILabel!
+    @IBOutlet weak var descLbl: UITextView!
+    @IBOutlet weak var descLbl2: UILabel!
     @IBOutlet weak var dateLbl: UILabel!
     @IBOutlet weak var shortdateLbl: UILabel!
     @IBOutlet weak var timeLbl: UILabel!
     @IBOutlet weak var eventNamedateView: UIView!
-    
     
     var name = String()
     var descc = String()
@@ -87,7 +86,7 @@ class EventDetailVC: UIViewController {
             
         } else {
             
-            let imageUrl = URL(string: selfstr )
+            let imageUrl = URL(string: selfstr)
             mainImageView!.sd_setImage(with: imageUrl!, placeholderImage: UIImage(named: "placeholder img"))
             
             

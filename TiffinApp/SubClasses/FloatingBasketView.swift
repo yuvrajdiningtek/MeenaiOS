@@ -15,7 +15,8 @@ class FloatingBasketView : UIView{
     @IBAction func didtap(_ sender : UIButton){
         
         guard let nc = self.viewContainingController()?.navigationController else{return}
-        let vc = secondSBVC("MyCartVC")
+        //MyCartVC
+        let vc = secondSBVC("PlaceOrderVC") //PlaceOrderVC
         nc.pushViewController(vc, animated: true)
     }
     
@@ -51,12 +52,15 @@ class FloatingBasketView : UIView{
     }
     
     func commonInit(){
-        
         Bundle.main.loadNibNamed("FloatingBasketView", owner: self, options: nil)
         addSubview(contentView)
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleHeight,.flexibleWidth]
-        
+//        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//        blurEffectView.frame = contentView.bounds
+//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        contentView.addSubview(blurEffectView)
     }
     
     func setAmount(){
@@ -66,6 +70,8 @@ class FloatingBasketView : UIView{
             let amount = rstCartd.first?.object?.sub_total
             let price = cleanDollars(String(amount ?? 0))
             self.amountLbl.text = price
+            amountLbl.textColor = .black
+
         }
     }
     

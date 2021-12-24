@@ -9,7 +9,7 @@
 //com.sliderDemo.techwiz
 // abcd2@gmail.com
 // aron@gmail.com
-//qwert 
+//qwert
 
 import UIKit
 import IQKeyboardManagerSwift
@@ -21,47 +21,296 @@ import UserNotifications
 import Fabric
 import Crashlytics
 import Alamofire
+import Instabug
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var player: AVAudioPlayer?
     var appIsStarting : Bool = false
     var window: UIWindow?
+    let Stripe_a_id = UserDefaults.standard.value(forKey: "Stripe_a_id") as? String
+    let s_acc_id = UserDefaults.standard.value(forKey: "s_acc_id") as? String
     
+    let Stripe_publishkey = UserDefaults.standard.value(forKey: "Stripe_publishkey") as? String
+    var stripeAccountID = String()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-//        getProDev()
+        
+        let instabugId = "9201b648502e44470a13571c8f2a5aea"
+        Instabug.start(withToken: instabugId, invocationEvents: [.shake, .floatingButton])
+        Instabug.tintColor = UIColor.MyTheme.supportcolor
+//        BugReporting.floatingButtonEdge = CGRectEdge(rawValue: 200)!
+        BugReporting.floatingButtonTopOffset = CGFloat(350)
+    
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3600) {
+//            var alertController = UIAlertController(title: "SCREEN TIMEOUT", message: "", preferredStyle: .alert)
+//            var okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
+//                UIAlertAction in
+//                exit(0)
+//            }
+//
+//            alertController.view.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+//            alertController.addAction(okAction)
+//
+//            self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+//            print("kkkkkkkkkkkk")
+//        }
+        getProDev()
+        
+        //        if Stripe_a_id == nil || Stripe_a_id == ""{
+        //            stripeAccountID = s_acc_id ?? ""
+        //        }
+        //        else{
+        //            stripeAccountID = Stripe_a_id ?? ""
+        //        }
+        //
+        
+        //        getProDev()
         SideMenuController.preferences.drawing.sidePanelWidth = (window?.frame.width)! / 1.25
         SideMenuController.preferences.drawing.sidePanelPosition = .overCenterPanelLeft
         SideMenuController.preferences.interaction.panningEnabled = false
         SideMenuController.preferences.interaction.swipingEnabled = false
         
         IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.enableAutoToolbar = true
+        
+        
         IQKeyboardManager.shared.disabledToolbarClasses = [STPAddCardViewController.self]
         IQKeyboardManager.shared.disabledDistanceHandlingClasses = [STPAddCardViewController.self]
         
-        STPPaymentConfiguration.shared().publishableKey = StripConstants.publishableKey
+        
+        
+        
+        // Stripe.setDefaultPublishableKey(Stripe_publishkey ?? "")
+        //        STPAPIClient.shared().stripeAccount = stripeAccountID
+        //        // For SDK versions < v19.0.0, set this too:
+        //        STPPaymentConfiguration.shared().stripeAccount = stripeAccountID
+        //
+        //        STPPaymentConfiguration.shared().publishableKey = Stripe_publishkey ?? ""
         
         GMSPlacesClient.provideAPIKey("AIzaSyCdMB0DelVf8IzXVYe7ID-AmeiG5vHP2Mc")
         //        AIzaSyDvi1SyCIaNo31VVAL33k_vCVsfz0j5n7A
         //        registerForRichNotifications()
         Fabric.with([Crashlytics.self])
-       
+        
         let data = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification]
         if (data != nil) {
             self.appIsStarting = true;
         }
         
         self.registerForPushNotifications()
-//         getProDev()
+        //         getProDev()
         return true
     }
+    func getProDev() {
+        
+        
+        let merchantid = "f333f8362cc10b1c7d09aa8bcbdeead3"
+        
+        let version : Any! = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
+        
+        print(version)
+        let vr = version as! String
+        let headers:HTTPHeaders = [
+            "Content-Type": "application/json"
+            // "Authorization" : "bearer " + auth_token
+        ]
+        let parameters: [String: Any] = [
+            
+            
+            :]
+        print("parameters==========\(parameters)")
+        
+        Alamofire.request("https://prod.diningtek.com/service/status/\(merchantid)/SMOKYHILL-i\(vr)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            debugPrint(response.result)
+            print("",response.result.value)
+            let json = response.result.value as? [String: Any]
+            
+            if json != nil { // Check json Data Nil or Not
+                let dic = json as NSDictionary?
+                
+                let object = dic?.value(forKey: "object") as! NSDictionary
+                let PROD_STATUS = object.value(forKey: "PROD_STATUS") as! String
+                
+                print("PROD_STATUS",PROD_STATUS)
+                
+                // UserDefaults.standard.setValue(PROD_STATUS, forKey: "PROD_STATUSDev")
+                let checkProdStatus = "false"
+                if PROD_STATUS == checkProdStatus.uppercased() || PROD_STATUS == checkProdStatus.lowercased() || PROD_STATUS == "False"{
+                    ApiKeys.domain = "https://rules.diningtek.com/"
+                    
+                }
+                else {
+                    ApiKeys.domain = "https://prod.diningtek.com/"
+                }
+                self.merchant_id()
+                //self.getStripeAccountID()
+            }else {
+                //                   print(" : \(ServerNotResponding)")
+                DispatchQueue.main.async {
+                    print("...")
+                }
+                
+            }
+        }
+    }
+    func merchant_id(){
+        
+        var apiurl = URLComponents(string: ApiKeys.merchantID)
+        
+        if isUserLoggedIn {
+            let logindata = DBManager.sharedInstance.get_loginUser_DataFromDB()[0] as LoginUserDAta
+            let accesstoken = (logindata.object?.access_token)!
+            
+            
+            apiurl?.queryItems = [
+                URLQueryItem(name: "access_token", value: accesstoken)
+            ]
+            
+        }else{
+            let accesstoken = GuestUserCredential.access_token
+            
+            apiurl?.queryItems = [
+                URLQueryItem(name: "access_token", value: accesstoken)
+            ]
+            
+        }
+        
+        
+        
+        Alamofire.request(apiurl!,method: .get, encoding: JSONEncoding.default).responseJSON { (respose) in
+            
+            if respose.result.value != nil{
+                if let a = respose.result.value as? NSDictionary{
+                    
+                    if let request_status = a.value(forKey: "request_status") as? Int {
+                        if request_status == 1{
+                            
+                            
+                            DBManager.sharedInstance.create_merchantIDData_DB(value: a)
+                            
+                            let MD  = DBManager.sharedInstance.get_merchntId_DataFromDB()[0] as MerchantID
+                            
+                            print(MD.object?.STRIPE_PUBLISHABLE_KEY)
+                            
+                            let isShopOpen = MD.object?.IS_SHOP_OPEN
+                            let PRODUCT_IMAGE_PREVIEW = MD.object?.PRODUCT_IMAGE_PREVIEW
+                            UserDefaults.standard.setValue(PRODUCT_IMAGE_PREVIEW, forKey: "PRODUCT_IMAGE_PREVIEW")
+                            let merchantIDD = MD.object?.MERCHANT_ID
+                            UserDefaults.standard.setValue(merchantIDD, forKey: "m_idd")
+                            
+                            guard let _ = a.value(forKey: "request_status") as? Int else {
+                                return
+                            }
+                            
+                            
+                            guard let object = a.value(forKey: "object") as? [String:Any] else {return}
+                            
+                            STPPaymentConfiguration.shared().publishableKey = object["STRIPE_PUBLISHABLE_KEY"] as! String
+                            
+                            guard let MERCHANT_ID = object["MERCHANT_ID"] as? String else {return}
+                            guard let STATIC_RESOURCE_CATEGORIES_PREFIX = object["STATIC_RESOURCE_CATEGORIES_PREFIX"] as? String else {return}
+                            guard let STATIC_RESOURCE_ENDPOINT = object["STATIC_RESOURCE_ENDPOINT"] as? String else{return}
+                            guard let STATIC_RESOURCE_SUFFIX = object["STATIC_RESOURCE_SUFFIX"] as? String else{return}
+                            guard let STRIPE_ACCOUNT_ID = object["STRIPE_ACCOUNT_ID"] as? String else{return}
+                            UserDefaults.standard.setValue(STRIPE_ACCOUNT_ID, forKey: "s_acc_id")
+                            UserDefaults.standard.setValue(STRIPE_ACCOUNT_ID, forKey: "stripeIDStatus")
+                            
+                            self.getStripeAccountID(merchantIDD: MERCHANT_ID)
+                            
+                            if let requestId = a.value(forKey: "requestId") as? String{
+                            }
+                            
+                            let urlofProdCat = STATIC_RESOURCE_ENDPOINT+STATIC_RESOURCE_CATEGORIES_PREFIX+MERCHANT_ID+STATIC_RESOURCE_SUFFIX
+                            print(urlofProdCat)
+                            //   callback(true, respose.result.value, urlofProdCat)
+                            guard let _ = object["FEES"] as? String else {
+                                return
+                            }
+                            return
+                        }else{
+                            //callback(false,a,nil)
+                            return
+                        }
+                    }
+                }
+                //   callback(false,nil,nil)
+                
+                
+            }else{
+                // callback(false, nil, nil)
+            }
+        }
+    }
     
+    func getStripeAccountID(merchantIDD : String) {
+        
+        
+        // let merchantid = "c0ba1485965e9595c907f18eca5314cb"
+        
+        let version : Any! = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
+        
+        print(version)
+        let vr = version as! String
+        let headers:HTTPHeaders = [
+            "Content-Type": "application/json"
+            // "Authorization" : "bearer " + auth_token
+        ]
+        let parameters: [String: Any] = [
+            
+            
+            :]
+        print("parameters==========\(parameters)")
+        
+        Alamofire.request("\(ApiKeys.domain)service/status/\(merchantIDD)/WEB", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            debugPrint(response.result)
+            print("",response.result.value)
+            let json = response.result.value as? [String: Any]
+            
+            if json != nil { // Check json Data Nil or Not
+                let dic = json as NSDictionary?
+                
+                let object = dic?.value(forKey: "object") as! NSDictionary
+                let STRIPE_ACCOUNT_ID = object.value(forKey: "STRIPE_ACCOUNT_ID") as? String
+                let STRIPE_PUBLISHABLE_KEY = object.value(forKey: "STRIPE_PUBLISHABLE_KEY") as? String
+                
+                if STRIPE_ACCOUNT_ID == "" || STRIPE_ACCOUNT_ID == nil{
+                    self.stripeAccountID = self.s_acc_id ?? ""
+                }
+                else{
+                    self.stripeAccountID = STRIPE_ACCOUNT_ID ?? ""
+                }
+                
+                // Stripe.setDefaultPublishableKey(Stripe_publishkey ?? "")
+                STPAPIClient.shared().stripeAccount = self.stripeAccountID
+                // For SDK versions < v19.0.0, set this too:
+                STPPaymentConfiguration.shared().stripeAccount = self.stripeAccountID
+                
+                STPPaymentConfiguration.shared().publishableKey = STRIPE_PUBLISHABLE_KEY ?? self.Stripe_publishkey ?? ""
+                
+                
+                
+                UserDefaults.standard.setValue(STRIPE_PUBLISHABLE_KEY, forKey: "Stripe_publishkey")
+                UserDefaults.standard.setValue(STRIPE_ACCOUNT_ID, forKey: "Stripe_a_id")
+                
+                print("STRIPE_ACCOUNT_ID",STRIPE_ACCOUNT_ID)
+                
+                // UserDefaults.standard.setValue(PROD_STATUS, forKey: "PROD_STATUSDev")
+                
+                
+            }else {
+                //                   print(" : \(ServerNotResponding)")
+                DispatchQueue.main.async {
+                    print("...")
+                }
+                
+            }
+        }
+    }
     
-
-//    
+    //
     // This method will be called when app received push notifications in foreground
-   
+    
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
@@ -142,9 +391,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //                    playSound(fileName: mySoundFile)
         //                }
         
-//        if isUserLogin{
-//            presentAlertVC()
-//        }
+        //        if isUserLogin{
+        //            presentAlertVC()
+        //        }
         
         
         
@@ -161,18 +410,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     func saveNotifications(userInfo : Dictionary<AnyHashable,Any>){
         let payload = userInfo as! [String: AnyObject]
-//        UserDefaultsDoings.saveRemoteNotificationDate(userInfo: payload)
-//        _ = DBManager.sharedInstance.createNotificationData(value: (userInfo as NSDictionary))
+        //        UserDefaultsDoings.saveRemoteNotificationDate(userInfo: payload)
+        //        _ = DBManager.sharedInstance.createNotificationData(value: (userInfo as NSDictionary))
         
     }
     
     
     
-
     
-
+    
+    
     func registerForRichNotifications() {
-    
+        
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound]) { (granted:Bool, error:Error?) in
             if error != nil {
                 print(error?.localizedDescription)
@@ -197,23 +446,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         
     }
-
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
         
     }
-
+    
     func applicationWillEnterForeground(_ application: UIApplication) {
         
     }
-
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
     }
-
+    
     func applicationWillTerminate(_ application: UIApplication) {
         
     }
-
-
+    
+    
 }
 extension AppDelegate: UNUserNotificationCenterDelegate {
     
@@ -233,8 +482,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
         
         let token = tokenParts.joined()
-//        UserDefaultsDoings.saveDeviceToken(token: token)
-//        UserDefaultsDoings.saveStateIsRegisterForRemoteLOcation(state: true)
+        //        UserDefaultsDoings.saveDeviceToken(token: token)
+        //        UserDefaultsDoings.saveStateIsRegisterForRemoteLOcation(state: true)
         print("Device Token: \(token) \n")
         UserDefaults.standard.setValue(token, forKey: "deviceToken")
         NotificationCenter.default.post(name: NSNotification.Name.init("deviceToken"), object: nil)

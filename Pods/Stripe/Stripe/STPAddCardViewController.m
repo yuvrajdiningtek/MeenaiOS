@@ -101,11 +101,8 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
 - (void)createAndSetupViews {
     [super createAndSetupViews];
     
-    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:@"Pay" style:UIBarButtonSystemItemDone target:self action:@selector(nextPressed:)];
+    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(nextPressed:)];
     self.doneItem = doneItem;
-    doneItem.tintColor = UIColor.whiteColor;
-
-    
     self.stp_navigationItemProxy.rightBarButtonItem = doneItem;
     self.stp_navigationItemProxy.rightBarButtonItem.enabled = NO;
     
@@ -212,7 +209,7 @@ typedef NS_ENUM(NSUInteger, STPPaymentCardSection) {
     self.tableView.allowsSelection = NO;
     
     self.cardImageView.tintColor = self.theme.accentColor;
-    self.activityIndicator.tintColor = UIColor.whiteColor;
+    self.activityIndicator.tintColor = self.theme.accentColor;
     
     self.paymentCell.theme = self.theme;
     

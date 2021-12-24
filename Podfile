@@ -23,7 +23,7 @@ pod 'Alamofire'
 pod 'GooglePlaces'
 
 
-pod 'GoogleSignIn'
+#pod 'GoogleSignIn'
 
 pod 'SCLAlertView', :git => 'https://github.com/vikmeup/SCLAlertView-Swift.git'
 pod 'RealmSwift', '~> 3.19.0'
@@ -31,12 +31,14 @@ pod 'RealmSwift', '~> 3.19.0'
 pod 'NVActivityIndicatorView'
 pod 'SDWebImage', '~> 4.0'
 pod 'DropDown'
+#pod 'iOSDropDown'
+pod 'Instabug'
 
 #pods for netwok check
 pod 'ReachabilitySwift'
 
 #pods for payment
-pod 'Stripe'
+pod 'Stripe', '~> 14.0.0'
 
 #pods for cardview
 pod 'CreditCardForm'

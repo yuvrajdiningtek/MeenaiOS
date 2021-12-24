@@ -46,8 +46,8 @@ class SegmentForPaginationView : UIView{
             pNoDecbtn.isUserInteractionEnabled = true
             pNoDecbtn.backgroundColor = btnEnableColor
         }
-        
     }
+    
     @IBAction func pageDecrementbtn (_ sender : UIButton)
     {
         sender.isUserInteractionEnabled = true
@@ -73,9 +73,15 @@ class SegmentForPaginationView : UIView{
         self.commoninit()
     }
     func commoninit(){
+       
+        
         Bundle.main.loadNibNamed("SegmentForPaginationView", owner: self, options: nil)
         addSubview(contentV)
         contentV.frame = self.bounds
         contentV.autoresizingMask = [.flexibleHeight,.flexibleWidth]
+        
+        pNoIncbtn.layer.cornerRadius = 5
+        pNoDecbtn.layer.cornerRadius = 5
+        pNolbl.layer.cornerRadius = 5
     }
 }

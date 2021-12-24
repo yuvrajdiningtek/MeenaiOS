@@ -1,13 +1,13 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
       "filename" : "facebook-placeholder-for-locate-places-on-maps.png",
+      "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "idiom" : "universal",
       "filename" : "facebook-placeholder-for-locate-places-on-maps-1.png",
+      "idiom" : "universal",
       "scale" : "2x"
     },
     {
@@ -16,10 +16,10 @@
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   },
   "properties" : {
-    "template-rendering-intent" : "original"
+    "template-rendering-intent" : "template"
   }
 }

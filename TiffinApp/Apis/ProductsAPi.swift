@@ -226,7 +226,7 @@ class ProductsApi:NSObject{
                                 
                             }
                             UserDefaults.standard.set(cartbadgevalue, forKey: userdefaultKeys().number_of_items_in_Cart)
-                            DeleteDataBaseObjects.deleteAppliedCouponsData()
+                           // DeleteDataBaseObjects.deleteAppliedCouponsData()
                             if let obj  = result.value(forKey: "object") as? NSDictionary{
                                 if let appliedcoupons = obj.value(forKey: "applied_coupons") as? NSDictionary{
                                     appliedCoupons = AppliedCoupon()
@@ -466,8 +466,6 @@ class ProductsApi:NSObject{
         
         let user_id = UserDefaults.standard.value(forKey: usercredential().email) as? String ?? ""
         
-        
-        
         let bucket_id = DBManager.sharedInstance.getBucketId() ?? ""
         let accesstoken : String
         
@@ -493,7 +491,6 @@ class ProductsApi:NSObject{
         let headers : [String:String] = ["Content-Type":"application/json"]
         
         
-        
         let parametrs : [String:Any] = [
             "form_id" : "",
             "user_id" : user_id,
@@ -516,7 +513,7 @@ class ProductsApi:NSObject{
                 }
                 
                 return callback(false,result,error)}
-            callback(true,result,"Succcess")
+            callback(true,result,"Success")
             
         }
     }

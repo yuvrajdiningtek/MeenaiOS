@@ -23,10 +23,10 @@
         [self setBackgroundImage:disabledImage forState:UIControlStateDisabled barMetrics:UIBarMetricsDefault];
     }
     
-    self.tintColor = self.enabled ? UIColor.whiteColor : theme.secondaryForegroundColor;
+    self.tintColor = self.enabled ? theme.accentColor : theme.secondaryForegroundColor;
     [self setTitleTextAttributes:@{
                                    NSFontAttributeName: self.style == UIBarButtonItemStylePlain ? theme.font : theme.emphasisFont,
-                                   NSForegroundColorAttributeName: UIColor.whiteColor,
+                                   NSForegroundColorAttributeName: theme.accentColor,
                                    }
                         forState:UIControlStateNormal];
     [self setTitleTextAttributes:@{

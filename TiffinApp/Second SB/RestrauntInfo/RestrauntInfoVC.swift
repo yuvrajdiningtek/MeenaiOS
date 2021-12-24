@@ -55,36 +55,71 @@ class RestrauntInfoVC: UIViewController {
         sourceLocation = CLLocationCoordinate2D(latitude: latitude, longitude: lonitude)
         
     }
+//    func getRestrauntAddress()->String{
+//        var shop_address = ""
+//        var name = ""
+//        if  DBManager.sharedInstance.get_merchntdetail_DataFromDB().count != 0 {
+//            let MD  = DBManager.sharedInstance.get_merchntdetail_DataFromDB()[0] as MerchantDetail
+//            shop_address = (MD.object?.description_point) ?? ""
+//            name = MD.object?.name ?? ""
+//            let addressPostalCode = (MD.object?.address_postal_code) ?? "80302"
+//
+//            let addressState = (MD.object?.address_state) ?? "Colorado"
+//            let fullNameArr : [String] = shop_address.components(separatedBy: " ")
+//
+//
+//
+//             var Name1 : String = fullNameArr[0]
+//             var Name2 : String = fullNameArr[1]
+//             var Name3 : String = fullNameArr[2]
+//             var Name4 : String = fullNameArr[3]
+//             var Name5 : String = fullNameArr[4]
+//
+//            shop_address = name + "\n" + Name2 + " " + Name4 + " " + Name5 + "\n"  + "" + "Boulder" + Name3 + " " + addressState + ", " + Name1
+//
+//            let phonenumber = "\nPhone: " + (MD.object?.MERCHANT_CONTACT ?? "Not available")
+//            shop_address.append(phonenumber)
+//
+//        }else { }
+//        return shop_address
+//    }
+    
     func getRestrauntAddress()->String{
-        var shop_address = ""
-        var name = ""
-        if  DBManager.sharedInstance.get_merchntdetail_DataFromDB().count != 0 {
-            let MD  = DBManager.sharedInstance.get_merchntdetail_DataFromDB()[0] as MerchantDetail
-            shop_address = (MD.object?.description_point) ?? ""
-            name = MD.object?.name ?? ""
-            let addressPostalCode = (MD.object?.address_postal_code) ?? "80302"
-            
-            let addressState = (MD.object?.address_state) ?? "Colorado"
-            let fullNameArr : [String] = shop_address.components(separatedBy: " ")
-            
-        
-            
-             var Name1 : String = fullNameArr[0]
-             var Name2 : String = fullNameArr[1]
-             var Name3 : String = fullNameArr[2]
-             var Name4 : String = fullNameArr[3]
-             var Name5 : String = fullNameArr[4]
-            
-            shop_address = name + "\n" + Name2 + " " + Name4 + " " + Name5 + "\n"  + "" + "Boulder" + Name3 + " " + addressState + ", " + Name1
-            
-            let phonenumber = "\nPhone: " + (MD.object?.MERCHANT_CONTACT ?? "Not available")
-            shop_address.append(phonenumber)
-            
-        }else { }
-        return shop_address
-    }
-    
-    
+             var shop_address = ""
+                   var name = ""
+                   var address_city = ""
+                   var address_address = ""
+                   if  DBManager.sharedInstance.get_merchntdetail_DataFromDB().count != 0 {
+                       let MD  = DBManager.sharedInstance.get_merchntdetail_DataFromDB()[0] as MerchantDetail
+                       shop_address = (MD.object?.description_point) ?? ""
+                       
+                       name = MD.object?.name ?? ""
+                       address_city = MD.object?.address_city ?? ""
+                       address_address = MD.object?.address_address ?? ""
+           //            let addressPostalCode = (MD.object?.address_postal_code) ?? "80302"
+           //
+                       let addressState = (MD.object?.address_state) ?? "CO"
+                       let namepoint = (MD.object?.name_point) ?? "80111"
+                       let fullNameArr : [String] = shop_address.components(separatedBy: " ")
+
+
+
+           //            var Name1 : String = fullNameArr[0]
+           //            var Name2 : String = fullNameArr[1]
+           //            var Name3 : String = fullNameArr[2]
+           //            var Name4 : String = fullNameArr[3]
+           //            var Name5 : String = fullNameArr[4]
+
+                       shop_address = name + "\n" + address_address + "\n" + address_city + ", " + addressState + ", " + namepoint
+
+                       
+                       let phonenumber = "\nPhone: " + (MD.object?.MERCHANT_CONTACT ?? "Not available")
+                       shop_address.append(phonenumber)
+                       
+               
+           }else { }
+           return shop_address
+       }
 }
 
 extension RestrauntInfoVC{

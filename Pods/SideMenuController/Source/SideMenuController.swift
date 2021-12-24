@@ -318,14 +318,14 @@ open class SideMenuController: UIViewController, UIGestureRecognizerDelegate {
         sidePanelVisible = reveal
         
         if reveal {
-            set(statusBarHidden: reveal)
+          //  set(statusBarHidden: reveal)
         }
         
         let setFunction = sidePanelPosition.isPositionedUnder ? setUnderSidePanel : setAboveSidePanel
         setFunction(!reveal) { updated in
             if !reveal {
                 self.prepare(sidePanelForDisplay: false)
-                self.set(statusBarHidden: reveal)
+               // self.set(statusBarHidden: reveal)
             }
             self.transitionInProgress = false
             self.centerViewController.view.isUserInteractionEnabled = !reveal

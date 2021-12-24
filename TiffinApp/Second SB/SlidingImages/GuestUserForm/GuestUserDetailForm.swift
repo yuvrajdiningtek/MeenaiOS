@@ -7,6 +7,8 @@ import SCLAlertView
 class GuestUserDetailForm: UIViewController,UITextFieldDelegate {
     
     @IBOutlet var txtfields : [UITextField]!
+    @IBOutlet var placeOrderBtn : UIButton!
+
     var placeOrderModel : PlaceOrderModel!
     var guestPlaceOrderModel : GuestPlaceOrderModel = GuestPlaceOrderModel()
     
@@ -29,7 +31,7 @@ class GuestUserDetailForm: UIViewController,UITextFieldDelegate {
         super.viewDidLoad()
         
         
-        
+        placeOrderBtn.layer.cornerRadius = 10
         txtfields[0].text = textfieldfilledFirstName
         txtfields[1].text = textfieldfilledLastName
         txtfields[2].text = textfieldfilledPhone
@@ -55,9 +57,13 @@ class GuestUserDetailForm: UIViewController,UITextFieldDelegate {
         else if txtfields[2].text!.isValidPhone == false {
             SCLAlertView().showNotice("Phone number should be 10 digit number.")
         }
+        else if txtfields[3].text != nil , !isValidEmail(testStr: txtfields[3].text!){SCLAlertView().showNotice("Email is not valid")}
+        
         else if txtfields[7].text!.isValidZip == false {
             SCLAlertView().showNotice("Please enter a valid Zip Code.")
         }
+       
+        
         else {
             self.mapData()
         }

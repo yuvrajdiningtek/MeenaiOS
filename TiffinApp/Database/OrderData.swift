@@ -18,6 +18,8 @@ class DatainOrdersData:Object{
     @objc dynamic var metaInfo : MetaInfoObjectData?
     var orderRefuneds = List<OrderRefunedsObjectData>()
     var taxes = List<TaxesOrdersData>()
+    var additional_fees = List<AdditionalFeesOrdersData>()
+
     @objc dynamic var checkoutMethod : CheckoutMethod?
     @objc dynamic var orderedDate = ""
     @objc dynamic var billingAddress : DataAdressModel?
@@ -30,6 +32,8 @@ class ItemsOrdersData:Object{
     @objc dynamic var itemName = ""
     @objc dynamic var qty = 0.0
     @objc dynamic var unit_price = 0.0
+    var customerInstruction = List<String>()
+
 //    @objc dynamic var variations_attrubutes  : CategoryVarianceAttribute?
     var variations_attributes  = List<CategoryVarianceAttribute>()
     var addons = List<AdOnObjectModel>()
@@ -39,7 +43,10 @@ class ItemsFeesOrdersData : Object{
     @objc dynamic var name = ""
     @objc dynamic var amount = 0.0
 }
-
+class AdditionalFeesOrdersData : Object{
+    @objc dynamic var name = ""
+    @objc dynamic var amount = 0.0
+}
 class OrderStatusOrdersData:Object{
     @objc dynamic var status = ""
 }

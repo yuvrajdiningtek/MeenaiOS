@@ -9,14 +9,35 @@ class HomeCVC : UICollectionViewCell{
     @IBOutlet weak var productPrice_lbl: UILabel!
     @IBOutlet weak var shadow_view: ShadowView!
     @IBOutlet weak var product_Desciption_lbl: UILabel!
-    
+    @IBOutlet weak var imggHeight: NSLayoutConstraint!
+    @IBOutlet weak var descHeight: NSLayoutConstraint!
+    @IBOutlet weak var addBtn: UIButton!
+    @IBOutlet weak var categoryLbl: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        //        product_imgV.layer.masksToBounds = true
         
+        
+//        let PRODUCT_IMAGE_PREVIEW = UserDefaults.standard.value(forKey: "PRODUCT_IMAGE_PREVIEW") as? String
+//        if PRODUCT_IMAGE_PREVIEW == "true"{
+//            imggHeight.constant = 100
+//            descHeight.constant = 0
+//        }
+//        else{
+//            imggHeight.constant = 0
+//            descHeight.constant = 60
+//        }
+        
+        product_imgV.layer.masksToBounds = true
         product_imgV.clipsToBounds = true
-        //        product_imgV.layer.cornerRadius = 4
-        //        product_imgV.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        product_imgV.layer.cornerRadius = 10
+        
+        addBtn.layer.cornerRadius = 7
+        addBtn.layer.borderColor = UIColor.MyTheme.marooncolor.cgColor
+        addBtn.layer.borderWidth = 0.5
+
+//        product_imgV.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+
     }
     var dataSet : Products?{
         didSet{
@@ -27,11 +48,18 @@ class HomeCVC : UICollectionViewCell{
         if product_imgV == nil{return}
         guard let product = dataSet else{return}
         
+        let PRODUCT_IMAGE_PREVIEW = UserDefaults.standard.value(forKey: "PRODUCT_IMAGE_PREVIEW") as? String
         
-        if product.image.count > 0{
-            // let url = URL(string: product.image[0])
-            // product_imgV.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder img"))
+        if PRODUCT_IMAGE_PREVIEW == "true"{
+            if product.image.count > 0{
+                
+                let url = URL(string: product.image[0])
+                product_imgV.sd_setShowActivityIndicatorView(true)
+                product_imgV.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder img"))
+            }
         }
+        
+        
         productName_lbl.text = product.name
         product_Desciption_lbl.text = product.descriptions
         //        description_lbl.text = product.descriptions

@@ -31,26 +31,45 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
     }
     
     // MARK: - VARIABLES
-    var dataInTable : [String:[String]] = ["FirstSec":["Menu","Past Orders","My Addresses"],
+//    var dataInTable : [String:[String]] = ["FirstSec":["Menu","Past Orders","My Addresses"],
+//                                           "Others":["Share App",/*"About Us",*/ "Contact Us",/*"Privacy Policy",*/"Logout"]]
+//
+//
+//    let tabldataFor_LoginUser = ["FirstSec":["Menu","Event List","My Addresses","Past Orders "],
+//                                 "Others":["Share App","About Us", "Contact Us","Privacy Policy","Logout"]]
+//    let tabldataFor_GuestUser = ["FirstSec":["Menu","Event List"],
+//                                 "Others":["Share App","About Us", "Contact Us","Privacy Policy","LogIn"]]
+//
+//
+//    let iconNnTable : [String:[String]] = ["FirstSec":["restaurant-menu@x1","oredrHistory_@x1","location@x1","oredrHistory_@x1"],
+//                                           "Others":["ShareApp_@x1","aboutsUs@x1","contactUs@x1","PrivacyPolicy@x1","logOut_@x1"]]
+//
+//    let segues = ["toHome", "toEvents",  "toAddresses","toOrders","toAboutUs"]
+    
+    var dataInTable : [String:[String]] = ["FirstSec":["Menu","My Addresses"],
                                            "Others":["Share App",/*"About Us",*/ "Contact Us",/*"Privacy Policy",*/"Logout"]]
     
     
-    let tabldataFor_LoginUser = ["FirstSec":["Menu","Event List","My Addresses","Past Orders "],
+    let tabldataFor_LoginUser = ["FirstSec":["Menu","Event List","My Addresses"],
                                  "Others":["Share App","About Us", "Contact Us","Privacy Policy","Logout"]]
     let tabldataFor_GuestUser = ["FirstSec":["Menu","Event List"],
                                  "Others":["Share App","About Us", "Contact Us","Privacy Policy","LogIn"]]
     
     
-    let iconNnTable : [String:[String]] = ["FirstSec":["restaurant-menu@x1","oredrHistory_@x1","address@x1","oredrHistory_@x1"],
-                                           "Others":["ShareApp_@x1","information","headset","verified","logOut_@x1"]]
+    let iconNnTable : [String:[String]] = ["FirstSec":["restaurant-menu@x1","oredrHistory_@x1","location@x1"],
+                                           "Others":["ShareApp_@x1","aboutsUs@x1","contactUs@x1","PrivacyPolicy@x1","logOut_@x1"]]
     
-    let segues = ["toHome", "toEvents",  "toAddresses","toOrders","toAboutUs"]
+    let segues = ["toHome", "toEvents",  "toAddresses","toAboutUs"]
+    
     
     
     
     // MARK: - VIEW LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.layer.cornerRadius = 20
+        self.view.clipsToBounds = true
+        
         if isUserLoggedIn{
             getuserInformation()
             dataInTable = tabldataFor_LoginUser
@@ -149,6 +168,7 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
             return 0.0
         }else {return 40}
     }
+   
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.0
     }
@@ -165,8 +185,13 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let headerTitle = view as? UITableViewHeaderFooterView {
             headerTitle.textLabel?.textColor = UIColor.MyTheme.graycolor
+            headerTitle.backgroundColor = UIColor.black
+
         }
+
     }
+   
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0{
             sideMenuController?.performSegue(withIdentifier: segues[indexPath.row], sender: nil)
@@ -199,27 +224,25 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
                         self.nvmanager.reStartTheApp()
                         
                     })
-                    let cncle = UIAlertAction(title: "CANCEL", style: .cancel, handler: nil)
+                    let cncle = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
                     alert.addAction(okAction)
                     alert.addAction(cncle)
                     self.present(alert, animated: true, completion: {
-                        
                     })
-                    
                 }
                 else{
+                   // DBManager.sharedInstance.deleteBucketId()
+
                     sideMenuController?.performSegue(withIdentifier: "toLogin", sender: nil)
-                    
                 }
             }
         }
-        
-        
     }
+    
     func shareButtonClicked() {
-        let textToShare = "Old santafe!  Check out this app!"
+        let textToShare = "Smoky Hill Indian!  Check out this app!"
         
-        if let myWebsite = NSURL(string: "https://itunes.apple.com/in/app/oldsantafe/id1476393330?mt=8") {
+        if let myWebsite = NSURL(string: "https://apps.apple.com/us/app/smoky-hill-indian/id1601783867") {
             let objectsToShare = [textToShare, myWebsite] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             

@@ -14,12 +14,14 @@ class ProductsDetailVC: UIViewController {
     
     @IBOutlet weak var header_lbl: UILabel!
     @IBAction func backBtnn(_ sender: Any) {
+        self.dismiss(animated: true)
         self.navigationController?.popViewController(animated: true)
     }
     @IBOutlet weak var collection_v: UICollectionView!
     
     @IBAction func cartBtn(_ sender: Any) {
-        let vc = secondSBVC("MyCartVC")
+        //MyCartVC
+        let vc = secondSBVC("PlaceOrderVC")//PlaceOrderVC
         self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBOutlet weak var cartBadgeBtn: BadgeButton!
@@ -27,6 +29,8 @@ class ProductsDetailVC: UIViewController {
     
     //MARK : - VARIABLES
     var productsArr = [Products]()
+    var selectedProduct = Products()
+
     var selected_cell_index :IndexPath?
     
     
@@ -49,23 +53,23 @@ class ProductsDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(selected_cell_index,"iiiiii")
+        collection_v.layer.cornerRadius = 10
         UIScrollView.appearance().contentInsetAdjustmentBehavior = .never
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+       // self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         set_badge_btn()
         collection_v.setNeedsLayout()
         collection_v.layoutIfNeeded()
-        if selected_cell_index != nil{
-            collection_v.scrollToItem(at: selected_cell_index!, at: .centeredHorizontally, animated: false)
-            selected_cell_index = nil
-        }
-        
+//        if selected_cell_index != nil{
+//            collection_v.scrollToItem(at: selected_cell_index!, at: .centeredHorizontally, animated: false)
+//            selected_cell_index = nil
+//        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -93,15 +97,16 @@ class ProductsDetailVC: UIViewController {
 }
 extension ProductsDetailVC : UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return productsArr.count
+        return 1
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ProductDetailCVC
         cell.viewController = self
-        cell.product = productsArr[indexPath.row]
-        cell.id = "\(productsArr[indexPath.row].name)\(indexPath.row)"
+        cell.product = selectedProduct
+        cell.id = selectedProduct.name
+//        cell.id = "\(productsArr[indexPath.row].name)\(indexPath.row)"
         
         return cell
     }

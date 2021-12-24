@@ -32,7 +32,8 @@ class Products:Object{
     @objc dynamic var slug = ""
     @objc dynamic var shortDescription = ""
     @objc dynamic var descriptions = ""
-    
+    @objc dynamic var enabledUserInstructions = true
+
     var image = List<String>()
     @objc dynamic var attributes : Attributes?
     @objc dynamic var varianceAttribute : VarianceAttribute?

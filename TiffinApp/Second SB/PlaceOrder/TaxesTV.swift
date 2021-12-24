@@ -23,9 +23,15 @@ class TaxesTV : UITableView , UITableViewDelegate, UITableViewDataSource{
         
         
         var ds = [(String,String)]()
-        
+        let additionalFees = Array(data.additional_fees)
+
         let taxes = Array(data.taxes)
         for i in taxes{
+            let key = i.name
+            let value =  cleanDollars(String(describing: i.amount))
+            ds.append((key,value))
+        }
+        for i in additionalFees{
             let key = i.name
             let value =  cleanDollars(String(describing: i.amount))
             ds.append((key,value))

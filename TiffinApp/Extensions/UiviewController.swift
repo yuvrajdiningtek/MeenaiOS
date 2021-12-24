@@ -135,11 +135,14 @@ extension UIViewController: UNUserNotificationCenterDelegate{
         completionHandler()
     }
     func goToCardScreen(delegate : STPAddCardViewControllerDelegate , amount : String){
+        STPTheme.default().accentColor = UIColor.MyTheme.supportcolor
+
         navigationController?.navigationBar.isHidden = false
-        
+        navigationItem.leftBarButtonItem?.tintColor = .white
+               navigationItem.rightBarButtonItem?.tintColor = .white
         let addCardViewController = STPAddCardViewController()
        
-       
+//        addCardViewController.
         self.navigationController?.navigationBar.barTintColor = UIColor.MyTheme.marooncolor
 //        self.navigationController?.navigationBar.stp_theme =  Theme.CustomDark.stpTheme
         addCardViewController.title = "Pay \(amount)"

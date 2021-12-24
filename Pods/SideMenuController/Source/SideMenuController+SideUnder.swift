@@ -121,7 +121,7 @@ extension SideMenuController {
                 setSideShadow(hidden: false)
             }
             
-            set(statusBarHidden: true)
+         //   set(statusBarHidden: true)
             
         case .changed:
             let translation = recognizer.translation(in: view).x

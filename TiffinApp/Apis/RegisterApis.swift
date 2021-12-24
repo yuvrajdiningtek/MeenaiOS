@@ -13,8 +13,8 @@ class RegisterApi:NSObject{
     class public func merchant_token(callback:@escaping (( _ success :Bool, _ access_token: String?)->())){
         
         let headers : [String:String] = ["Content-Type":"application/json",
-                                         "key":"oldsantafe",
-                                         "secret":"oldsantafe"]
+                                         "key":"smokyhillindian",
+                                         "secret":"smokyhillindian"]
         
         
         let apiurl = URL(string: ApiKeys.merchantToken)
@@ -53,7 +53,7 @@ class RegisterApi:NSObject{
                                             "deviceId" : deviceid,
                                             "deviceInfo" : deviceInfo,
                                             "pushNotificationService":[
-                                                "groupName" : "OLDSANTAFE_IOS"
+                                                "groupName" : "SMOKYHILL_IOS"
                                             ]
             ]
         ]
@@ -166,8 +166,8 @@ class RegisterApi:NSObject{
         
         let apiurl : String = ApiKeys.verifyOtp
         let headers : [String:String] = ["Content-Type":"application/json",
-                                         "key":"oldsantafe",
-                                         "secret":"oldsantafe",
+                                         "key":"smokyhillindian",
+                                         "secret":"smokyhillindian",
                                                 "device_id":udid]
         
         
@@ -204,13 +204,25 @@ class RegisterApi:NSObject{
     class public func login_user( parameters : [String:Any],callback:@escaping (( _ success :Bool, _ results: Any?, _ error:(Error)?)->())){
         
         
+        
+//        SomeInformationApi.get_bucketid(callback: { (succ, err) in
+//                       if succ{
+//                           ProductsApi.detail_Cart_Info(callback: { (ss, _, _) in
+//                            //   callback(ss)
+//                           })
+//                       }else{
+//                          // callback(false)
+//                       }
+//                   })
+        
+        
         var loginurl  = URLComponents(string: ApiKeys.loginUser)
         
         let udid = UIDevice.current.identifierForVendor?.uuidString ?? ""
         let bucket_id = DBManager.sharedInstance.getBucketId() ?? ""
         let headers: HTTPHeaders = [
-            "key": "oldsantafe",
-            "secret": "oldsantafe",
+            "key": "smokyhillindian",
+            "secret": "smokyhillindian",
             "Content-Type": "application/json",
             "device_id" : udid
         ]
@@ -293,90 +305,92 @@ class RegisterApi:NSObject{
     }
     
     
-    //MARK: - MERCHANT ID
-    class public func merchant_id( callback:@escaping (( _ success :Bool, _ results: Any?, _ urlOfprodCAt:String?)->())){
-        
-        var apiurl = URLComponents(string: ApiKeys.merchantID)
-        
-        if isUserLoggedIn {
-            let logindata = DBManager.sharedInstance.get_loginUser_DataFromDB()[0] as LoginUserDAta
-            let accesstoken = (logindata.object?.access_token)!
-            
-            
-            apiurl?.queryItems = [
-                URLQueryItem(name: "access_token", value: accesstoken)
-            ]
-            
-        }else{            
-            let accesstoken = GuestUserCredential.access_token            
-            
-            apiurl?.queryItems = [
-                URLQueryItem(name: "access_token", value: accesstoken)
-            ]
-            
-        }
-        
-        
-        
-        Alamofire.request(apiurl!,method: .get, encoding: JSONEncoding.default).responseJSON { (respose) in
-            
-            if respose.result.value != nil{
-                if let a = respose.result.value as? NSDictionary{
-                    
-                    if let request_status = a.value(forKey: "request_status") as? Int {
-                        if request_status == 1{
+   //MARK: - MERCHANT ID
+       class public func merchant_id( callback:@escaping (( _ success :Bool, _ results: Any?, _ urlOfprodCAt:String?)->())){
+           
+           var apiurl = URLComponents(string: ApiKeys.merchantID)
+           
+           if isUserLoggedIn {
+               let logindata = DBManager.sharedInstance.get_loginUser_DataFromDB()[0] as LoginUserDAta
+               let accesstoken = (logindata.object?.access_token)!
+               
+               
+               apiurl?.queryItems = [
+                   URLQueryItem(name: "access_token", value: accesstoken)
+               ]
+               
+           }else{
+               let accesstoken = GuestUserCredential.access_token
+               
+               apiurl?.queryItems = [
+                   URLQueryItem(name: "access_token", value: accesstoken)
+               ]
+               
+           }
+           
+           
+           
+           Alamofire.request(apiurl!,method: .get, encoding: JSONEncoding.default).responseJSON { (respose) in
+               
+               if respose.result.value != nil{
+                   if let a = respose.result.value as? NSDictionary{
+                       
+                       if let request_status = a.value(forKey: "request_status") as? Int {
+                           if request_status == 1{
+                               
+                               
+                               DBManager.sharedInstance.create_merchantIDData_DB(value: a)
+                               
+                               let MD  = DBManager.sharedInstance.get_merchntId_DataFromDB()[0] as MerchantID
+                               
+                               print(MD.object?.STRIPE_PUBLISHABLE_KEY)
+                               
+                               let isShopOpen = MD.object?.IS_SHOP_OPEN
+                               
+                               let merchantIDD = MD.object?.MERCHANT_ID
+                               UserDefaults.standard.setValue(merchantIDD, forKey: "m_idd")
+                               
+                               guard let _ = a.value(forKey: "request_status") as? Int else {
+                                   return
+                               }
+                               
+                               
+                               guard let object = a.value(forKey: "object") as? [String:Any] else {return}
                             
-                            
-                            DBManager.sharedInstance.create_merchantIDData_DB(value: a)
-                            
-                            let MD  = DBManager.sharedInstance.get_merchntId_DataFromDB()[0] as MerchantID
-                           
-                            print(MD.object?.STRIPE_PUBLISHABLE_KEY)
-                            
-                        let isShopOpen = MD.object?.IS_SHOP_OPEN
-                            let merchantIDD = MD.object?.MERCHANT_ID
-                            UserDefaults.standard.setValue(merchantIDD, forKey: "m_idd")
-                            
-                            guard let _ = a.value(forKey: "request_status") as? Int else {
-                                return
-                            }
-                            
-                            
-                            guard let object = a.value(forKey: "object") as? [String:Any] else {return}
-                            
-                            STPPaymentConfiguration.shared().publishableKey = object["STRIPE_PUBLISHABLE_KEY"] as! String
-                            
-                            guard let MERCHANT_ID = object["MERCHANT_ID"] as? String else {return}
-                            guard let STATIC_RESOURCE_CATEGORIES_PREFIX = object["STATIC_RESOURCE_CATEGORIES_PREFIX"] as? String else {return}
-                            guard let STATIC_RESOURCE_ENDPOINT = object["STATIC_RESOURCE_ENDPOINT"] as? String else{return}
-                            guard let STATIC_RESOURCE_SUFFIX = object["STATIC_RESOURCE_SUFFIX"] as? String else{return}
-                            
-                            
-                            if let requestId = a.value(forKey: "requestId") as? String{
-                            }
-                            
-                            let urlofProdCat = STATIC_RESOURCE_ENDPOINT+STATIC_RESOURCE_CATEGORIES_PREFIX+MERCHANT_ID+STATIC_RESOURCE_SUFFIX
-                            print(urlofProdCat)
-                            callback(true, respose.result.value, urlofProdCat)
-                            guard let _ = object["FEES"] as? String else {
-                                return
-                            }
-                            return
-                        }else{
-                            callback(false,a,nil)
-                            return
-                        }
-                    }
-                }
-                callback(false,nil,nil)
-                
-                
-            }else{
-                callback(false, nil, nil)
-            }
-        }
-    }
-    
+                            print(object)
+                               
+                               STPPaymentConfiguration.shared().publishableKey = object["STRIPE_PUBLISHABLE_KEY"] as! String
+                               
+                               guard let MERCHANT_ID = object["MERCHANT_ID"] as? String else {return}
+                               guard let STATIC_RESOURCE_CATEGORIES_PREFIX = object["STATIC_RESOURCE_CATEGORIES_PREFIX"] as? String else {return}
+                               guard let STATIC_RESOURCE_ENDPOINT = object["STATIC_RESOURCE_ENDPOINT"] as? String else{return}
+                               guard let STATIC_RESOURCE_SUFFIX = object["STATIC_RESOURCE_SUFFIX"] as? String else{return}
+                               
+                               
+                               if let requestId = a.value(forKey: "requestId") as? String{
+                               }
+                               
+                               let urlofProdCat = STATIC_RESOURCE_ENDPOINT+STATIC_RESOURCE_CATEGORIES_PREFIX+MERCHANT_ID+STATIC_RESOURCE_SUFFIX
+                               print(urlofProdCat)
+                               callback(true, respose.result.value, urlofProdCat)
+                               guard let _ = object["FEES"] as? String else {
+                                   return
+                               }
+                               return
+                           }else{
+                               callback(false,a,nil)
+                               return
+                           }
+                       }
+                   }
+                   callback(false,nil,nil)
+                   
+                   
+               }else{
+                   callback(false, nil, nil)
+               }
+           }
+       }
     
     //MARK: - MERCHANT DETAIL
     class public func merchant_detail( callback:@escaping (( _ success :Bool, _ results: Any?)->())){
@@ -564,6 +578,8 @@ class RegisterApi:NSObject{
         Alamofire.request(apiurl! , method: .delete ,encoding: JSONEncoding.default, headers: headers).responseJSON { (respose) in
             guard let rst = respose.result.value as? NSDictionary else {return callback(false,respose)}
             if let  request_status = rst.value(forKey: "request_status") as? Int , request_status != 1 {
+               // DeleteDataBaseObjects.deleteAddress()
+
                 callback(false,respose)
                 return
             }else{

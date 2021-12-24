@@ -58,6 +58,22 @@ struct MapOrderData {
                 }
                 
             }
+            if let additional_fees = item.value(forKey: "additional_fees") as? [NSDictionary] {
+                var arr  = [AdditionalFeesOrdersData]()
+                for i in additional_fees{
+                    
+                    try! DBManager.sharedInstance.database.write {
+                        let a = DBManager.sharedInstance.database.create(AdditionalFeesOrdersData.self, value: i, update: false)
+                        arr.append(a)
+                    }
+                    
+                    
+                }
+                for i in arr{
+                    data_OrderData.additional_fees.append(i)
+                }
+                
+            }
             if let orderStatus = item.value(forKey: "orderStatus") as? [NSDictionary] {
                 var arr  = [OrderStatusOrdersData]()
                 for i in orderStatus{
@@ -163,6 +179,13 @@ struct MapOrderData {
             let item = ItemsOrdersData()
             if let itemName = i.value(forKey: "itemName") as? String {
                 item.itemName = itemName
+            }
+            let customerInstruction = i.value(forKey: "customerInstruction") as? [String] ?? [String]()
+            
+            for ij in customerInstruction{
+                
+                item.customerInstruction.append(ij)
+                
             }
             if let qty = i.value(forKey: "qty") as? Double {
                 item.qty = qty

@@ -40,7 +40,7 @@ class ProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        submit_btn.layer.cornerRadius = 15
 //        NetworkManager.isUnreachable { (_) in
 //            SCLAlertView().showError("network unreachable")
 //        }

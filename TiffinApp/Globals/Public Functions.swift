@@ -46,7 +46,7 @@ func loader(at view : UIView, active type: NVActivityIndicatorType) -> NVActivit
     activityIndicator = NVActivityIndicatorView(frame: frame)
     activityIndicator.type = type // add your type
     
-    activityIndicator.color = UIColor.MyTheme.marooncolor // add your color
+    activityIndicator.color = UIColor.MyTheme.supportcolor // add your color
     
     return activityIndicator
 

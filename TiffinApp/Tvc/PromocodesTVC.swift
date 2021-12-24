@@ -7,6 +7,7 @@ class PromocodesTVC: UITableViewCell {
         case apply = "Apply"
         case remove = "Remove"
     }
+    let v = UIViewController()
     @IBOutlet private weak var titleLabel : UILabel!
     @IBOutlet private weak var subtitleLabel : UILabel!
     @IBOutlet private weak var applyBtn : UIButton!
@@ -36,7 +37,13 @@ class PromocodesTVC: UITableViewCell {
     var activityIndicator  : NVActivityIndicatorView?
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        coupanLbl.layer.cornerRadius = 5
+        coupanLbl.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        coupanLbl.layer.borderWidth = 0.5
+        applyBtn.layer.cornerRadius = 5
+        contentView.layer.cornerRadius = 10
+        contentView.layer.borderWidth = 1
+        contentView.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
     }
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -50,15 +57,21 @@ class PromocodesTVC: UITableViewCell {
         ProductsApi.add_coupen(rule: dataSet.0) { (succ, rst,err) in
             self.hideLoader()
             if succ{
-                
+                NotificationCenter.default.post(name: Notification.Name("MoveToCoupon"), object: true, userInfo: nil)
+               // DBManager.sharedInstance.database.create(AppliedCoupon.self)
                 self.btntype = .remove
                 self.coupanLbl.isHidden = false
-            
+                self.contentView.layer.cornerRadius = 10
+                self.contentView.layer.borderWidth = 1
+                self.contentView.layer.borderColor = #colorLiteral(red: 0.1084277853, green: 0.5919913054, blue: 0.4029042125, alpha: 1)
                 
                  Message.showSuccessmsg(style: .bottom, message: "Coupon Applied Successfully")
+                self.v.dismiss(animated: true)
             }
             else{
-                Message.showErrorOnTopStatusBar(message: err)
+                Message.showErrorMessage(style: .bottom, message: err , title: "")
+
+                //Message.showErrorOnTopStatusBar(message: err)
             }
         }
     }
@@ -68,9 +81,17 @@ class PromocodesTVC: UITableViewCell {
         ProductsApi.delete_coupon(rule: dataSet.0) { (succ, rst) in
             self.hideLoader()
             if succ{
+                DBManager.sharedInstance.deleteApplyCoupon()
                 self.btntype = .apply
                 self.coupanLbl.isHidden = true
+                self.contentView.layer.cornerRadius = 10
+                self.contentView.layer.borderWidth = 1
+                self.contentView.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+                NotificationCenter.default.post(name: Notification.Name("MoveToCoupon"), object: true, userInfo: nil)
+
                 Message.showErrorOnTopStatusBar(message: "Coupon Removed Successfully")
+                self.v.dismiss(animated: true)
+
             }else{
                 Message.showErrorOnTopStatusBar(message: "Failed to remove coupon")
             }

@@ -8,14 +8,24 @@ class AddTipView : MessageView{
     @IBOutlet private weak var applyBtn : UIButton!
 
     @IBAction func applyTip(_ sender : UIButton){
+      
         self.applyTip(taxRate: selectedTip)
+        if selectedTip == "Custom Fees"{
+            customTipTF.isHidden = false
+        }
+        else{
+            customTipTF.isHidden = true
+        }
+        
     }
+    @IBOutlet weak var customTipTF: UITextField!
     var tvds : [String] = [String]()
     var selectedTip : String = ""
     var taxID = ""
     var tipChange : ((String)->())?
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        applyBtn.layer.cornerRadius = 10
         self.tvds = getDataSource()
 //        self.setselectedTip()
         self.setTaxId()
@@ -24,10 +34,28 @@ class AddTipView : MessageView{
         
     }
     func getDataSource()->[String]{
-        var dropdowndatasource = ["0"]
+        
+        customTipTF.isHidden = true
+        
+//        var dropdowndatasource = ["0"]
+        var dropdowndatasource = [String]()
+
         if  DBManager.sharedInstance.get_merchntId_DataFromDB().count != 0 {}else {return dropdowndatasource}
         let MD  = DBManager.sharedInstance.get_merchntId_DataFromDB()[0] as MerchantID
+        
+        var indexx = Int()
+                           let indexRest = UserDefaults.standard.value(forKey: "indexRest") as? Int
+                            indexx = indexRest ?? 0
+        
         let fees = MD.object?.FEES
+        
+        
+        guard  fees != "" else {
+                 
+                            return dropdowndatasource
+                  
+              }
+            
         
         guard let fee = fees else {
             return dropdowndatasource
@@ -36,10 +64,32 @@ class AddTipView : MessageView{
             return String(sub)
         }
         dropdowndatasource += f
+        
+        if MD.object?.CUSTOM_TIP == "true"{
+                  dropdowndatasource.append("Custom Fees")
+              }
+        
         return dropdowndatasource
     }
     func applyTip(taxRate : String){
         
+        if taxRate == "Custom Fees"{
+            customTipTF.isHidden = false
+            
+            ProductsApi.update_fee_tip(taxId: taxID, taxRate: customTipTF.text ?? "0") { (success, result) in
+                      if !success{
+                          Message.showErrorOnTopStatusBar(message: "Oops! some error occur")
+                      }else{
+                        
+                        UserDefaults.standard.setValue(self.customTipTF.text ?? "0", forKey: "customTip")
+                          self.tipChange?(taxRate)
+                          self.refreshThePreviousview()
+                          Message.hideMsgView()
+                      }
+                  }
+        }
+        else{
+         customTipTF.isHidden = true
         ProductsApi.update_fee_tip(taxId: taxID, taxRate: taxRate) { (success, result) in
             if !success{
                 Message.showErrorOnTopStatusBar(message: "Oops! some error occur")
@@ -48,7 +98,7 @@ class AddTipView : MessageView{
                 self.refreshThePreviousview()
                 Message.hideMsgView()
             }
-        }
+            }}
     }
     func setTaxId(){
         
@@ -84,6 +134,13 @@ extension AddTipView : UITableViewDelegate , UITableViewDataSource{
         cell?.accessoryType = .checkmark
         self.refreshThePreviousview()
         selectedTip = tvds[indexPath.row]
+        if selectedTip == "Custom Fees"{
+            customTipTF.isHidden = false
+        }
+        else{
+             customTipTF.isHidden = true
+        }
+        
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
@@ -94,7 +151,7 @@ extension AddTipView : UITableViewDelegate , UITableViewDataSource{
         guard let rate = cartData.object?.fees.first?.rate else{return}
         let ratestr = String(Int(rate))
         if tvds.contains(ratestr){
-            selectedTip = ratestr            
+            selectedTip = ratestr
         }
     }
 }

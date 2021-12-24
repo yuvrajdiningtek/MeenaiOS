@@ -3,11 +3,12 @@
 import UIKit
 import NVActivityIndicatorView
 import Alamofire
-class SplashVC: UIViewController {
 
+class SplashVC: UIViewController {
+    
     @IBOutlet weak var  progressBar : UIProgressView!
     @IBOutlet weak var  loader : NVActivityIndicatorView!
-
+    
     override var prefersStatusBarHidden: Bool {
         get {
             return true
@@ -16,22 +17,23 @@ class SplashVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
     override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
         if self.networkRechablity(){
             self.setProgress(progress: 0.1)
-        // 1 check network rechability
-        getProDev()
-       // self.callApis()
-        loader.startAnimating()
+            // 1 check network rechability
+            getProDev()
+            //             self.callApis()
+            loader.startAnimating()
         }
         else {
             Message.showErrorOnTopStatusBar(message: "Your internet connection is not available")
         }
     }
+    
     
     func initialapiCall( completion : @escaping (Bool)->() ){
         IntialSetUp().do_intial_api_call(completion: { (succ) in
@@ -45,24 +47,19 @@ class SplashVC: UIViewController {
             GetData.getTimingOfRestrauntV2FromApi(callback: { (_) in
                 self.progressBar.setProgress(0.6, animated: true)
                 completion(succ)
-            })            
+            })
         }
         
     }
-    
     func getProDev() {
         
         
-     
-        
-        let merchantid = "eae5dcda641076c7677303aac925b64b"
+        let merchantid = "f333f8362cc10b1c7d09aa8bcbdeead3"
         
         let version : Any! = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
         
         print(version)
-    
         let vr = version as! String
-        print("https://prod.diningtek.com/service/status/\(merchantid)/OLDSANTAFE-i\(vr)")
         let headers:HTTPHeaders = [
             "Content-Type": "application/json"
             // "Authorization" : "bearer " + auth_token
@@ -73,7 +70,7 @@ class SplashVC: UIViewController {
             :]
         print("parameters==========\(parameters)")
         
-        Alamofire.request("https://prod.diningtek.com/service/status/\(merchantid)/OLDSANTAFE-i\(vr)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+        Alamofire.request("https://prod.diningtek.com/service/status/\(merchantid)/SMOKYHILL-i\(vr)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             debugPrint(response.result)
             print("",response.result.value)
             let json = response.result.value as? [String: Any]
@@ -87,7 +84,7 @@ class SplashVC: UIViewController {
                 print("PROD_STATUS",PROD_STATUS)
                 
                 // UserDefaults.standard.setValue(PROD_STATUS, forKey: "PROD_STATUSDev")
-                let checkProdStatus = "False"
+                let checkProdStatus = "false"
                 if PROD_STATUS == checkProdStatus.uppercased() || PROD_STATUS == checkProdStatus.lowercased() || PROD_STATUS == "False"{
                     ApiKeys.domain = "https://rules.diningtek.com/"
                     
@@ -96,6 +93,7 @@ class SplashVC: UIViewController {
                     ApiKeys.domain = "https://prod.diningtek.com/"
                 }
                 self.callApis()
+                //self.getStripeAccountID()
             }else {
                 //                   print(" : \(ServerNotResponding)")
                 DispatchQueue.main.async {
@@ -106,7 +104,9 @@ class SplashVC: UIViewController {
         }
     }
     
-
+    
+    
+    
     func product_present_in_DataBase() -> Bool{
         
         guard let _ = GetData().getAllProductsFromDataBase() else{
@@ -121,13 +121,13 @@ class SplashVC: UIViewController {
         
     }
     
-
+    
     func callApis(){
-        // getProDev()
+        
         if self.networkRechablity(){
             self.setProgress(progress: 0.1)
             
-            self.deleteAllFromDataBse()
+            self.self.deleteAllFromDataBse()
             self.initialapiCall { (succ) in
                 self.setProgress(progress: 0.2)
                 
@@ -146,7 +146,7 @@ class SplashVC: UIViewController {
                         }
                         Message.showErrorOnTopStatusBar(message: "Something went wrong")
                     }
-                })                
+                })
                 
             }
             
@@ -154,7 +154,7 @@ class SplashVC: UIViewController {
         }
         else{
             Message.showErrorOnTopStatusBar(message: "Network not reachable")
-
+            
             // 2 if network not reachable check data present in databse
             if product_present_in_DataBase(){
                 self.progressBar.setProgress(1, animated: true)
@@ -181,18 +181,17 @@ class SplashVC: UIViewController {
             DBManager.sharedInstance.deleteAllFromDatabase()
         }
         DBManager.sharedInstance.saveBuketId(bucket: bucketid ?? "")
-
+        
     }
-   
     
     
     
     func navigate(){
-//        if DBManager.sharedInstance.get_loginUser_DataFromDB().count != 0{
-//            self.present(secondSBVC("SideMenuHandlerVC"), animated: false, completion: nil)
-//        }else{
-//            self.present(mainSBVC("loginNavC"), animated: false, completion: nil)
-//        }
+        //        if DBManager.sharedInstance.get_loginUser_DataFromDB().count != 0{
+        //            self.present(secondSBVC("SideMenuHandlerVC"), animated: false, completion: nil)
+        //        }else{
+        //            self.present(mainSBVC("loginNavC"), animated: false, completion: nil)
+        //        }
         self.setProgress(progress: 1)
         self.nvmanager.makeHomeVCAsRootVC()
     }
@@ -214,7 +213,7 @@ extension SplashVC{
             UIView.animate(withDuration: 0.4, animations: {
                 self.progressBar.setProgress(0.0, animated: true)
             }) { (_) in
-               self.animateProgressBar()
+                self.animateProgressBar()
             }
         }
     }

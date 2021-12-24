@@ -49,7 +49,7 @@ class ExistingAddressVC: UIViewController , UINavigationControllerDelegate{
         addressArr.removeAll()
         let vcs = self.navigationController?.viewControllers
         if (vcs?.count) ?? 0 > 3{
-            add_floating_btn.isHidden = true
+            add_floating_btn.isHidden = false
         }        
         do_when_AddresFound()
 
@@ -245,7 +245,7 @@ extension ExistingAddressVC:UITableViewDelegate,UITableViewDataSource{
         activityIndicator.startAnimating()
         
         let addressid = self.addressArr[index].address_id
-        
+        UserDefaults.standard.setValue(addressid, forKey: "add_id")
         RegisterApi.delete_address(address_id: addressid) { (success, _) in
             
             hideactivityIndicator(activityIndicator: activityIndicator)
@@ -260,11 +260,11 @@ extension ExistingAddressVC:UITableViewDelegate,UITableViewDataSource{
         }
     }
     func showalert_for_delete(at index : Int){
-        let alert = UIAlertController(title: "Address Delete...", message: "Are you sure you want to delete?", preferredStyle: .alert)
-        let done = UIAlertAction(title: "OK", style: .default) { (action) in
+        let alert = UIAlertController(title: "Address Delete", message: "Are you sure you want to delete?", preferredStyle: .alert)
+        let done = UIAlertAction(title: "Ok", style: .default) { (action) in
             self.delete_address(at: index)
         }
-        let cnle = UIAlertAction(title: "CANCLE", style: .cancel, handler: nil)
+        let cnle = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
         
         alert.addAction(done)
         alert.addAction(cnle)

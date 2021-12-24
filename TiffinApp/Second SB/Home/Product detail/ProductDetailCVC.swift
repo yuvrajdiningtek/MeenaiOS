@@ -22,12 +22,15 @@ class ProductDetailCVC : UICollectionViewCell, CustomStepperDelegate {
     @IBOutlet weak private var price_lbl_onaddtocart_btn: UILabel!
     
     @IBOutlet weak private  var product_imgV: UIImageView!
+    @IBOutlet weak private  var product_imgVNew: UIImageView!
+
     @IBOutlet weak private var productName_lbl: UILabel!
     @IBOutlet weak private var productDescription_lbl: UILabel!
     @IBOutlet weak private var lowerView: UIView!
     
     @IBOutlet weak private var varirtyLbl: UILabel!
     @IBOutlet weak private var mandatoryLbl: UILabel!
+    @IBOutlet weak var imgHeight: NSLayoutConstraint!
     
     //    @IBOutlet weak private var prizeHeadingLbl: UILabel!
     
@@ -35,11 +38,13 @@ class ProductDetailCVC : UICollectionViewCell, CustomStepperDelegate {
     @IBOutlet weak private var prizevalueLbl: UILabel!
     
     @IBOutlet  private var addOnBtns: [UIButton]!
-    @IBOutlet weak private var addOnLbl: UILabel!
+    @IBOutlet weak private var addOnLbl: UITextView!
+    @IBOutlet weak var cookingInstructionTv: UITextView!
+    @IBOutlet weak var cookingInstView: UIView!
     
     @IBOutlet weak var addTocartBtn: UIButton!{
         didSet{
-            //            addTocartBtn.layer.cornerRadius = addTocartBtn.frame.height / 3
+                        addTocartBtn.layer.cornerRadius = 10
         }
     }
     
@@ -65,6 +70,8 @@ class ProductDetailCVC : UICollectionViewCell, CustomStepperDelegate {
         let vc = secondSBVC("AddOnsListVC") as! AddOnsListVC
         vc.ids = product!.productId
         vc.delegate = self
+        vc.modalPresentationStyle = .formSheet
+
         viewController.present(vc, animated: true, completion: nil)
     }
     
@@ -93,6 +100,8 @@ class ProductDetailCVC : UICollectionViewCell, CustomStepperDelegate {
     var id : String = ""{
         didSet{
             self.product_imgV.hero.id = "Prod\(id)img"
+            self.product_imgVNew.hero.id = "Prod\(id)img"
+
             self.lowerView.hero.id = "Prod\(id)btmview"
         }
     }
@@ -113,6 +122,16 @@ class ProductDetailCVC : UICollectionViewCell, CustomStepperDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        product_imgVNew.layer.cornerRadius = 10
+        product_imgVNew.clipsToBounds = true
+        imgHeight.constant = 0
+//        stepperView.layer.cornerRadius = 7
+//        stepperView.layer.borderColor = #colorLiteral(red: 0.838742435, green: 0.7268220782, blue: 0.01490934193, alpha: 1)
+//        stepperView.layer.borderWidth = 1
+        stepperView.clipsToBounds = true
+        cookingInstructionTv.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        cookingInstructionTv.layer.borderWidth = 1
+        cookingInstructionTv.layer.cornerRadius = 6
         stepperView.delegate = self
         addtoCartObj = AddTocartObject(productid: "", variationId: "", quantity: "")
     }
@@ -135,8 +154,16 @@ extension ProductDetailCVC {
         }
         if product.image.count > 0{
             let url = URL(string: product.image[0])
-            //  product_imgV.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder img"))
+              product_imgVNew.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder img"))
         }
+//        product_imgVNew.image = #imageLiteral(resourceName: "backgrnd_@x2")
+        if product.enabledUserInstructions == true{
+            cookingInstView.isHidden = false
+        }
+        else{
+            cookingInstView.isHidden = true
+        }
+        
         productName_lbl.text = product.name
         productDescription_lbl.text = product.descriptions
         productPrize_lbl.text = cleanDollars(String(product.price))
@@ -300,11 +327,11 @@ extension ProductDetailCVC: SelectedVariationsDelegate{
     
     func addTocart(obj : AddTocartObject){
         if !validateAdOnData(){
-            Message.showErrorMessage(style: .bottom, message: "Please add mandatory feilds", title: "")
+            Message.showErrorMessage(style: .bottom, message: "Please add mandatory fields", title: "")
             
             return}
         self.addTocartBtn.isEnabled = false
-        ProductsDetailViewModel(vc: self.viewController).AddToCart(productid: obj.productid, productVariationId: obj.variationId, quantity: obj.quantity, addons: selectedAdons) { (succ, msg) in
+        ProductsDetailViewModel(vc: self.viewController).AddToCart(cookingInstruction: cookingInstructionTv.text, productid: obj.productid, productVariationId: obj.variationId, quantity: obj.quantity, addons: selectedAdons) { (succ, msg) in
             self.addTocartBtn.isEnabled = true
             let activityIndicator = loader(at: self.viewController.view, active: .circleStrokeSpin)
             self.viewController.view.addSubview(activityIndicator)
@@ -312,7 +339,12 @@ extension ProductDetailCVC: SelectedVariationsDelegate{
             hideactivityIndicator(activityIndicator: activityIndicator)
             
             if succ{
-                let vc = secondSBVC("MyCartVC")
+                Message.showSuccessmsg(style: .bottom, message: "Added successfully")
+                NotificationCenter.default.post(name: Notification.Name("MoveToHome"), object: true, userInfo: nil)
+
+                self.viewController.dismiss(animated: true)
+                //MyCartVC
+                let vc = secondSBVC("PlaceOrderVC")//PlaceOrderVC
                 self.viewController.navigationController?.pushViewController(vc, animated: true)
                 
             }

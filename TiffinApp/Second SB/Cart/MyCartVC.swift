@@ -36,7 +36,18 @@ class MyCartVC: UIViewController, CustomStepperDelegate {
     
     @IBOutlet weak var removecart: UIBarButtonItem!
     @IBAction func removeCartBtn(_ sender: Any) {
-        deleteWholeCart()
+        let alert = UIAlertController(title: "Delete Cart", message: "Are you sure you want to delete cart ?",         preferredStyle: UIAlertController.Style.alert)
+        
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { _ in
+            self.deleteWholeCart()
+        }))
+        alert.addAction(UIAlertAction(title: "No",
+                                      style: UIAlertAction.Style.default,
+                                      handler: {(_: UIAlertAction!) in
+                                      self.dismiss(animated: true)
+        }))
+        self.present(alert, animated: true, completion: nil)
+       
     }
     @IBOutlet weak var orders_TV: UITableView!
     
@@ -102,9 +113,10 @@ class MyCartVC: UIViewController, CustomStepperDelegate {
                 hideactivityIndicator(activityIndicator: activityIndicator)
                 
                 if !succ{
-                    
+                    print("eeeeeeeeeeeee",error)
+
                     print(error)
-                    if (error?.contains("Invalid") ?? false) {
+                    if (error?.contains("INVALID") ?? false) || (error?.contains("Invalid") ?? false) {
                         self.deleteInvAlidBucket()
                         return
                         
@@ -215,7 +227,8 @@ extension MyCartVC: UITableViewDelegate,UITableViewDataSource{
          cell.product_id = items[indexPath.row].product_id
         cell.quantity_lbl.text = "\(Int(items[indexPath.row].qty))"
         
-        
+        print("Ccc",items[indexPath.row].customerInstruction.first)
+        let customerInstructionn = items[indexPath.row].customerInstruction.first
         
         
         if items[indexPath.row].addons.count == 1{
@@ -275,7 +288,13 @@ extension MyCartVC: UITableViewDelegate,UITableViewDataSource{
         let p = items[indexPath.row].unit_price * a
         let pr = cleanDollars(String(p))
         cell.unitPrizeLbl.text = "\(pr)"
-        cell.single_item_price.text = cleanDollars("\((items[indexPath.row].unit_price))")
+        if customerInstructionn == ""{
+            cell.single_item_price.text = "\(cleanDollars("\((items[indexPath.row].unit_price))"))  \(customerInstructionn ?? "")"
+        }
+        else{
+            
+            cell.single_item_price.text = "\(cleanDollars("\((items[indexPath.row].unit_price))"))  📝 \(customerInstructionn ?? "")"
+        }
         
         cell.variation_lbl.numberOfLines = 0
         cell.variation_lbl.lineBreakMode = NSLineBreakMode.byWordWrapping
@@ -340,12 +359,17 @@ extension MyCartVC: UITableViewDelegate,UITableViewDataSource{
         
         return cell
         
-        
     }
     
     
     func valueDidChange(current value: CGFloat, sender: CustomStepper, increment: Bool, decrement: Bool) {
+        sender.isUserInteractionEnabled = true
+//        let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
+//        self.view.addSubview(activityIndicator) // or use  webView.addSubview(activityIndicator)
+//        activityIndicator.startAnimating()
         if sender.tag < items.count{
+          //  hideactivityIndicator(activityIndicator: activityIndicator)
+
             present_action_sheet(itemid: self.items[sender.tag].item_id, qty: String(describing: value)) { (update) in
                 if !update{
                     if increment{
@@ -357,13 +381,24 @@ extension MyCartVC: UITableViewDelegate,UITableViewDataSource{
                     
                 }else{
                     try? DBManager.sharedInstance.database.write {
+                        if self.items.count != 0{
                         self.items[sender.tag].qty = Double(value)
+                        }
                     }
                     
                     self.orders_TV.reloadRows(at: [IndexPath(row:sender.tag,section:0)], with: .none)
                     
                 }
             }
+        }
+        else{
+            sender.isUserInteractionEnabled = false
+//            let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
+//            self.view.addSubview(activityIndicator) // or use  webView.addSubview(activityIndicator)
+//            activityIndicator.startAnimating()
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                hideactivityIndicator(activityIndicator: activityIndicator)
+//            }
         }
         
     }

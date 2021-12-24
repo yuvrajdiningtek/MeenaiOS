@@ -66,7 +66,7 @@ extension SideMenuController {
         case .began:
             
             prepare(sidePanelForDisplay: true)
-            set(statusBarHidden: true)
+           // set(statusBarHidden: true)
             
         case .changed:
             

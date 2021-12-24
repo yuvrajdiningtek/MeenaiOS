@@ -9,7 +9,7 @@ class BillSummaryVC: UIViewController {
     @IBOutlet weak private var priceLbl : UILabel!
     @IBOutlet weak private var loaderView : UIView!
     @IBOutlet weak private var nvloaderview : NVActivityIndicatorView!
-    @IBOutlet weak private var payBtn : UIButton!
+    @IBOutlet weak private var payBtnn : UIButton!
     @IBAction func payBtn(_ sender : UIButton){
         self.goToNextScreen()
     }
@@ -17,7 +17,7 @@ class BillSummaryVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        payBtnn.layer.cornerRadius = 10
         self.setPriceLabel()
        
     }
@@ -46,7 +46,7 @@ class BillSummaryVC: UIViewController {
     }
     func setWhendataNotGet(){
         priceLbl.text = "Oops! some error occur"
-        payBtn.isHidden = true
+        payBtnn.isHidden = true
     }
     
 //    func goToCardScreen(){

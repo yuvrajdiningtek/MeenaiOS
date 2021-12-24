@@ -62,7 +62,7 @@ extension SearchProductVC : UICollectionViewDelegate , UICollectionViewDataSourc
         let w = collectionView.frame.width/2 - 10
         let h  : CGFloat = 200
         
-        return CGSize(width: w, height: h)
+        return CGSize(width: collectionView.frame.width, height: h)
     }
 }
 

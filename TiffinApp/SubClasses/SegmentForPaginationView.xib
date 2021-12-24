@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="glacialindifferenceregular.ttf">
+            <string>GlacialIndifference-Regular</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SegmentForPaginationView" customModule="TiffinApp" customModuleProvider="target">
             <connections>
@@ -48,16 +51,17 @@
                                 <action selector="pageIncremntbtn:" destination="-1" eventType="touchUpInside" id="VL5-x6-eVb"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Page No. 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r25-1e-CqX">
-                            <rect key="frame" x="67" y="0.0" width="155" height="67"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Page No. 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r25-1e-CqX">
+                            <rect key="frame" x="72" y="0.0" width="145" height="67"/>
+                            <color key="backgroundColor" red="0.94797511832423942" green="0.94797511832423942" blue="0.94797511832423942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" name="GlacialIndifference-Regular" family="Glacial Indifference" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="r25-1e-CqX" firstAttribute="leading" secondItem="eOi-Xn-2ZW" secondAttribute="trailing" id="GAO-sE-8Hz"/>
+                        <constraint firstItem="r25-1e-CqX" firstAttribute="leading" secondItem="eOi-Xn-2ZW" secondAttribute="trailing" constant="5" id="GAO-sE-8Hz"/>
                         <constraint firstAttribute="trailing" secondItem="Ltl-ko-kaf" secondAttribute="trailing" id="Ogp-lh-kLq"/>
                         <constraint firstItem="Ltl-ko-kaf" firstAttribute="top" secondItem="9HC-Mo-8j0" secondAttribute="top" id="Qzx-zP-x78"/>
                         <constraint firstItem="eOi-Xn-2ZW" firstAttribute="top" secondItem="9HC-Mo-8j0" secondAttribute="top" id="Tua-Kj-lL1"/>
@@ -65,12 +69,13 @@
                         <constraint firstAttribute="bottom" secondItem="Ltl-ko-kaf" secondAttribute="bottom" id="kIA-Si-nP6"/>
                         <constraint firstAttribute="bottom" secondItem="eOi-Xn-2ZW" secondAttribute="bottom" id="nbt-mm-LRr"/>
                         <constraint firstItem="r25-1e-CqX" firstAttribute="top" secondItem="9HC-Mo-8j0" secondAttribute="top" id="sF3-JT-2KG"/>
-                        <constraint firstItem="Ltl-ko-kaf" firstAttribute="leading" secondItem="r25-1e-CqX" secondAttribute="trailing" id="t3C-A2-sWe"/>
+                        <constraint firstItem="Ltl-ko-kaf" firstAttribute="leading" secondItem="r25-1e-CqX" secondAttribute="trailing" constant="5" id="t3C-A2-sWe"/>
                         <constraint firstItem="eOi-Xn-2ZW" firstAttribute="leading" secondItem="9HC-Mo-8j0" secondAttribute="leading" id="yXA-vZ-efY"/>
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="9HC-Mo-8j0" secondAttribute="bottom" id="3JL-WM-GqC"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="9HC-Mo-8j0" secondAttribute="trailing" id="8eS-Eh-bZi"/>
@@ -78,7 +83,6 @@
                 <constraint firstItem="9HC-Mo-8j0" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="tEg-Wd-2SQ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="69.599999999999994" y="423.23838080959524"/>
         </view>
     </objects>

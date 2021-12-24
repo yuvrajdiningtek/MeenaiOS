@@ -86,7 +86,8 @@ struct Parse_Produvt_CategoryData{
             Att.slug = value.value(forKey: "slug") as? String ?? ""
             Att.shortDescription = value.value(forKey: "shortDescription") as? String ?? ""
             Att.descriptions = value.value(forKey: "descriptions") as? String ?? ""
-            
+            Att.enabledUserInstructions = value.value(forKey: "enabledUserInstructions") as? Bool ?? true
+
             let images = value.value(forKey: "image") as? [String] ?? [String]()
             for i in images{
                 Att.image.append(i)

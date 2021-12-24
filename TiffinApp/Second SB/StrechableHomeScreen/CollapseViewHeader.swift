@@ -17,8 +17,10 @@ class CollapseViewHeader: UIView {
     @IBOutlet weak var locationBubbleWidthConstraint : NSLayoutConstraint!
     @IBOutlet weak var locatonBubbleyConstraint : NSLayoutConstraint!
     @IBOutlet weak var innerViewTopConstraint : NSLayoutConstraint!
+    @IBOutlet weak var ratingView : UIView!
 
-    
+    @IBOutlet weak var timingImg : UIImageView!
+
     @IBOutlet weak var timingLbl : UILabel!
     @IBOutlet weak var ratingLbl : UILabel!
    
@@ -39,25 +41,37 @@ class CollapseViewHeader: UIView {
     func setWidth(constant : CGFloat){
         middleVWidthConstraint.constant = constant
         let leading = (2.5*constant)+16
-        lableLeadingConstraint.constant = leading
-        timeimgLeadingConstraint.constant = leading
-        locationBubbleWidthConstraint.constant = -constant
+//        lableLeadingConstraint.constant = leading
+//        timeimgLeadingConstraint.constant = leading
+//        locationBubbleWidthConstraint.constant = -constant * 2
 //        innerViewTopConstraint.constant = CollapsablePublicTerms.topSafeAreaMargin ?? 20
-//        locatonBubbleyConstraint.constant = constant1 // between 0-18 value of y goes 0 to -1.5 so for change of one "constant" , y will be (1.5/18) and for x == (1.5/18)*x
+      //  locatonBubbleyConstraint.constant = constant1 // between 0-18 value of y goes 0 to -1.5 so for change of one "constant" , y will be (1.5/18) and for x == (1.5/18)*x
         
-//        if constant <= 4{
-//            locationBubble.alpha = 1
-//            return
-//        }
-//        else if constant >= 17{
-//            locationBubble.alpha = 0
-//            return
-//        }
+        if constant <= 4{
+print("locationBubble.alpha = 1")
+            locationBubble.alpha = 1
+            return
+        }
+        else if constant >= 17{
+            print("locationBubble.alpha = 0")
+
+            locationBubble.alpha = 0
+            ratingView.isHidden = true
+            timingImg.isHidden = true
+            return
+        }
         let fixwidth = self.frame.width/1.05
         if middleVWidthConstraint.constant == fixwidth{
             locationBubble.alpha = 1
+            print("locationBubble.alpha = 1")
+
         }else{
-            locationBubble.alpha = 0
+            locationBubble.alpha = 1
+            print("locationBubble.alpha = 2")
+            ratingView.isHidden = false
+            timingImg.isHidden = false
+
+
         }
 //        locationBubble.alpha = -(1/constant).magnitude
         
@@ -77,6 +91,7 @@ extension CollapseViewHeader{
         addSubview(contentV)
         contentV.frame = self.bounds
         contentV.autoresizingMask = [.flexibleHeight,.flexibleWidth]
+        ratingView.layer.cornerRadius = 10
         self.setSelectionView()
         self.setImgView()
         self.setUI()
@@ -87,12 +102,23 @@ extension CollapseViewHeader{
         selectionList.dataSource = self
         selectionList.bottomTrimHidden = true
         selectionList.centerOnSelection = false
+//        selectionList.selectionIndicatorColor = #colorLiteral(red: 0.3220071793, green: 0.689510107, blue: 0.5461614132, alpha: 1) //UIColor.MyTheme.marooncolor
         selectionList.selectionIndicatorColor = UIColor.MyTheme.marooncolor
         
         selectionList.setTitleFont(UIFont(name: "GlacialIndifference-Regular", size: 16)!, for: .normal)
-        selectionList.setTitleColor(UIColor.gray, for: .normal)
+        selectionList.setTitleColor(UIColor.darkGray, for: .normal)
         selectionList.setTitleColor(UIColor.MyTheme.marooncolor, for: .selected)
-        selectionList.backgroundColor = .clear
+//        selectionList.setTitleColor(#colorLiteral(red: 0.3220071793, green: 0.689510107, blue: 0.5461614132, alpha: 1), for: .selected)
+        selectionList.layer.cornerRadius = 10
+        selectionList.layer.borderColor = UIColor.MyTheme.marooncolor.cgColor
+        selectionList.layer.borderWidth = 1
+
+//        selectionList.backgroundColor = UIColor.red
+//        selectionList.backgroundColor = UIColor(white: 1, alpha: 0.8)
+
+//        selectionList.backgroundColor = #colorLiteral(red: 0.9521297812, green: 0.9807785153, blue: 0.9683462977, alpha: 1)
+        selectionList.backgroundColor = #colorLiteral(red: 0.9521297812, green: 0.9807785153, blue: 0.9683462977, alpha: 1)
+
         selectionList.buttonInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         
         self.setdataSource()
