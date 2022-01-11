@@ -16,6 +16,7 @@ class DeliveryMethodTV : UITableView , UITableViewDelegate, UITableViewDataSourc
     var vc : UIViewController{
         return self.viewContainingController()!
     }
+    
     var selectedid : String?{
         didSet{
             if let sid = tvdataSource.first?.2, selectedid != nil{
@@ -71,7 +72,7 @@ class DeliveryMethodTV : UITableView , UITableViewDelegate, UITableViewDataSourc
         }
         return ds
     }
-    
+  
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tvdataSource.count
     }
@@ -79,16 +80,48 @@ class DeliveryMethodTV : UITableView , UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DeliveryMethod_TVC
         
+        
+        
         cell.dataSet = tvdataSource[indexPath.row]
        
-        
+        cell.contentView.layer.cornerRadius = 10
+        cell.contentView.clipsToBounds = true
+        cell.contentView.layer.borderWidth = 0.5
+
         
         cell.radioBtn.isSelected = (cell.shippingId == userselected_shippingMethod)
+        if  cell.radioBtn.isSelected == true{
+            cell.contentView.backgroundColor = UIColor.init(named: "MaroonTheme")
+            cell.delivery_method_name_lbl.textColor = .white
+            cell.delivery_method_price_lbl.textColor = .white
+            cell.contentView.layer.borderColor = UIColor.white.cgColor
+            cell.checkImg.tintColor = .white
+        }
+        else{
+            cell.contentView.backgroundColor = .white
+            cell.delivery_method_name_lbl.textColor = .black
+            cell.delivery_method_price_lbl.textColor = .black
+            cell.contentView.layer.borderColor = UIColor.init(named: "MaroonTheme")?.cgColor
+        }
 
         if selectedid != nil{
 
 
             cell.radioBtn.isSelected = (cell.shippingId == selectedid!)
+            if  cell.radioBtn.isSelected == true{
+                cell.contentView.backgroundColor = UIColor.init(named: "MaroonTheme")
+                cell.delivery_method_name_lbl.textColor = .white
+                cell.delivery_method_price_lbl.textColor = .white
+                cell.contentView.layer.borderColor = UIColor.white.cgColor
+                cell.checkImg.tintColor = .white
+
+            }
+            else{
+                cell.contentView.backgroundColor = .white
+                cell.delivery_method_name_lbl.textColor = .black
+                cell.delivery_method_price_lbl.textColor = .black
+                cell.contentView.layer.borderColor = UIColor.init(named: "MaroonTheme")?.cgColor
+            }
         }
         cell.radioBtn.tag = indexPath.row
         

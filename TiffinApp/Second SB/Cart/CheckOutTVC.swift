@@ -24,7 +24,8 @@ class DeliveryMethod_TVC : UITableViewCell{
     @IBOutlet weak var delivery_method_name_lbl: UILabel!
     @IBOutlet weak var radioBtn: RadioButton!
     @IBOutlet weak var delivery_method_price_lbl: UILabel!
-    
+    @IBOutlet weak var checkImg: UIImageView!
+
     var obj : (() -> Void)? = nil
     var shippingId = ""
     var dataSet : (String,String,String) =  ("","",""){
@@ -34,7 +35,7 @@ class DeliveryMethod_TVC : UITableViewCell{
     }
     func configure(){
         if delivery_method_name_lbl == nil{return}
-        delivery_method_price_lbl.text = dataSet.1
+        delivery_method_price_lbl.text = "(\(dataSet.1))"
         delivery_method_name_lbl.text = dataSet.0
         shippingId = dataSet.2
     }
@@ -48,7 +49,13 @@ class DeliveryMethod_TVC : UITableViewCell{
             
         }
     }
-    
+    override func layoutSubviews() {
+          super.layoutSubviews()
+        
+          //set the values for top,left,bottom,right margins
+          let margins = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
+          contentView.frame = contentView.frame.inset(by: margins)
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         

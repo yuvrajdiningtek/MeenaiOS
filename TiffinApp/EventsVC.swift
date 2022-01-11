@@ -25,16 +25,25 @@ class EventsVC: UIViewController {
         
     }
     override func viewWillAppear(_ animated: Bool) {
-         navigationController?.navigationBar.isHidden = false
-         navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+
+//         navigationController?.navigationBar.isHidden = false
+//         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     @IBAction func menubtnAction(_ sender: Any) {
         //        self.sideMenuController?.toggle()
         sideMenuController?.performSegue(withIdentifier: "toHome", sender: nil)
     }
-    
-    
+    @IBAction func backk(_ sender: Any) {
+
+        if self.navigationController?.viewControllers.count != 1{
+        self.navigationController?.popViewController(animated: true)
+        }
+        else{
+            sideMenuController?.performSegue(withIdentifier: "toHome", sender: nil)
+        }
+    }
    
 
     func getEvents() {
@@ -108,10 +117,9 @@ class EventsVC: UIViewController {
                 self.showAlert(msg: error!)
                 break
             }
-            
-            
         }
     }
+    
     @objc func oneTapped(_ sender: UIButton?) {
         
         let dic:NSDictionary = eventsArr[sender!.tag] as! NSDictionary

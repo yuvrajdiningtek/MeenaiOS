@@ -11,7 +11,8 @@ protocol CountryStateDelegate {
 
 class SelectCountryStateVC: UIViewController , UISearchBarDelegate{
 
-    
+    var tit = String()
+    @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var table_v: UITableView!
     @IBOutlet weak var searchbar: UISearchBar!
 
@@ -27,8 +28,13 @@ class SelectCountryStateVC: UIViewController , UISearchBarDelegate{
         super.viewWillDisappear(animated)
         self.view.endEditing(true)
     }
+    @IBAction func backk(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        titleLbl.text = tit
+//        self.navigationController?.setNavigationBarHidden(false, animated: true)
         searchbar.delegate = self
         searchbar.showsCancelButton = true
         
@@ -36,12 +42,12 @@ class SelectCountryStateVC: UIViewController , UISearchBarDelegate{
             
             if let z = ob as? UIButton {
                 let btn: UIButton = z
-                btn.setTitleColor(UIColor.white, for: .normal)
+                btn.setTitleColor(UIColor.init(named: "MaroonTheme"), for: .normal)
                 
             }
         }
-        let cancelButtonAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        UIBarButtonItem.appearance().setTitleTextAttributes(cancelButtonAttributes , for: .normal)
+        let cancelButtonAttributes = [NSAttributedString.Key.foregroundColor: UIColor.init(named: "MaroonTheme")]
+        UIBarButtonItem.appearance().setTitleTextAttributes(cancelButtonAttributes as [NSAttributedString.Key : Any] , for: .normal)
         
         
         if CS_delegate?.countryId == nil{

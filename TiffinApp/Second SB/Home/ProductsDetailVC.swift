@@ -9,7 +9,8 @@ import SCLAlertView
 
 class ProductsDetailVC: UIViewController {
     
-    
+    @IBOutlet weak var blackViewClearIpad: UIView!
+
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var header_lbl: UILabel!
@@ -53,6 +54,9 @@ class ProductsDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            blackViewClearIpad.backgroundColor = .clear
+        }
         print(selected_cell_index,"iiiiii")
         collection_v.layer.cornerRadius = 10
         UIScrollView.appearance().contentInsetAdjustmentBehavior = .never

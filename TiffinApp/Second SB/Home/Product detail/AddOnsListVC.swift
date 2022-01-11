@@ -3,6 +3,7 @@
 import UIKit
 
 class AddOnsListVC: UIViewController {
+    @IBOutlet weak var blackViewClearIpad: UIView!
 
     @IBOutlet weak var tableV : UITableView!
     @IBOutlet weak var apply : UIButton!
@@ -28,7 +29,9 @@ class AddOnsListVC: UIViewController {
     private let type = ["RADIO","CHECKBOX","SELECT"]
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            blackViewClearIpad.backgroundColor = .clear
+        }
         tableV.delegate = self
         tableV.dataSource = self
         tableV.layer.cornerRadius = 15

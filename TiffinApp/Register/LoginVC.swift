@@ -176,6 +176,7 @@ class LoginVC: UIViewController {
     
     
     func setAllViews(){
+        
 //        login_btn.layer.cornerRadius = login_btn.frame.height/2
     }
     

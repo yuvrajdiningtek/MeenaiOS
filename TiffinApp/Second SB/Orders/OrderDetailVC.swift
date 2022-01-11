@@ -8,7 +8,8 @@ import Alamofire
 class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControllerDelegate{
 
     //MARK: - IBOUTLETS
-    
+    @IBOutlet weak var topSpaceOrderTail: NSLayoutConstraint!
+
     @IBOutlet weak var item_fees_tv: UITableView!
     
     @IBOutlet weak var taxes_table_v: UITableView!
@@ -53,7 +54,8 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
     @IBOutlet weak var coupanAmontLbl: UILabel!
     @IBOutlet weak var coupanView: UIView!
     
-    
+    @IBOutlet weak var orderTotalView: UIView!
+
     var namee = String()
     @IBAction func edit_address_btn(_ sender: UIButton) {
         if sender.tag == 1{
@@ -139,6 +141,9 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
         feendtip_txtf.isUserInteractionEnabled = false
         submit_btn.isHidden = true
     }
+    @IBAction func backk(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
     
     @IBOutlet weak var feendtip_txtf: UITextField!
     //MARK: - VARIABLES
@@ -155,13 +160,20 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
     //MARK: - VIEW LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+        orderTotalView.layer.cornerRadius = 7
+        orderTotalView.layer.borderWidth = 0.5
+        orderTotalView.layer.borderColor = UIColor.init(named: "MaroonTheme")?.withAlphaComponent(0.4).cgColor
+        
+//        orderTotalView.addDashedBorder()
+        
 //        print("pppp",stateNmae)
           title = "ORDER DETAIL"
         // getState()
       print("ooo",notee)
         
         if isOrderHistory == true {
+            topSpaceOrderTail.constant = 20
+
         self.getOrderDetail(completion: {
             
             
@@ -193,6 +205,8 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
        
     }
         else {
+            topSpaceOrderTail.constant = 50
+
 //            if passedOrderData?.metaInfo!.COUPON != ""  {
 //                coupanLbl.text = "Applied Coupan : " + (passedOrderData?.metaInfo!.COUPON)! + "   - " + "(" + (passedOrderData?.metaInfo!.COUPON_TIFFIN10_AMOUNT)! + " $" + ")"
 //            }
@@ -216,7 +230,7 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
         
     }
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.isHidden = true
     }
     
     override func willMove(toParent parent: UIViewController?)
@@ -319,20 +333,20 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
 //        if self.passedOrderData?.metaInfo!.COUPON != ""  {
           //  self.coupanLbl.text = "Applied Coupan : " + (self.passedOrderData?.metaInfo!.COUPON)! + "   - " + "(" + "$" + (self.passedOrderData?.metaInfo!.COUPON_TIFFIN10_AMOUNT)! + ")"
             
-            totalamount_lbl.text =  cleanDollars(String(describing: passedOrderData?.orderTotal ?? 0.0))
+            totalamount_lbl.text =  "\(cleanDollars(String(describing: passedOrderData?.orderTotal ?? 0.0)))  "
             coupanAmontLbl.text = "$\(self.passedOrderData!.metaInfo!.COUPON_TIFFIN10_AMOUNT)"
             coupanLbll.text = "Applied Coupon : \(self.passedOrderData!.metaInfo!.COUPON)"
-            orderTotalLbl.text = "Order Total"
+            orderTotalLbl.text = "  Order Total"
             }
             else {
-                        totalamount_lbl.text =  cleanDollars(String(describing: passedOrderData?.orderTotal ?? 0.0))
-                        orderTotalLbl.text = "Order Total"
+                        totalamount_lbl.text =  "\(cleanDollars(String(describing: passedOrderData?.orderTotal ?? 0.0)))  "
+                        orderTotalLbl.text = "  Order Total"
                        coupanView.isHidden = true
                    }
         }
         else {
-             totalamount_lbl.text =  cleanDollars(String(describing: passedOrderData?.orderTotal ?? 0.0))
-             orderTotalLbl.text = "Order Total"
+             totalamount_lbl.text =  "\(cleanDollars(String(describing: passedOrderData?.orderTotal ?? 0.0)))  "
+             orderTotalLbl.text = "  Order Total"
             coupanView.isHidden = true
         }
         
@@ -777,13 +791,17 @@ class AllProductOrderDetailTVC:UITableViewCell{
      @IBOutlet weak var product_adOnLbl2: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
+//        productQty_Prize_lbl.layer.cornerRadius = 7
+//        productQty_Prize_lbl.layer.borderWidth = 0.5
+//        productQty_Prize_lbl.backgroundColor = UIColor.init(named: "MaroonTheme")?.withAlphaComponent(0.05)
+//        productQty_Prize_lbl.layer.borderColor = UIColor.init(named: "MaroonTheme")?.withAlphaComponent(0.2).cgColor
     }
     private func configure(){
         guard let ds =  dataSet  else {
             return
         }
         product_name_lbl.text = ds.itemName
-        
+       
         let up = cleanDollars(String(ds.unit_price ))
         
         productQty_Prize_lbl.text = String(describing: Int(ds.qty )) + " x " +  up
@@ -818,3 +836,110 @@ class AllProductOrderDetailTVC:UITableViewCell{
     }
 }
 
+extension UIView {
+    
+    func addDashedBorder() {
+        let color = UIColor.init(named: "MaroonTheme")?.cgColor
+
+        let shapeLayer:CAShapeLayer = CAShapeLayer()
+        let frameSize = self.frame
+        let shapeRect = CGRect(x: 0, y: 0, width: frameSize.width + 30, height: frameSize.height)
+
+        shapeLayer.bounds = shapeRect
+        shapeLayer.position = CGPoint(x: frameSize.width/2, y: frameSize.height/2)
+        shapeLayer.fillColor = UIColor.init(named: "MaroonTheme")?.withAlphaComponent(0.1).cgColor
+        shapeLayer.strokeColor = color
+        shapeLayer.lineWidth = 2
+        shapeLayer.lineJoin = CAShapeLayerLineJoin.round
+        shapeLayer.lineDashPattern = [6,3]
+        shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 4).cgPath
+
+        self.layer.addSublayer(shapeLayer)
+    }
+    func addLineDashedStroke(pattern: [NSNumber]?, radius: CGFloat, color: CGColor) -> CALayer {
+          let borderLayer = CAShapeLayer()
+
+          borderLayer.strokeColor = color
+          borderLayer.lineDashPattern = pattern
+          borderLayer.frame = bounds
+          borderLayer.fillColor = nil
+          borderLayer.path = UIBezierPath(roundedRect: bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: radius, height: radius)).cgPath
+
+          layer.addSublayer(borderLayer)
+          return borderLayer
+      }
+}
+class RectangularDashedView: UIView {
+
+    @IBInspectable var cornerRadius: CGFloat = 0 {
+        didSet {
+            layer.cornerRadius = cornerRadius
+            layer.masksToBounds = cornerRadius > 0
+        }
+    }
+    @IBInspectable var dashWidth: CGFloat = 0
+    @IBInspectable var dashColor: UIColor = .clear
+    @IBInspectable var dashLength: CGFloat = 0
+    @IBInspectable var betweenDashesSpace: CGFloat = 0
+
+    var dashBorder: CAShapeLayer?
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        dashBorder?.removeFromSuperlayer()
+        let dashBorder = CAShapeLayer()
+        dashBorder.lineWidth = dashWidth
+        dashBorder.strokeColor = dashColor.cgColor
+        dashBorder.lineDashPattern = [dashLength, betweenDashesSpace] as [NSNumber]
+        dashBorder.frame = bounds
+        dashBorder.fillColor = nil
+        if cornerRadius > 0 {
+            dashBorder.path = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
+        } else {
+            dashBorder.path = UIBezierPath(rect: bounds).cgPath
+        }
+        layer.addSublayer(dashBorder)
+        self.dashBorder = dashBorder
+    }
+}
+//    @IBInspectable var perDashLength: CGFloat = 2.0
+//       @IBInspectable var spaceBetweenDash: CGFloat = 2.0
+//       @IBInspectable var dashColor: UIColor = UIColor.lightGray
+//
+//
+//       override func draw(_ rect: CGRect) {
+//           super.draw(rect)
+//           let  path = UIBezierPath()
+//           if height > width {
+//               let  p0 = CGPoint(x: self.bounds.midX, y: self.bounds.minY)
+//               path.move(to: p0)
+//
+//               let  p1 = CGPoint(x: self.bounds.midX, y: self.bounds.maxY)
+//               path.addLine(to: p1)
+//               path.lineWidth = width
+//
+//           } else {
+//               let  p0 = CGPoint(x: self.bounds.minX, y: self.bounds.midY)
+//               path.move(to: p0)
+//
+//               let  p1 = CGPoint(x: self.bounds.maxX, y: self.bounds.midY)
+//               path.addLine(to: p1)
+//               path.lineWidth = height
+//           }
+//
+//           let  dashes: [ CGFloat ] = [ perDashLength, spaceBetweenDash ]
+//           path.setLineDash(dashes, count: dashes.count, phase: 0.0)
+//
+//           path.lineCapStyle = .butt
+//           dashColor.set()
+//           path.stroke()
+//       }
+//
+//       private var width : CGFloat {
+//           return self.bounds.width
+//       }
+//
+//       private var height : CGFloat {
+//           return self.bounds.height
+//       }
+//}

@@ -27,7 +27,15 @@ class ExistingAddressVC: UIViewController , UINavigationControllerDelegate{
     @IBAction func addfloating_btn(_ sender: Any) {
         newaddress(_sender: sender)
     }
-    
+    @IBAction func backk(_ sender: Any) {
+        print(self.navigationController?.viewControllers.count,"--0-0-0-0-0")
+        if self.navigationController?.viewControllers.count != 1{
+        self.navigationController?.popViewController(animated: true)
+        }
+        else{
+            sideMenuController?.performSegue(withIdentifier: "toHome", sender: nil)
+        }
+    }
     
     //MARK: - VARIABLES
     var addressArr = [DataAdressModel]()
@@ -38,14 +46,15 @@ class ExistingAddressVC: UIViewController , UINavigationControllerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationController?.delegate = self
+       // self.navigationController?.delegate = self
         paginationView.valueChanged = {
             (val) in
             self.getExistingAddress(pageNumber: val)
         }
     }
     override func viewWillAppear(_ animated: Bool) {
-
+//        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         addressArr.removeAll()
         let vcs = self.navigationController?.viewControllers
         if (vcs?.count) ?? 0 > 3{
@@ -65,7 +74,8 @@ class ExistingAddressVC: UIViewController , UINavigationControllerDelegate{
     
     override func viewWillDisappear(_ animated : Bool) {
         super.viewWillDisappear(animated)
-       
+       // self.navigationController?.navigationBar.isHidden = false
+
     }
     //MARK: - NAVIGATION DELEGATE
     
@@ -143,24 +153,24 @@ extension ExistingAddressVC:UITableViewDelegate,UITableViewDataSource{
         let email = self.addressArr[indexPath.row].email
         let phn = self.addressArr[indexPath.row].mobileNumber
         cell.emailndPhn_lbl.text = email
-        cell.phoneno_lbl.text = phn
+        cell.phoneno_lbl.text = "Phone: \(phn)"
         //Address
         let address1 = self.addressArr[indexPath.row].address1
         let address2 = self.addressArr[indexPath.row].address2
-        
-        if address2 == "" {
-             cell.local_address_lbl.text = address1
-            cell.local_address_lbl.font = cell.local_address_lbl.font.withSize(18)
-        }
-        else {
-        cell.local_address_lbl.text = address1 + "\n" + address2
-        }
-        //City state
         let city = self.addressArr[indexPath.row].city
         let stateName = self.addressArr[indexPath.row].stateName
 //        let state = self.addressArr[indexPath.row].state
 //        print(state)
         let postalcode = self.addressArr[indexPath.row].postalCode
+        if address2 == "" {
+             cell.local_address_lbl.text = address1 + ", " + city + ", " + stateName + ", " + postalcode
+            cell.local_address_lbl.font = cell.local_address_lbl.font.withSize(18)
+        }
+        else {
+        cell.local_address_lbl.text = address1 + "\n" + address2 + ", " + city + ", " + stateName + ", " + postalcode
+        }
+        //City state
+       
         cell.city_state_lbl.text = city + ", " + stateName + ", " + postalcode
         
         // Edit Button

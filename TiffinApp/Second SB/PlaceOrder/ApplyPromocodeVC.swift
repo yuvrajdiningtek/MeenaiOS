@@ -9,6 +9,7 @@ class ApplyPromocodeVC: UIViewController {
     @IBOutlet weak var couponTxtF : UITextField!
     @IBOutlet weak var roundView : UIView!
     @IBOutlet weak var roundView2 : UIView!
+    @IBOutlet weak var blackViewClearIpad: UIView!
 
     @IBOutlet weak var noCouponLbl : UILabel!
 
@@ -17,7 +18,9 @@ class ApplyPromocodeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            blackViewClearIpad.backgroundColor = .clear
+        }
          getAlOredrs()
         UserDefaults.standard.setValue(true, forKey: "iscomefromApply")
       //  roundView.roundCorners(corners: [.topLeft,.topRight], radius: 15)
@@ -131,17 +134,18 @@ class ApplyPromocodeVC: UIViewController {
     }
 
     func getCoupons(){
-
+        NotificationCenter.default.post(name: Notification.Name("MoveToCoupon"), object: true, userInfo: nil)
         if NetworkManager.isConnectedToInternet(){
             Message.showWarningOnStatusBar(msg: "Fetching your promocodes")
             SomeInformationApi.get_coupons { (succ, modelArr) in
                 Message.hideMsgView()
                 self.tvds = modelArr
                 if self.tvds.count == 0{
+                    
                     self.noCouponLbl.isHidden = false
                 }
                 else{
-                    NotificationCenter.default.post(name: Notification.Name("MoveToCoupon"), object: true, userInfo: nil)
+                   //NotificationCenter.default.post(name: Notification.Name("MoveToCoupon"), object: true, userInfo: nil)
 
                     self.noCouponLbl.isHidden = true
 

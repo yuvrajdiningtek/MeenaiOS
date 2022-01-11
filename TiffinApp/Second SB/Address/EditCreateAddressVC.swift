@@ -14,10 +14,10 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
             countryId = 254
             
             self.country_btn.setTitleColor(.black, for: .normal)
-            self.state_btn.setTitle("State", for: .normal)
+            self.state_btn.setTitle("  State", for: .normal)
             self.state_btn.setTitleColor(UIColor(hex: 0xB8B8B8) , for: .normal)
             
-            self.country_btn.setTitle(Country, for: .normal)
+            self.country_btn.setTitle("  \(Country)", for: .normal)
         }
         else if State != nil{
             
@@ -25,7 +25,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
             stateid = State
             self.state_btn.setTitleColor(.black, for: .normal)
 
-            self.state_btn.setTitle(state, for: .normal)
+            self.state_btn.setTitle("  \(state)", for: .normal)
         }
         
     }
@@ -56,6 +56,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
     
     @IBOutlet weak var country_btn: UIButton!
     @IBOutlet weak var add_address_btn: UIButton!
+    @IBOutlet weak var titleLbl: UILabel!
 
     
     @IBAction func country_btnAction(_ sender: Any) {
@@ -63,10 +64,16 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
         let vc = secondSBVC("SelectCountryStateVC") as! SelectCountryStateVC
         countryId = nil
         vc.CS_delegate =  self
-        
+        vc.tit = "Countries"
         self.navigationController?.pushViewController(vc, animated: true)
     }
   
+    override func viewWillDisappear(_ animated : Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.navigationBar.isHidden = false
+
+    }
+    
     @IBAction func statebtnAction(_ sender: Any) {
 //        stateDropDown.show()
         
@@ -74,6 +81,8 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
             let vc = secondSBVC("SelectCountryStateVC") as! SelectCountryStateVC
             countryId = 254
             vc.CS_delegate =  self
+        vc.tit = "States"
+
             self.navigationController?.pushViewController(vc, animated: true)
      //   }
         
@@ -159,6 +168,8 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
     override func viewDidLoad() {
         super.viewDidLoad()
         add_address_btn.layer.cornerRadius = 15
+        textFields()
+        
         countryId = 254
         phone_txtF.delegate = self
         postal_txtF.delegate = self
@@ -166,8 +177,9 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
         if passedAddress != nil{
             set_textfield_element()
             self.title = "UPDATE ADDRESS"
-            
-        self.state_btn.setTitle(statenameForAdddrss, for: .normal)
+            self.titleLbl.text = "Update Address"
+
+        self.state_btn.setTitle("  \(statenameForAdddrss)", for: .normal)
             getstates(countryid: String(describing: (passedAddress?.country)!), completion: {
 
             })
@@ -176,6 +188,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
             self.title = "NEW ADDRESS"
         }else{
             self.title = "ADDRESS"
+            self.titleLbl.text = "Address"
         }
         
         getcontries()
@@ -184,6 +197,114 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+
+//        self.navigationController?.navigationBar.isHidden = true
+    }
+    @IBAction func backk(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func textFields(){
+        
+        firstnameTxtF.layer.cornerRadius = 7
+        middlename_txtf.layer.cornerRadius = 7
+        lastname_txtf.layer.cornerRadius = 7
+        email_txtF.layer.cornerRadius = 7
+        phone_txtF.layer.cornerRadius = 7
+        address1_txtF.layer.cornerRadius = 7
+        address2_txtF.layer.cornerRadius = 7
+        cityTxt_F.layer.cornerRadius = 7
+        postal_txtF.layer.cornerRadius = 7
+        country_btn.layer.cornerRadius = 7
+        state_btn.layer.cornerRadius = 7
+
+        
+        if #available(iOS 13.0, *) {
+            firstnameTxtF.layer.borderColor = UIColor.systemGray3.cgColor
+            middlename_txtf.layer.borderColor = UIColor.systemGray3.cgColor
+            lastname_txtf.layer.borderColor = UIColor.systemGray3.cgColor
+            email_txtF.layer.borderColor = UIColor.systemGray3.cgColor
+            phone_txtF.layer.borderColor = UIColor.systemGray3.cgColor
+            address1_txtF.layer.borderColor = UIColor.systemGray3.cgColor
+            address2_txtF.layer.borderColor = UIColor.systemGray3.cgColor
+            cityTxt_F.layer.borderColor = UIColor.systemGray3.cgColor
+            postal_txtF.layer.borderColor = UIColor.systemGray3.cgColor
+            country_btn.layer.borderColor = UIColor.systemGray3.cgColor
+            state_btn.layer.borderColor = UIColor.systemGray3.cgColor
+
+        } else {
+            // Fallback on earlier versions
+        }
+        firstnameTxtF.layer.shadowOffset = .zero
+        firstnameTxtF.layer.shadowOpacity = 0.7
+        firstnameTxtF.layer.shadowRadius = 2.0
+        
+        middlename_txtf.layer.shadowOffset = .zero
+        middlename_txtf.layer.shadowOpacity = 1
+        middlename_txtf.layer.shadowRadius = 2.0
+        
+        lastname_txtf.layer.shadowOffset = .zero
+        lastname_txtf.layer.shadowOpacity = 0.7
+        lastname_txtf.layer.shadowRadius = 2.0
+        
+        email_txtF.layer.shadowOffset = .zero
+        email_txtF.layer.shadowOpacity = 0.7
+        email_txtF.layer.shadowRadius = 2.0
+        
+        phone_txtF.layer.shadowOffset = .zero
+        phone_txtF.layer.shadowOpacity = 0.7
+        phone_txtF.layer.shadowRadius = 2.0
+        
+        address1_txtF.layer.shadowOffset = .zero
+        address1_txtF.layer.shadowOpacity = 0.7
+        address1_txtF.layer.shadowRadius = 2.0
+        
+        address2_txtF.layer.shadowOffset = .zero
+        address2_txtF.layer.shadowOpacity = 0.7
+        address2_txtF.layer.shadowRadius = 2.0
+        
+        cityTxt_F.layer.shadowOffset = .zero
+        cityTxt_F.layer.shadowOpacity = 0.7
+        cityTxt_F.layer.shadowRadius = 2.0
+        
+        postal_txtF.layer.shadowOffset = .zero
+        postal_txtF.layer.shadowOpacity = 0.7
+        postal_txtF.layer.shadowRadius = 2.0
+        
+        country_btn.layer.shadowOffset = .zero
+        country_btn.layer.shadowOpacity = 0.7
+        country_btn.layer.shadowRadius = 2.0
+        
+        state_btn.layer.shadowOffset = .zero
+        state_btn.layer.shadowOpacity = 0.7
+        state_btn.layer.shadowRadius = 2.0
+        if #available(iOS 13.0, *) {
+            firstnameTxtF.layer.shadowColor = UIColor.systemGray4.cgColor
+            middlename_txtf.layer.shadowColor = UIColor.systemGray4.cgColor
+            lastname_txtf.layer.shadowColor = UIColor.systemGray4.cgColor
+            email_txtF.layer.shadowColor = UIColor.systemGray4.cgColor
+            phone_txtF.layer.shadowColor = UIColor.systemGray4.cgColor
+            address1_txtF.layer.shadowColor = UIColor.systemGray4.cgColor
+            address2_txtF.layer.shadowColor = UIColor.systemGray4.cgColor
+            cityTxt_F.layer.shadowColor = UIColor.systemGray4.cgColor
+            postal_txtF.layer.shadowColor = UIColor.systemGray4.cgColor
+            country_btn.layer.shadowColor = UIColor.systemGray4.cgColor
+            state_btn.layer.shadowColor = UIColor.systemGray4.cgColor
+
+        } else {
+            // Fallback on earlier versions
+        }
+        firstnameTxtF.setLeftPaddingPoints(7)
+        middlename_txtf.setLeftPaddingPoints(7)
+        lastname_txtf.setLeftPaddingPoints(7)
+        email_txtF.setLeftPaddingPoints(7)
+        phone_txtF.setLeftPaddingPoints(7)
+        address1_txtF.setLeftPaddingPoints(7)
+        address2_txtF.setLeftPaddingPoints(7)
+        cityTxt_F.setLeftPaddingPoints(7)
+        postal_txtF.setLeftPaddingPoints(7)
+
     }
     
     //MARK: - submit the data
@@ -305,7 +426,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
         self.address1_txtF.text = passedAddress?.address1
         self.address2_txtF.text = passedAddress?.address2
 //        self.country_btn.setTitle(passedAddress?.country, for: .normal)
-        self.state_btn.setTitle(statenameForAdddrss, for: .normal)
+        self.state_btn.setTitle("  \(statenameForAdddrss)", for: .normal)
         self.cityTxt_F.text = passedAddress?.city
         self.postal_txtF.text = passedAddress?.postalCode
         
@@ -328,6 +449,8 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
             
         }else{
             self.title = "ADDRESS"
+            self.titleLbl.text = "Address"
+
             add_address_btn.isHidden = true
             firstnameTxtF.isUserInteractionEnabled = false
             lastname_txtf.isUserInteractionEnabled = false
@@ -353,7 +476,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
         //set intial country when update the adddress
         let passedcountry = self.countries.filter {$0.0 == passedAddress?.country}
         if passedcountry.count != 0, countryid == nil{
-            country_btn.setTitle(passedcountry[0].2, for: .normal)
+            country_btn.setTitle("  \(passedcountry[0].2)", for: .normal)
             countryid = passedcountry[0].0
         }
         
@@ -367,7 +490,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
             var selecty_country = self.countries.filter {$0.2 == selected_country_name}
             let done_country = selecty_country[0]
             self.countryid = done_country.0
-            self.country_btn.setTitle(selected_country_name, for: .normal)
+            self.country_btn.setTitle("  \(selected_country_name)", for: .normal)
             self.country_btn.setTitleColor(.black, for: .normal)
             self.getstates(countryid: String(done_country.0), completion: {
             } )
@@ -384,7 +507,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
         let passedstate = self.states.filter {$0.0 == passedAddress?.state}
         
         if passedstate.count != 0, stateid == nil{
-            state_btn.setTitle(statenameForAdddrss, for: .normal)
+            state_btn.setTitle("  \(statenameForAdddrss)", for: .normal)
             // state_btn.setTitle(passedstate[0].1, for: .normal)
             stateid = passedstate[0].0
            // stateName = passedstate
@@ -393,7 +516,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
         //***************************
         // delete these lines of code
         if self.states.count != 0{
-            state_btn.setTitle(statenameForAdddrss, for: .normal)
+            state_btn.setTitle("  \(statenameForAdddrss)", for: .normal)
             stateid = self.states[0].0
         }
         //***************************
@@ -408,7 +531,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
             var selecty_state = self.states.filter {$0.1 == selected_state_name}
             let done_state = selecty_state[0]
             self.stateid = done_state.0
-            self.state_btn.setTitle(self.statenameForAdddrss, for: .normal)
+            self.state_btn.setTitle("  \(self.statenameForAdddrss)", for: .normal)
             self.state_btn.setTitleColor(.black, for: .normal)
         }
         stateDropDown.direction = .any
@@ -510,5 +633,17 @@ extension String {
         let regularExpressionForZip = "^\\d{5}$"
         let testZip = NSPredicate(format:"SELF MATCHES %@", regularExpressionForZip)
         return testZip.evaluate(with: self)
+    }
+}
+extension UITextField {
+    func setLeftPaddingPoints(_ amount:CGFloat){
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.leftView = paddingView
+        self.leftViewMode = .always
+    }
+    func setRightPaddingPoints(_ amount:CGFloat) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.rightView = paddingView
+        self.rightViewMode = .always
     }
 }

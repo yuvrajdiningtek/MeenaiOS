@@ -12,6 +12,10 @@ class ProfileVC: UIViewController {
 //        self.sideMenuController?.toggle()
         sideMenuController?.performSegue(withIdentifier: "toHome", sender: nil)
     }
+    @IBAction func backk(_ sender: Any) {
+        sideMenuController?.performSegue(withIdentifier: "toHome", sender: nil)
+
+    }
     @IBOutlet weak var username_lbl: UILabel!
     @IBOutlet weak var email_lbl: UILabel!
     

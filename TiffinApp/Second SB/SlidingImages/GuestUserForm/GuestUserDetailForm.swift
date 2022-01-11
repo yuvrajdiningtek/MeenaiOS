@@ -152,11 +152,15 @@ class GuestUserDetailForm: UIViewController,UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+//        self.navigationController?.navigationBar.isHidden = false
         self.view.endEditing(true)
     }
     
-    
+    @IBAction func backk(_ sender: Any) {
+
+        self.navigationController?.popViewController(animated: true)
+    }
     @IBAction func country_btnAction(_ sender: Any) {
         saveDataGuest()
         //        countryDropDown.show()

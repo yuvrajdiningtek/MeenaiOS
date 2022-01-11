@@ -50,6 +50,9 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
     @IBOutlet weak var couponApplyBtn : UIButton!
     @IBOutlet weak var couponBtn : UIButton!
     @IBOutlet weak var placeOrderBtn : UIButton!
+    @IBOutlet weak var placeOrderView : UIView!
+
+    @IBOutlet weak var totalPriceLblPlace : UILabel!
 
     @IBOutlet weak var couponRateLbl : UILabel!
     
@@ -152,81 +155,88 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
     @IBOutlet weak var noteLblTopConstraint : NSLayoutConstraint!
     @IBAction func placeOrder(_ sender : UIButton){
         if self.setPlaceOrderCredential(){
-            let vc = secondSBVC("BillSummaryVC") as! BillSummaryVC
-            
-            let showCar = UserDefaults.standard.value(forKey: "showCar") as? Bool
-            let pickup = UserDefaults.standard.value(forKey: "pickup") as? Bool
-             let local = UserDefaults.standard.value(forKey: "local") as? Bool
-            let showTables = UserDefaults.standard.value(forKey: "showTables") as? Bool
-            
-            if showCar == true{
-                
-                if enterCarDetailTF.text == ""{
-                    showAlert(msg: "Vehicle Details Required!", title: "")
-                }
-                else{
-                
-                
-                if noteTxtF.text != ""{
-                    noteTxtF.text = "\(noteTxtF.text ?? "") \(enterCarDetailTF.text ?? "")"
-                    
-                    placeOrderModel.notes = noteTxtF.text ?? ""
-
-                    vc.placeOrderModel = placeOrderModel
-                               self.navigationController?.pushViewController(vc, animated: true)
-                }
-                else{
-                     noteTxtF.text =  "\(enterCarDetailTF.text ?? "")"
-                    
-                    placeOrderModel.notes = noteTxtF.text ?? ""
-
-                                vc.placeOrderModel = placeOrderModel
-                               self.navigationController?.pushViewController(vc, animated: true)
-                }
-                }
-                
-            }
-            
-            if showTables == true{
-                
-                
-                
-            
-            if selectedTable != ""{
-                                       noteTxtF.text = "\(noteTxtF.text ?? "")\(selectedTable)"
-                
-                placeOrderModel.notes = noteTxtF.text ?? ""
-
-                
-                                vc.placeOrderModel = placeOrderModel
-                           self.navigationController?.pushViewController(vc, animated: true)
-                
-                                 }
-            else{
-                  showAlert(msg: "Table Number is Required!", title: "")
-                }
-            
-                                
-            
-            }
-            if pickup == true{
-                 vc.placeOrderModel = placeOrderModel
-                 self.navigationController?.pushViewController(vc, animated: true)
-            }
-            if local == true{
-                vc.placeOrderModel = placeOrderModel
-                               self.navigationController?.pushViewController(vc, animated: true)
-            }
-            
-//            else{
+            //--------
+//            let vc = secondSBVC("BillSummaryVC") as! BillSummaryVC
 //
-//            vc.placeOrderModel = placeOrderModel
-//            self.navigationController?.pushViewController(vc, animated: true)
+//            let showCar = UserDefaults.standard.value(forKey: "showCar") as? Bool
+//            let pickup = UserDefaults.standard.value(forKey: "pickup") as? Bool
+//             let local = UserDefaults.standard.value(forKey: "local") as? Bool
+//            let showTables = UserDefaults.standard.value(forKey: "showTables") as? Bool
+//
+//            if showCar == true{
+//
+//                if enterCarDetailTF.text == ""{
+//                    showAlert(msg: "Vehicle Details Required!", title: "")
+//                }
+//                else{
+//
+//
+//                if noteTxtF.text != ""{
+//                    noteTxtF.text = "\(noteTxtF.text ?? "") \(enterCarDetailTF.text ?? "")"
+//
+//                    placeOrderModel.notes = noteTxtF.text ?? ""
+//
+//                    vc.placeOrderModel = placeOrderModel
+//                               self.navigationController?.pushViewController(vc, animated: true)
+//                }
+//                else{
+//                     noteTxtF.text =  "\(enterCarDetailTF.text ?? "")"
+//
+//                    placeOrderModel.notes = noteTxtF.text ?? ""
+//
+//                                vc.placeOrderModel = placeOrderModel
+//                               self.navigationController?.pushViewController(vc, animated: true)
+//                }
+//                }
+//
 //            }
+//
+//            if showTables == true{
+//
+//
+//
+//
+//            if selectedTable != ""{
+//                                       noteTxtF.text = "\(noteTxtF.text ?? "")\(selectedTable)"
+//
+//                placeOrderModel.notes = noteTxtF.text ?? ""
+//
+//
+//                                vc.placeOrderModel = placeOrderModel
+//                           self.navigationController?.pushViewController(vc, animated: true)
+//
+//                                 }
+//            else{
+//                  showAlert(msg: "Table Number is Required!", title: "")
+//                }
+//
+//
+//
+//            }
+//            if pickup == true{
+//                 vc.placeOrderModel = placeOrderModel
+//                 self.navigationController?.pushViewController(vc, animated: true)
+//            }
+//            if local == true{
+//                vc.placeOrderModel = placeOrderModel
+//                               self.navigationController?.pushViewController(vc, animated: true)
+//            }
+//
+
+            //NEWWWW
+            
+            self.goToNextScreen()
+            
+            //NEWWWWW
+            
+            
             
         }
-        
+        //--------
     }
+    
+  
+    
     //        if deliveryAddLbl.last?.text == "" {
     //
     //            let deliveryAddString = deliveryAddLbl!.first?.text!
@@ -281,7 +291,8 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
 //
-        placeOrderBtn.layer.cornerRadius = 15
+//        placeOrderBtn.layer.cornerRadius = 15
+        placeOrderView.layer.cornerRadius = 15
         NotificationCenter.default.addObserver(self, selector: #selector(afterCoupon), name: Notification.Name("MoveToCoupon"), object: nil)
         UserDefaults.standard.setValue(false, forKey: "iscomefromApply")
 
@@ -438,7 +449,7 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
         initialSetUp()
     }
     override func viewDidDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+//        self.navigationController?.setNavigationBarHidden(false, animated: true)
 
     }
     //    func getAlOredrs(){
@@ -706,7 +717,8 @@ extension PlaceOrderVC{
         subTotalLbl.text = viewModel.getSubTotal()
         totalItemsLbl.text = viewModel.get_total_items()
         totalAmountLbl.text = viewModel.getTotalPrice()
-        placeOrderBtn.setTitle("PLACE ORDER :  \(viewModel.getTotalPrice())", for: .normal)
+        totalPriceLblPlace.text = "\(viewModel.getTotalPrice())"
+//        placeOrderBtn.setTitle("PLACE ORDER :  \(viewModel.getTotalPrice())", for: .normal)
         couponBtn.setTitle(viewModel.getAppliedCoupon().0, for: .normal)
         couponApplyBtn.setTitle(viewModel.getAppliedCoupon().1, for: .normal)
         
@@ -897,129 +909,45 @@ extension PlaceOrderVC{
     }
     
 }
-extension PlaceOrderVC : STPAddCardViewControllerDelegate{
-    
-    func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
-        self.view.endEditing(true)
-        
-        navigationController?.popViewController(animated: true)
-    }
-    
-    func addCardViewController(_ addCardViewController: STPAddCardViewController,
-                               didCreateToken token: STPToken,
-                               completion: @escaping STPErrorBlock) {
-        print("stripe token \(token)")
-        self.navigationController?.popViewController(animated: true)
-        UserDefaults.standard.removeObject(forKey: userdefaultKeys().selected_delivery_method_ID)
-        UserDefaults.standard.removeObject(forKey: userdefaultKeys().selected_delivery_method_cost)
-        placeOrderModel.cardToken = token.tokenId
-        self.goToNextScreen()
-    }
-    
-    func goToNextScreen(){
-        if isUserLoggedIn{
-            
-            let vc = secondSBVC("ProcessingPaymentScreen") as! ProcessingPaymentScreen
-            vc.placeOrderModel = placeOrderModel
-            self.navigationController?.pushViewController(vc, animated: true)
-            
-        }
-        else{
-            let vc = secondSBVC("GuestUserDetailForm") as!  GuestUserDetailForm
-            vc.placeOrderModel = placeOrderModel
-            self.navigationController?.pushViewController(vc, animated: true)
-            
-        }
-        
-    }
-   
-    
-    func getAlOredrsAFTERCOUPON(completion: @escaping (Bool,String?)->()){
-        already_applied_coupons = [:]
-         let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
-        ProductsApi.detail_Cart_Info { (success, result,_) in
-              activityIndicator.startAnimating()
-        
-            
-            if success{
-                print("----",self.self.items.count)
-                
-                let object = (result as! NSDictionary).value(forKey: "object") as? NSDictionary
-                let applied_coupons = object?.value(forKey: "applied_coupons") as? [String:String]
-                self.already_applied_coupons = applied_coupons
-                self.setTableViewDataAfterCoupon()
-            }
-        }}
-    
-    
-    func getAlOredrs(completion: @escaping (Bool,String?)->()){
-        
-         let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
-        itemsTableV.allowsSelection  = false
-        
-        items.removeAll()
-        
-        ProductsApi.detail_Cart_Info { (success, result,_) in
-              activityIndicator.startAnimating()
-            self.itemsTableV.allowsSelection  = true
-            
-            if success{
-                print("----",self.self.items.count)
-                
-                let object = (result as! NSDictionary).value(forKey: "object") as? NSDictionary
-                let applied_coupons = object?.value(forKey: "applied_coupons") as? [String:String]
-                self.already_applied_coupons = applied_coupons
-            }
-            
-            
-            
-            if DBManager.sharedInstance.get_CartData_DataFromDB().count > 0 {
-                
-                self.orderData = DBManager.sharedInstance.get_CartData_DataFromDB()[0] as CartData
-                
-                if let items = self.orderData.object?.items{
-                    self.items.removeAll()
-                    self.rowselcted = nil
-                    for item in items{
-                        print(item)
-                        self.items.append(item)
-                    }
-                }
-                let totalPrice = self.orderData.object?.sub_total ?? 0
-                let tp = cleanDollars(String(describing: totalPrice))
-               // self.chkOutBtn.setTitle("CHECK OUT \(tp)", for: .normal)
-                completion(true, nil)
-                
-                self.itemsTableV.reloadData()
-            }
-            else{
-                if result == nil{
-                    completion(false, nil)
-                }else{
-                    if let object = (result as? NSDictionary)?.value(forKey: "object") as? NSDictionary{
-                        if let error = object.value(forKey: "error") as? String{
-                            completion(false, error)
-                        }
-                    }
-                    self.items.removeAll()
-                }
-                
-            }
-           // self.setUI()
-            self.visibilityThings()
-            self.setTableViewData()
-              // after setting tableview data refrsh address
-            self.visibleAddress(visibility: false)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//extension PlaceOrderVC : STPAddCardViewControllerDelegate{
+//
+//    func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
+//        self.view.endEditing(true)
+//
+//        navigationController?.popViewController(animated: true)
+//    }
+//
+//    func addCardViewController(_ addCardViewController: STPAddCardViewController,
+//                               didCreateToken token: STPToken,
+//                               completion: @escaping STPErrorBlock) {
+//        print("stripe token \(token)")
+//        self.navigationController?.popViewController(animated: true)
+//        UserDefaults.standard.removeObject(forKey: userdefaultKeys().selected_delivery_method_ID)
+//        UserDefaults.standard.removeObject(forKey: userdefaultKeys().selected_delivery_method_cost)
+//        placeOrderModel.cardToken = token.tokenId
+//        self.goToNextScreen()
+//    }
+//
+//    func goToNextScreen(){
+//        if isUserLoggedIn{
+//
+//            let vc = secondSBVC("ProcessingPaymentScreen") as! ProcessingPaymentScreen
+//            vc.placeOrderModel = placeOrderModel
+//            self.navigationController?.pushViewController(vc, animated: true)
+//
+//        }
+//        else{
+//            let vc = secondSBVC("GuestUserDetailForm") as!  GuestUserDetailForm
+//            vc.placeOrderModel = placeOrderModel
+//            self.navigationController?.pushViewController(vc, animated: true)
+//
+//        }
+//
+//    }
+//
+//
 
-            self.viewDidLayoutSubviews()
-            }
-        }
-        
-        
-        
-    }
-}
+//}
 //extension String: SwiftyMenuDisplayable {
 //    public var displayableValue: String {
 //        return self
@@ -1437,5 +1365,132 @@ extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
                 return}
             
         }
+    }
+}
+extension PlaceOrderVC : STPAddCardViewControllerDelegate{
+    
+    func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
+        IQKeyboardManager.shared.enable = true
+        navigationController?.popViewController(animated: true)
+        print("noooo")
+    }
+    
+    func addCardViewController(_ addCardViewController: STPAddCardViewController,
+                               didCreateToken token: STPToken,
+                               completion: @escaping STPErrorBlock) {
+        print("stripe token \(token)")
+        self.navigationController?.popViewController(animated: true)
+        UserDefaults.standard.removeObject(forKey: userdefaultKeys().selected_delivery_method_ID)
+        UserDefaults.standard.removeObject(forKey: userdefaultKeys().selected_delivery_method_cost)
+        placeOrderModel.cardToken = token.tokenId
+        IQKeyboardManager.shared.enable = true
+        self.processThePayment()
+    }
+    
+    func goToNextScreen(){
+        if isUserLoggedIn{
+            
+            self.goToCardScreen(delegate: self, amount: totalAmountLbl.text!)
+        
+        }
+        else{
+            
+            let vc = secondSBVC("GuestUserDetailForm") as!  GuestUserDetailForm
+            vc.placeOrderModel = placeOrderModel
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        }
+    }
+    func processThePayment(){
+        
+        let vc = secondSBVC("ProcessingPaymentScreen") as! ProcessingPaymentScreen
+        vc.placeOrderModel = placeOrderModel
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    func getAlOredrsAFTERCOUPON(completion: @escaping (Bool,String?)->()){
+        already_applied_coupons = [:]
+         let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
+        ProductsApi.detail_Cart_Info { (success, result,_) in
+              activityIndicator.startAnimating()
+
+
+            if success{
+                print("----",self.self.items.count)
+
+                let object = (result as! NSDictionary).value(forKey: "object") as? NSDictionary
+                let applied_coupons = object?.value(forKey: "applied_coupons") as? [String:String]
+                self.already_applied_coupons = applied_coupons
+                self.setTableViewDataAfterCoupon()
+            }
+        }}
+
+
+    func getAlOredrs(completion: @escaping (Bool,String?)->()){
+
+         let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
+        itemsTableV.allowsSelection  = false
+
+        items.removeAll()
+
+        ProductsApi.detail_Cart_Info { (success, result,_) in
+              activityIndicator.startAnimating()
+            self.itemsTableV.allowsSelection  = true
+
+            if success{
+                print("----",self.self.items.count)
+
+                let object = (result as! NSDictionary).value(forKey: "object") as? NSDictionary
+                let applied_coupons = object?.value(forKey: "applied_coupons") as? [String:String]
+                self.already_applied_coupons = applied_coupons
+            }
+
+
+
+            if DBManager.sharedInstance.get_CartData_DataFromDB().count > 0 {
+
+                self.orderData = DBManager.sharedInstance.get_CartData_DataFromDB()[0] as CartData
+
+                if let items = self.orderData.object?.items{
+                    self.items.removeAll()
+                    self.rowselcted = nil
+                    for item in items{
+                        print(item)
+                        self.items.append(item)
+                    }
+                }
+                let totalPrice = self.orderData.object?.sub_total ?? 0
+                let tp = cleanDollars(String(describing: totalPrice))
+               // self.chkOutBtn.setTitle("CHECK OUT \(tp)", for: .normal)
+                completion(true, nil)
+
+                self.itemsTableV.reloadData()
+            }
+            else{
+                if result == nil{
+                    completion(false, nil)
+                }else{
+                    if let object = (result as? NSDictionary)?.value(forKey: "object") as? NSDictionary{
+                        if let error = object.value(forKey: "error") as? String{
+                            completion(false, error)
+                        }
+                    }
+                    self.items.removeAll()
+                }
+
+            }
+           // self.setUI()
+            self.visibilityThings()
+            self.setTableViewData()
+              // after setting tableview data refrsh address
+            self.visibleAddress(visibility: false)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+
+            self.viewDidLayoutSubviews()
+            }
+        }
+
+
+
     }
 }

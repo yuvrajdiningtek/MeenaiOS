@@ -135,6 +135,7 @@ extension UIViewController: UNUserNotificationCenterDelegate{
         completionHandler()
     }
     func goToCardScreen(delegate : STPAddCardViewControllerDelegate , amount : String){
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         STPTheme.default().accentColor = UIColor.MyTheme.supportcolor
 
         navigationController?.navigationBar.isHidden = false
