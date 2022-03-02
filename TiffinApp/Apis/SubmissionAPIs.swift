@@ -40,6 +40,17 @@ class SubmissionAPIs : NSObject{
         print(apiurl)
         let bucket_id : String = DBManager.sharedInstance.getBucketId() ?? ""
         
+        var formattedDate = String()
+        let selectedDate = UserDefaults.standard.value(forKey: "selectedDate") as? String ?? ""
+        let selectedTime = UserDefaults.standard.value(forKey: "selectedTime") as? String ?? ""
+        if selectedDate != ""{
+            formattedDate = selectedDate.replacingOccurrences(of: "/", with: "-", options: .literal, range: nil)
+        }
+        else{
+            formattedDate = ""
+        }
+        
+        
         
         apiurl?.queryItems = [
             URLQueryItem(name: "access_token", value: accesstoken)
@@ -55,8 +66,8 @@ class SubmissionAPIs : NSObject{
                     "bucketId" : bucket_id,
                     "addressId" : placeOrderModel.addressId!,
                     "notes" : placeOrderModel.notes!,
-                    "orderDate" : "",
-                    "orderTime" : "",
+                    "orderDate" : formattedDate,
+                    "orderTime" : selectedTime,
                     "paymentType" : "stripe",
                     "instrumentMode" : "cc",
                     "gatewayId" : placeOrderModel.gatewayId!,
@@ -78,8 +89,8 @@ class SubmissionAPIs : NSObject{
                     "bucketId" : bucket_id,
                     "addressId" :   placeOrderModel.addressId ?? "",
                     "notes" : placeOrderModel.notes!,
-                    "orderDate" : "",
-                    "orderTime" : "",
+                    "orderDate" : formattedDate,
+                    "orderTime" : selectedTime,
                     "paymentType" : "stripe",
                     "instrumentMode" : "cc",
                     "gatewayId" : placeOrderModel.gatewayId!,

@@ -23,7 +23,9 @@ class CollapseViewHeader: UIView {
 
     @IBOutlet weak var timingLbl : UILabel!
     @IBOutlet weak var ratingLbl : UILabel!
-   
+    @IBOutlet weak var futureOrderDate : UIButton!
+    @IBOutlet weak var futureOrderUnderLineLbl : UILabel!
+
     private var selectionListTitle = [String]()
     private var achievingY : CGFloat{
         return (CollapsablePublicTerms.topSafeAreaMargin ?? 20) + 4
@@ -58,6 +60,9 @@ print("locationBubble.alpha = 1")
             locationBubble.alpha = 0
             ratingView.isHidden = true
             timingImg.isHidden = true
+            timingLbl.isHidden = true
+            futureOrderDate.isHidden = true
+            futureOrderUnderLineLbl.isHidden = true
             return
         }
         let fixwidth = self.frame.width/1.05
@@ -70,6 +75,9 @@ print("locationBubble.alpha = 1")
             print("locationBubble.alpha = 2")
             ratingView.isHidden = false
             timingImg.isHidden = false
+            timingLbl.isHidden = false
+            futureOrderDate.isHidden = false
+            futureOrderUnderLineLbl.isHidden = false
 
 
         }
@@ -83,6 +91,14 @@ extension CollapseViewHeader{
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        print("jjjjjjjjjj")
+        
+        let selectedDate = UserDefaults.standard.value(forKey: "selectedDate") as? String ?? ""
+        let selectedTime = UserDefaults.standard.value(forKey: "selectedTime") as? String ?? ""
+        if selectedTime != ""{
+            futureOrderDate.setTitle("Selected Future Date/Time: \(selectedDate) \(selectedTime)", for: .normal)
+        
+        }
 //        print("layout change",self.frame.minY)
     }
     func commonInit(){
@@ -132,6 +148,13 @@ extension CollapseViewHeader{
     }
 
     func setUI(){
+        
+        let selectedDate = UserDefaults.standard.value(forKey: "selectedDate") as? String ?? ""
+        let selectedTime = UserDefaults.standard.value(forKey: "selectedTime") as? String ?? ""
+        if selectedTime != ""{
+            futureOrderDate.setTitle("Selected Future Date/Time: \(selectedDate) \(selectedTime)", for: .normal)
+        
+        }
         self.timingLbl.lineBreakMode = NSLineBreakMode.byWordWrapping
         self.timingLbl.numberOfLines = 0
 //        GetData.getTimingOfRestrauntV2 { (_, tupleArr) in

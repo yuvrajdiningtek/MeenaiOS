@@ -105,7 +105,7 @@ class ForgotPasswordOtpVC: UIViewController {
                     self.present(alert, animated: true, completion: nil)
                 }
                 else {
-                    self.showAlert(msg: error!)
+                    self.showAlert(msg: error ?? "")
                 }
                 break
                 

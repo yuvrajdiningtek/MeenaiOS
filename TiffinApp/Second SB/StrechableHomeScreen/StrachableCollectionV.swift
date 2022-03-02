@@ -57,7 +57,7 @@ extension StrechHomeVC: UICollectionViewDelegate , UICollectionViewDataSource, U
 //
 //        return CGSize(width: yy, height: yh)
         let w = collectionView.frame.width/2 - 0
-        let h  : CGFloat = 150
+        let h  : CGFloat = 160
         if indexPath.row == 0{
             return CGSize(width: collectionView.frame.width, height: 40)
         }

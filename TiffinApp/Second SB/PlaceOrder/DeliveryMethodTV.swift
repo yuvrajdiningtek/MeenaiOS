@@ -184,11 +184,14 @@ class DeliveryMethodTV : UITableView , UITableViewDelegate, UITableViewDataSourc
     
     func updateDeliveryMethod(shippingId : String){
         
+        self.vc.view.isUserInteractionEnabled = false
         let activityIndicator = loader(at: self.vc.view, active: .circleStrokeSpin)
         self.vc.view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         
         SubmissionAPIs.update_Shipping_method(shippingId: shippingId, callback: { (success, result) in
+            self.vc.view.isUserInteractionEnabled = true
+
             activityIndicator.stopAnimating()
             activityIndicator.removeFromSuperview()
 //            UserDefaults.standard.set(shippingID, forKey: userdefaultKeys().selected_delivery_method_ID)

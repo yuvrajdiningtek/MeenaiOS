@@ -22,6 +22,7 @@ pod 'Alamofire'
 #pods for city
 pod 'GooglePlaces'
 
+pod 'FSCalendar'
 
 #pod 'GoogleSignIn'
 

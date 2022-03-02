@@ -54,7 +54,7 @@ class SplashVC: UIViewController {
     func getProDev() {
         
         
-        let merchantid = "f333f8362cc10b1c7d09aa8bcbdeead3"
+        let merchantid = "80ce8de93f71d4b188e62d10fe56eff2"
         
         let version : Any! = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
         
@@ -70,7 +70,7 @@ class SplashVC: UIViewController {
             :]
         print("parameters==========\(parameters)")
         
-        Alamofire.request("https://prod.diningtek.com/service/status/\(merchantid)/SMOKYHILL-i\(vr)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+        Alamofire.request("https://prod.diningtek.com/service/status/\(merchantid)/TANDOORI-i\(vr)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             debugPrint(response.result)
             print("",response.result.value)
             let json = response.result.value as? [String: Any]
@@ -86,11 +86,11 @@ class SplashVC: UIViewController {
                 // UserDefaults.standard.setValue(PROD_STATUS, forKey: "PROD_STATUSDev")
                 let checkProdStatus = "false"
                 if PROD_STATUS == checkProdStatus.uppercased() || PROD_STATUS == checkProdStatus.lowercased() || PROD_STATUS == "False"{
-                    ApiKeys.domain = "https://rules.diningtek.com/"
+                    ApiKeys.domain = "https://in-prod.diningtek.com/"
                     
                 }
                 else {
-                    ApiKeys.domain = "https://prod.diningtek.com/"
+                    ApiKeys.domain = "https://in-prod.diningtek.com/"
                 }
                 self.callApis()
                 //self.getStripeAccountID()

@@ -125,6 +125,7 @@
 		15F8D98920B59DE100C61C55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15F8D98820B59DDF00C61C55 /* Assets.xcassets */; };
 		15FC9C2C20F4740A003D6E95 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FC9C2B20F4740A003D6E95 /* RadioButton.swift */; };
 		15FC9C2F20F4D416003D6E95 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15FC9C2E20F4D416003D6E95 /* GoogleService-Info.plist */; };
+		6B4FE43D27BCBA820064073E /* OrderAheadCalenderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4FE43C27BCBA820064073E /* OrderAheadCalenderVC.swift */; };
 		6BBFFE952398B51600656156 /* ForgotResetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBFFE942398B51600656156 /* ForgotResetVC.swift */; };
 		6BBFFE972398C87500656156 /* ForgotPasswordOtpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBFFE962398C87500656156 /* ForgotPasswordOtpVC.swift */; };
 		6BC2363C25B6AEA6007A5BD0 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2363825B6AEA5007A5BD0 /* Events.swift */; };
@@ -264,6 +265,7 @@
 		15FC9C2B20F4740A003D6E95 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		15FC9C2E20F4D416003D6E95 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		17551EAC2357480C007D6424 /* TiffinApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TiffinApp.entitlements; sourceTree = "<group>"; };
+		6B4FE43C27BCBA820064073E /* OrderAheadCalenderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAheadCalenderVC.swift; sourceTree = "<group>"; };
 		6BBFFE942398B51600656156 /* ForgotResetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotResetVC.swift; sourceTree = "<group>"; };
 		6BBFFE962398C87500656156 /* ForgotPasswordOtpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordOtpVC.swift; sourceTree = "<group>"; };
 		6BC2363825B6AEA5007A5BD0 /* Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 				1519045820AD38FF008DAEB6 /* Xibs */,
 				15109E6F209AEA4800DE726B /* Home */,
 				15109E67209AC3D200DE726B /* SideMenu */,
+				6B4FE43C27BCBA820064073E /* OrderAheadCalenderVC.swift */,
 			);
 			path = "Second SB";
 			sourceTree = "<group>";
@@ -825,6 +828,7 @@
 				"${BUILT_PRODUCTS_DIR}/CountryPickerSwift/CountryPicker.framework",
 				"${BUILT_PRODUCTS_DIR}/CreditCardForm/CreditCardForm.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
+				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
 				"${BUILT_PRODUCTS_DIR}/HTHorizontalSelectionList/HTHorizontalSelectionList.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
@@ -849,6 +853,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountryPicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CreditCardForm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HTHorizontalSelectionList.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
@@ -1043,6 +1048,7 @@
 				15880D4E2248ADC4002CE602 /* StrechHomeVC.swift in Sources */,
 				15EF7766221E6771002F7C8A /* Uiview.swift in Sources */,
 				1516D0CF2213DAB000B003E8 /* BankCardsVC.swift in Sources */,
+				6B4FE43D27BCBA820064073E /* OrderAheadCalenderVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1184,14 +1190,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 27;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = FU8PS9T586;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TiffinApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.diningtek.smokyhillindian;
+				MARKETING_VERSION = 1.3.7;
+				PRODUCT_BUNDLE_IDENTIFIER = com.diningtek.tandoori;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TiffinApp-Bridging-Header.h";
@@ -1209,14 +1215,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 27;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = FU8PS9T586;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TiffinApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.diningtek.smokyhillindian;
+				MARKETING_VERSION = 1.3.7;
+				PRODUCT_BUNDLE_IDENTIFIER = com.diningtek.tandoori;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TiffinApp-Bridging-Header.h";

@@ -13,8 +13,8 @@ class RegisterApi:NSObject{
     class public func merchant_token(callback:@escaping (( _ success :Bool, _ access_token: String?)->())){
         
         let headers : [String:String] = ["Content-Type":"application/json",
-                                         "key":"smokyhillindian",
-                                         "secret":"smokyhillindian"]
+                                         "key":"tandoori",
+                                         "secret":"tandoori"]
         
         
         let apiurl = URL(string: ApiKeys.merchantToken)
@@ -53,7 +53,7 @@ class RegisterApi:NSObject{
                                             "deviceId" : deviceid,
                                             "deviceInfo" : deviceInfo,
                                             "pushNotificationService":[
-                                                "groupName" : "SMOKYHILL_IOS"
+                                                "groupName" : "TANDOORI_IOS"
                                             ]
             ]
         ]
@@ -166,8 +166,8 @@ class RegisterApi:NSObject{
         
         let apiurl : String = ApiKeys.verifyOtp
         let headers : [String:String] = ["Content-Type":"application/json",
-                                         "key":"smokyhillindian",
-                                         "secret":"smokyhillindian",
+                                         "key":"tandoori",
+                                         "secret":"tandoori",
                                                 "device_id":udid]
         
         
@@ -221,8 +221,8 @@ class RegisterApi:NSObject{
         let udid = UIDevice.current.identifierForVendor?.uuidString ?? ""
         let bucket_id = DBManager.sharedInstance.getBucketId() ?? ""
         let headers: HTTPHeaders = [
-            "key": "smokyhillindian",
-            "secret": "smokyhillindian",
+            "key": "tandoori",
+            "secret": "tandoori",
             "Content-Type": "application/json",
             "device_id" : udid
         ]
@@ -365,7 +365,16 @@ class RegisterApi:NSObject{
                                guard let STATIC_RESOURCE_CATEGORIES_PREFIX = object["STATIC_RESOURCE_CATEGORIES_PREFIX"] as? String else {return}
                                guard let STATIC_RESOURCE_ENDPOINT = object["STATIC_RESOURCE_ENDPOINT"] as? String else{return}
                                guard let STATIC_RESOURCE_SUFFIX = object["STATIC_RESOURCE_SUFFIX"] as? String else{return}
-                               
+                            guard let ORDER_AHEAD_DAYS = object["ORDER_AHEAD_DAYS"] as? [String] else{return}
+                            guard let SHOP_TIMING = object["SHOP_TIMING"] as? [[String:Any]] else{return}
+
+                            guard let ENABLE_ORDER_AHEAD = object["ENABLE_ORDER_AHEAD"] as? Bool else{return}
+                            UserDefaults.standard.setValue(ENABLE_ORDER_AHEAD, forKey: "ENABLE_ORDER_AHEAD")
+
+                            
+                            print(ORDER_AHEAD_DAYS,"----------")
+                            UserDefaults.standard.setValue(ORDER_AHEAD_DAYS, forKey: "ORDER_AHEAD_DAYS")
+                            UserDefaults.standard.setValue(SHOP_TIMING, forKey: "SHOP_TIMING")
                                
                                if let requestId = a.value(forKey: "requestId") as? String{
                                }

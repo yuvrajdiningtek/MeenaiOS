@@ -59,6 +59,8 @@ class MerchantObject:Object{
     @objc dynamic var CUSTOM_TIP =  ""
     @objc dynamic var DINING_RESERVED_TABLES =  ""
     @objc dynamic var PRODUCT_IMAGE_PREVIEW = ""
+//    @objc dynamic var ORDER_AHEAD_DAYS = [""]
+//    @objc dynamic var SHOP_TIMING : [ShopTimimgObject]?
 
 
 //    override static func primaryKey() -> String? {
@@ -68,7 +70,11 @@ class MerchantObject:Object{
 //    }
     
 }
-
+class ShopTimimgObject:Object{
+    @objc dynamic var name =  ""
+    @objc dynamic var time =  ""
+    
+}
 
 
 class MerchantDetail:Object{

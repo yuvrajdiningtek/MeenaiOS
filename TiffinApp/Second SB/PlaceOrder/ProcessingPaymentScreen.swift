@@ -48,11 +48,13 @@ class ProcessingPaymentScreen: UIViewController {
                 cartbadgevalue = "0"
                 print(rst)
                 
-               
+                UserDefaults.standard.setValue("", forKey: "selectedDate")
+                UserDefaults.standard.setValue("", forKey: "selectedTime")
                 
                 UserDefaults.standard.setValue(rst, forKey: "rst")
                 
                 Message.showSuccessmsg(style: .bottom, message: "Thankyou for your order. Your order is successfully placed")
+                
                 PlaceOrderCredentials.shared.address_id = ""
                 var x : [NSDictionary] = []
                 x.append(rst as! NSDictionary)

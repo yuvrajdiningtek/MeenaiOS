@@ -4,11 +4,15 @@ import Foundation
 import UIKit
 import Stripe
 import SCLAlertView
+import Alamofire
 //import SwiftyMenu
 //import iOSDropDown
 import IQKeyboardManagerSwift
 var addressIds = [String]()
 class PlaceOrderVC : UIViewController,CustomStepperDelegate{
+    
+    var offerNames = [String]()
+    
     var orderData = CartData()
 
     var rowselcted : (Bool,IndexPath)?
@@ -16,7 +20,9 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
 
   //  private let items: [SwiftyMenuDisplayable] = ["Option 1"]
     var items = [ItemsObjectOrdersData]()
-
+    var freeArr = NSArray()
+    var freeArrArr = [[String:Any]]()
+    var couponName = [String]()
     var roles = [String]()
     var itemss = [String]()
     
@@ -58,16 +64,484 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
     
     @IBOutlet weak var selectedTableLbl: UILabel!
     
+    //Free items
+    @IBOutlet weak var freeItemsCollView: UICollectionView!
+    @IBOutlet weak var freeItemView: UIView!
+    @IBOutlet weak var freeItemMainView: UIView!
+    @IBOutlet weak var couponBtnAfter: UIButton!
+
+    
+//    @IBOutlet weak var eligibleView: UIView!
+//    @IBOutlet weak var eligibleLbl: UILabel!
+
+    @IBAction func freeItemsCross(_ sender : UIButton){
+        freeItemView.isHidden = true
+       // viewWillAppear(true)
+    }
+    @IBAction func eligibleBtn(_ sender : UIButton){
+
+        freeItemView.isHidden = false
+        
+      
+    }
+    
+    func getFreeItemsAvaiblae(){
+        
+        let access_token = UserDefaults.standard.value(forKey: userdefaultKeys().merchant_access_token) as? String ?? ""
+      
+      
+      let email = UserDefaults.standard.value(forKey: usercredential().email)
+      let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
+      self.view.addSubview(activityIndicator) // or use  webView.addSubview(activityIndicator)
+        
+      activityIndicator.startAnimating()
+      
+  
+      let headers:HTTPHeaders = [
+          "Content-Type": "application/json",
+          "Authorization" : "Bearer " + access_token
+      ]
+    
+//      print("parameters==========\(parameters)")
+      
+        let coupon = UserDefaults.standard.value(forKey: "yessKey") as? String ?? ""
+        let bucket_id = DBManager.sharedInstance.getBucketId() ?? ""
+
+        let apiStr = ApiKeys.apibase + ApiKeys.getFreeDCI + "\(bucket_id)/offer/compliments/\(offerNames.joined(separator: ","))"
+        
+      var apiUrl = URLComponents(string: apiStr)
+    
+        if isUserLoggedIn {
+            let logindata = DBManager.sharedInstance.get_loginUser_DataFromDB()[0] as LoginUserDAta
+            
+            let bucket_id =  DBManager.sharedInstance.getBucketId()
+            
+            if bucket_id != nil || bucket_id != ""{
+                apiUrl?.queryItems = [URLQueryItem(name: "bucket_id", value: bucket_id),URLQueryItem(name: "rule_name", value: coupon)
+                                      
+                ]
+            }
+            else{
+                activityIndicator.stopAnimating()
+
+                SomeInformationApi.get_bucketid { (succ, bucketid) in
+                    apiUrl?.queryItems = [ URLQueryItem(name: "bucket_id", value: bucketid ?? ""),URLQueryItem(name: "rule_name", value: coupon)
+                    ]
+                }
+            }
+           
+            
+        }else{
+            let accesstoken = GuestUserCredential.access_token
+            let user_id = GuestUserCredential.user_id
+            let bucket_id = DBManager.sharedInstance.getBucketId()
+            apiUrl?.queryItems = [ URLQueryItem(name: "bucket_id", value: bucket_id ?? ""),URLQueryItem(name: "rule_name", value: coupon)
+                              
+                                 
+            ]
+            
+          
+            
+        }
+        
+        
+      print("yesssss",apiUrl)
+        Alamofire.request(apiUrl!,method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { [self] (respose) in
+          
+          let result = respose.result.value as? NSDictionary
+        print("ressss",result)
+          let object = result?.value(forKey: "object") as? NSDictionary
+          let responseCode = result?.value(forKey: "responseCode") as? String
+          let message = result?.value(forKey: "message") as? String
+          let error = object?.value(forKey: "error") as? String
+          
+          activityIndicator.stopAnimating()
+          
+          switch (respose.result) {
+              
+          case .success:
+              if message == nil {
+                if responseCode == "404" {
+                    self.showAlert(msg: "Items Not found")
+                    return
+
+                }
+                activityIndicator.stopAnimating()
+                if result?.value(forKey: "data") == nil{
+                    return
+                }
+                
+                let data = result?.value(forKey: "data") as! NSArray
+                freeArrArr.removeAll()
+                if data.count != 0{
+                    for i in 0...data.count - 1{
+                        let productDIc = data[i] as? NSDictionary
+                        let products = productDIc?["products"] as! NSArray
+                        let productsS = productDIc?["products"] as! [[String:Any]]
+
+                        let name = productDIc?["name"] as? String
+                        
+                        freeArrArr.append(contentsOf: productsS)
+                        couponName.append(name ?? "")
+                        
+//                        for k in 0...products.count - 1{
+//                            freeArr.adding(products[k])
+//                            freeArr.addingObjects(from: products as! [Any])
+                       // freeArr.add(products)
+//                        }
+                        
+//                        freeArr.addingObjects(from: productDIc)
+                     //   freeArr.adding(productDIc)
+                    }
+                    freeArr = (freeArrArr as? NSArray)!
+
+                }
+                
+                  print(data)
+                        
+                 // self.freeArr = data
+                self.freeItemsCollView.reloadData()
+
+                if self.freeArr.count == 0{
+                    return
+                }
+                for i in self.items{
+                    for j in 0...self.freeArr.count - 1{
+                        let dic:NSDictionary = self.freeArr[j] as! NSDictionary
+                        //let dic:NSDictionary = dicc["products"] as! NSDictionary
+
+                        print("iiiiiii",i.product_id, dic["productId"] as? String,dic)
+                        if i.product_id == dic["productId"] as? String{
+                            print("iiiiiiijjjjjj",i.product_id, dic["productId"] as? String,dic)
+
+                            self.couponBtnAfter.isHidden = false
+                            return
+                        }
+                        else{
+                            print("iiiiiiijjjjjjhhhhhh",i.product_id, dic["productId"] as? String,dic)
+
+                            self.couponBtnAfter.isHidden = false
+                        }
+                    }
+                }
+                  
+//                    self.present(alert, animated: true, completion: nil)
+              }
+              else {
+                self.showAlert(msg: message!)
+
+              }
+              break
+          case .failure:
+            activityIndicator.stopAnimating()
+
+              self.showAlert(msg: error ?? "Service Unavailable")
+              break
+          }
+      }
+  }
+    
+    func addToCartFreeItemsAvaiblae(bucket_item_id:String){
+        let access_token = UserDefaults.standard.value(forKey: userdefaultKeys().merchant_access_token) as? String ?? ""
+      
+        view.isUserInteractionEnabled = false
+      let email = UserDefaults.standard.value(forKey: usercredential().email)
+      let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
+      self.view.addSubview(activityIndicator) // or use  webView.addSubview(activityIndicator)
+      activityIndicator.startAnimating()
+      
+  
+      let headers:HTTPHeaders = [
+          "Content-Type": "application/json",
+          "Authorization" : "Bearer " + access_token
+      ]
+    
+//      print("parameters==========\(parameters)")
+      
+        let coupon = UserDefaults.standard.value(forKey: "yessKey") as? String ?? ""
+        let bucket_id = DBManager.sharedInstance.getBucketId() ?? ""
+
+//        let apiStr = ApiKeys.apibase + ApiKeys.addToCartFreeDCI + "\(bucket_id)/enroll/offer/\(bucket_item_id)/\(coupon)"
+//
+//      var apiUrl = URLComponents(string: apiStr)
+//
+//        if isUserLoggedIn {
+//            let logindata = DBManager.sharedInstance.get_loginUser_DataFromDB()[0] as LoginUserDAta
+//
+//            let bucket_id =  DBManager.sharedInstance.getBucketId()
+//
+//            if bucket_id != nil || bucket_id != ""{
+//                apiUrl?.queryItems = [URLQueryItem(name: "bucket_id" , value: bucket_id ?? ""),URLQueryItem(name: "bucket_item_id", value: bucket_item_id),URLQueryItem(name: "offer_name", value: coupon)
+//
+//                ]
+//            }
+//            else{
+//                SomeInformationApi.get_bucketid { (succ, bucketid) in
+//                    apiUrl?.queryItems = [ URLQueryItem(name: "bucket_id", value: bucket_id ?? "")
+//                                           ,URLQueryItem(name: "bucket_item_id", value: bucket_item_id ?? ""),
+//
+//                                                         URLQueryItem(name: "offer_name", value: coupon ?? "")
+//                    ]
+//                }
+//            }
+//
+//
+//        }else{
+//            let accesstoken = GuestUserCredential.access_token
+//            let user_id = GuestUserCredential.user_id
+//            let bucket_id = DBManager.sharedInstance.getBucketId()
+//            apiUrl?.queryItems = [ URLQueryItem(name: "bucket_id", value: bucket_id ?? ""),
+//                                   URLQueryItem(name: "bucket_item_id", value: bucket_item_id ?? ""),
+//                                                URLQueryItem(name: "offer_name", value: coupon ?? "")
+//
+//
+//            ]
+//
+//        }
+//
+        var userid =  ""
+        
+        if isUserLoggedIn{
+            userid = UserDefaults.standard.value(forKey: usercredential().email) as? String ?? ""
+            
+        }
+        else{
+            userid = GuestUserCredential.user_id
+        }
+        let parametrs : [String:Any] = [
+            "form_id" : "",
+            "user_id" : userid,
+            
+            "fields" : [
+                "bucketId" : DBManager.sharedInstance.getBucketId() ?? "",
+                "productId" : bucket_item_id,
+                "productVariationId" : "",
+                "quantity" : "1",
+                "addOns":[],
+                "cookingInstruction":""
+            ]
+        ]
+        print(parametrs)
+        
+        let apiStr = ApiKeys.apibase + ApiKeys.addToCart
+        var apiurl = URLComponents(string: apiStr)
+        
+        
+        if isUserLoggedIn{
+            let user_id = UserDefaults.standard.value(forKey: usercredential().email) as? String ?? ""
+            let logindata = DBManager.sharedInstance.get_loginUser_DataFromDB()[0] as LoginUserDAta
+            let accesstoken = (logindata.object?.access_token)!
+            apiurl?.queryItems = [URLQueryItem(name: "access_token", value: accesstoken),
+                                  URLQueryItem(name: "bucket_id", value: bucket_id)
+            ]
+            
+        }else{
+            let user_id = GuestUserCredential.user_id
+            
+            let accesstoken = GuestUserCredential.access_token
+            apiurl?.queryItems = [URLQueryItem(name: "access_token", value: accesstoken),
+                                  URLQueryItem(name: "bucket_id", value: bucket_id)
+                                  
+//                                  URLQueryItem(name: "item_id", value: bucket_item_id)
+            ]
+            
+        }
+        
+      print("yesssss",apiurl)
+      Alamofire.request(apiurl!,method: .post, parameters: parametrs, encoding: JSONEncoding.default, headers: headers).responseJSON { (respose) in
+        self.view.isUserInteractionEnabled = true
+
+          let result = respose.result.value as? NSDictionary
+        print("ressss",result)
+          let object = result?.value(forKey: "object") as? NSDictionary
+        let responseCode = result?.value(forKey: "responseCode") as? String
+        let request_status = result?.value(forKey: "request_status") as? Int
+
+          let message = result?.value(forKey: "message") as? String
+          let error = object?.value(forKey: "error") as? String
+          
+          activityIndicator.stopAnimating()
+          
+          switch (respose.result) {
+              
+          case .success:
+            self.view.isUserInteractionEnabled = true
+
+              if request_status == 1 {
+                Message.showSuccessmsg(style: .bottom, message: "Added successfully")
+                self.viewWillAppear(true)
+              }
+              else {
+                self.showAlert(msg: message ?? error ?? "")
+
+              }
+              break
+          case .failure:
+            self.view.isUserInteractionEnabled = true
+print("vvvvvvvvvvvvvvvvvvvv")
+              //self.showAlert(msg: error ?? "Soomething went wrong. Please try again.")
+              break
+          }
+      }
+  }
+    func deleteFreeItem(itemid:String){
+        let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
+        self.view.addSubview(activityIndicator) // or use  webView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        print("deleteitemBtn press")
+        self.view.isUserInteractionEnabled = false
+        
+        ProductsApi.delete_item_from_cart(item_id: itemid) { (success, result) in
+            hideactivityIndicator(activityIndicator: activityIndicator)
+            print("deleteitemBtn api response")
+            self.view.isUserInteractionEnabled = true
+
+            if success{
+                
+//                let obj = self.items.remove(at: index)
+                
+//                self.rowselcted = nil
+////                self.setTableViewData()
+//                self.initialSetUp()
+                self.viewWillAppear(true)
+
+//                self.itemsTableV.reloadData()
+              //  self.deleteObject(obj: obj)
+                
+//                print("obj is ", obj)
+                
+            }
+            else{
+                if result == nil{
+                    SCLAlertView().showError("error", subTitle: "") // Error
+                }else{
+                    SCLAlertView().showError("error", subTitle: "") // Error
+                }
+            }
+            print("all object", self.items)
+           // self.visibilityThings()
+        }
+    }
+  
+  @objc func oneTapped(_ sender: UIButton?) {
+      
+      let dic:NSDictionary = freeArr[sender!.tag] as! NSDictionary
+//    let dic:NSDictionary = dicc["products"] as! NSDictionary
+
+    let productId = dic.value(forKey: "productId") as? String ?? ""
+    addToCartFreeItemsAvaiblae(bucket_item_id: productId)
+      print("Tapped")
+    
+  }
+        func showAlert(msg:String) {
+            let  alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
+    
+            let okAcction = UIAlertAction(title: "OK", style: .cancel) { (UIAlertAction) in
+    
+            }
+            alert.addAction(okAcction)
+            alert.view.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            self.present(alert, animated: true, completion: nil)
+    
+        }
+    
+    func getFreeItems(){
+        ProductsApi.detail_Cart_InfoFree { (success, result) in
+            self.itemsTableV.allowsSelection  = true
+//            activityIndicator.stopAnimating()
+            if success {
+
+            }
+
+            if DBManager.sharedInstance.get_CartData_DataFromDB().count > 0 {
+print("ooooooooooojjjjjjjjjj")
+                self.orderData = DBManager.sharedInstance.get_CartData_DataFromDB()[0] as CartData
+
+                print("-------",self.orderData)
+                if let items = self.orderData.object?.items{
+                    
+                    
+                   // self.freeItems.removeAll()
+                    self.rowselcted = nil
+                    for item in items{
+                        print(item)
+                            //  self.freeItems.append(item)
+                    }
+                }
+                let totalPrice = self.orderData.object?.sub_total ?? 0
+                let tp = cleanDollars(String(describing: totalPrice))
+               // self.chkOutBtn.setTitle("CHECK OUT \(tp)", for: .normal)
+               // completion(true, nil)
+
+              //  self.freeItemsCollView.reloadData()
+            }
+            else{
+                print("ooooooooooojjjjjjjjjjkkkkkkk")
+
+                if result == nil{
+                //    completion(false, nil)
+                }else{
+                    if let object = (result as? NSDictionary)?.value(forKey: "object") as? NSDictionary{
+                        if let error = object.value(forKey: "error") as? String{
+//                            completion(false, error)
+                        }
+                    }
+                  //  self.items.removeAll()
+                }
+
+            }
+         
+        }
+
+    }
+    
+    @IBAction func couponAfter(_ sender : UIButton){
+        let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
+        self.view.addSubview(activityIndicator) // or use  webView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        self.view.isUserInteractionEnabled = false
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        hideactivityIndicator(activityIndicator: activityIndicator)
+            self.view.isUserInteractionEnabled = true
+
+        let vc = secondSBVC("ApplyPromocodeVC") as! ApplyPromocodeVC
+//        vc.modalPresentationStyle = .overFullScreen
+//        self.present(vc, animated: true)
+            self.navigationController?.pushViewController(vc, animated: true)
+    }
+
     @IBAction func coupon(_ sender : UIButton){
+        
+        let yessKey = UserDefaults.standard.value(forKey: "yessKey") as? String ?? ""
+//        if yessKey == "bfg21"{
+//            if yessKey != ""{
+        if offerNames.count != 0{
+            freeItemView.isHidden = false
+            getFreeItemsAvaiblae()
+            
+        }
+        else{
+        
         //        if couponHandle != nil{
         //            couponHandle.showDropDown()
         //        }
-        let vc = secondSBVC("ApplyPromocodeVC") as! ApplyPromocodeVC
-      //  vc.modalPresentationStyle = .overCurrentContext
-        self.present(vc, animated: true)
 
+        let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
+        self.view.addSubview(activityIndicator) // or use  webView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        self.view.isUserInteractionEnabled = false
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        hideactivityIndicator(activityIndicator: activityIndicator)
+            self.view.isUserInteractionEnabled = true
+
+        let vc = secondSBVC("ApplyPromocodeVC") as! ApplyPromocodeVC
+//        vc.modalPresentationStyle = .overFullScreen
+//        self.present(vc, animated: true)
+            self.navigationController?.pushViewController(vc, animated: true)
+
+//        }
 //        navigationController?.pushViewController(vc, animated: true)
-        
+        }
     }
     
     @IBAction func backbtn(_ sender : UIButton){
@@ -133,6 +607,7 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
         
         let vc = secondSBVC("EditCreateAddressVC") as! EditCreateAddressVC
         vc.update = true
+        vc.comeFrom = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -155,76 +630,7 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
     @IBOutlet weak var noteLblTopConstraint : NSLayoutConstraint!
     @IBAction func placeOrder(_ sender : UIButton){
         if self.setPlaceOrderCredential(){
-            //--------
-//            let vc = secondSBVC("BillSummaryVC") as! BillSummaryVC
-//
-//            let showCar = UserDefaults.standard.value(forKey: "showCar") as? Bool
-//            let pickup = UserDefaults.standard.value(forKey: "pickup") as? Bool
-//             let local = UserDefaults.standard.value(forKey: "local") as? Bool
-//            let showTables = UserDefaults.standard.value(forKey: "showTables") as? Bool
-//
-//            if showCar == true{
-//
-//                if enterCarDetailTF.text == ""{
-//                    showAlert(msg: "Vehicle Details Required!", title: "")
-//                }
-//                else{
-//
-//
-//                if noteTxtF.text != ""{
-//                    noteTxtF.text = "\(noteTxtF.text ?? "") \(enterCarDetailTF.text ?? "")"
-//
-//                    placeOrderModel.notes = noteTxtF.text ?? ""
-//
-//                    vc.placeOrderModel = placeOrderModel
-//                               self.navigationController?.pushViewController(vc, animated: true)
-//                }
-//                else{
-//                     noteTxtF.text =  "\(enterCarDetailTF.text ?? "")"
-//
-//                    placeOrderModel.notes = noteTxtF.text ?? ""
-//
-//                                vc.placeOrderModel = placeOrderModel
-//                               self.navigationController?.pushViewController(vc, animated: true)
-//                }
-//                }
-//
-//            }
-//
-//            if showTables == true{
-//
-//
-//
-//
-//            if selectedTable != ""{
-//                                       noteTxtF.text = "\(noteTxtF.text ?? "")\(selectedTable)"
-//
-//                placeOrderModel.notes = noteTxtF.text ?? ""
-//
-//
-//                                vc.placeOrderModel = placeOrderModel
-//                           self.navigationController?.pushViewController(vc, animated: true)
-//
-//                                 }
-//            else{
-//                  showAlert(msg: "Table Number is Required!", title: "")
-//                }
-//
-//
-//
-//            }
-//            if pickup == true{
-//                 vc.placeOrderModel = placeOrderModel
-//                 self.navigationController?.pushViewController(vc, animated: true)
-//            }
-//            if local == true{
-//                vc.placeOrderModel = placeOrderModel
-//                               self.navigationController?.pushViewController(vc, animated: true)
-//            }
-//
 
-            //NEWWWW
-            
             self.goToNextScreen()
             
             //NEWWWWW
@@ -236,32 +642,7 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
     }
     
   
-    
-    //        if deliveryAddLbl.last?.text == "" {
-    //
-    //            let deliveryAddString = deliveryAddLbl!.first?.text!
-    //            print(deliveryAddString!)
-    //
-    //            let alertController4 = UIAlertController(title: "Please fill \(deliveryAddString!) details",message:nil,preferredStyle:.alert)
-    //            alertController4.view.subviews.first?.subviews.first?.subviews.first?.backgroundColor = #colorLiteral(red: 0.7137254902, green: 0.3294117647, blue: 0.3254901961, alpha: 1)
-    //
-    //            let myString  = "Please fill \(deliveryAddString!) details"
-    //            var myMutableString = NSMutableAttributedString()
-    //            myMutableString = NSMutableAttributedString(string: myString as String, attributes: [NSAttributedString.Key.font:UIFont(name: "Georgia", size: 16.0)!])
-    //            myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range: NSRange(location:0,length:myString.count))
-    //            alertController4.setValue(myMutableString, forKey: "attributedTitle"); self.present(alertController4,animated:true,completion:{Timer.scheduledTimer(withTimeInterval: 1, repeats:false, block: {_ in
-    //                self.dismiss(animated: true, completion: nil)
-    //            })})
-    //        }
-    //        else {
-    //
-    //            if self.setPlaceOrderCredential(){
-    //                let vc = secondSBVC("BillSummaryVC") as! BillSummaryVC
-    //                vc.placeOrderModel = placeOrderModel
-    //                self.navigationController?.pushViewController(vc, animated: true)
-    //            }
-    //        }
-    //    }
+  
     var applied_coupons : [String:String]?
     
     let viewModel = PlaceOrderViewModel()
@@ -290,149 +671,23 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        couponBtnAfter.isHidden = true
 //
 //        placeOrderBtn.layer.cornerRadius = 15
         placeOrderView.layer.cornerRadius = 15
+        freeItemMainView.layer.cornerRadius = 20
+        freeItemMainView.layer.borderColor = UIColor.init(named: "MaroonTheme")?.cgColor
+        freeItemMainView.layer.borderWidth = 1
         NotificationCenter.default.addObserver(self, selector: #selector(afterCoupon), name: Notification.Name("MoveToCoupon"), object: nil)
         UserDefaults.standard.setValue(false, forKey: "iscomefromApply")
 
+        freeItemsCollView.register(UINib(nibName: "CollectionVXibs", bundle: nil), forCellWithReuseIdentifier: "HomeCVC")
+        
         self.itemsTableV.dataSource = self
         self.itemsTableV.delegate = self
-//        self.tableView.isHidden = true
-//        //self.enterCarDetailTF.isHidden = true
-//
-//
-////        self.tableTF.endEditing(true)
-////
-////        tableTF.resignFirstResponder()
-//
-//        let showCar = UserDefaults.standard.value(forKey: "showCar") as? Bool
-//
-//         let showTables = UserDefaults.standard.value(forKey: "showTables") as? Bool
-//        if showTables == true{
-//                                       self.tableView.isHidden = false
-//             self.selectedTableLbl.isHidden = false
-//                                        }
-//                                        else{
-//                                       self.tableView.isHidden = true
-//                                         self.selectedTableLbl.isHidden = true
-//
-//
-//
-//                                        }
-//
-//        if showCar == true{
-//            self.tableView.isHidden = false
-//            self.tableTF.isHidden = true
-//            self.selectedTableLbl.isHidden = true
-//            self.enterCarDetailTF.isHidden = false
-//        }
-//        else if showTables == true{
-//            self.tableView.isHidden = false
-//            self.selectedTableLbl.isHidden = false
-//
-//
-//             self.tableTF.isHidden = false
-//
-//        }
-//                    else{
-//                    self.tableView.isHidden = true
-//                    self.selectedTableLbl.isHidden = true
-//
-//                                                                  }
-//        //roles = ["1","2","3","4"]
-//
-//
-//
-//
-//        print(dine)
-////
-//        if dine != nil{
-//
-//        let f = dine!.split(separator: "|").map { (sub) in
-//                return String(sub)
-//            }
-//            itemss += f
-//        }
-//        else{
-//            itemss = [""]
-//        }
-////        self.dropDown.optionArray = self.itemss
-////
-//////        self.dropDown.endEditing(true)
-//////        self.dropDown.resignFirstResponder()
-////                   self.dropDown.selectedRowColor = #colorLiteral(red: 0.0002273604021, green: 0.7907080605, blue: 0.8936147837, alpha: 1)
-////                   self.dropDown.isSearchEnable = true
-////                   self.dropDown.rowHeight = 40
-////                   self.dropDown.listHeight = 400
-////                   self.dropDown.hideOptionsWhenSelect = true
-////                   self.dropDown.arrowColor = #colorLiteral(red: 0.0001785887117, green: 0.6210911513, blue: 0.7019230769, alpha: 1)
-////      //  self.dropDown.handleKeyboard = false
-////
-////                   self.dropDown.didSelect{(selectedText , index ,id) in
-////
-////
-////
-////
-////                    self.selectedTableLbl.text = " #\(self.itemss[index])"
-////
-////                    self.selectedTable = " #\(self.itemss[index])"
-////
-////
-////                  //  self.tableTF.text = "Selected Table : #\(self.itemss[index])"
-////
-//////                    if self.noteTxtF.text != ""{
-//////                        self.noteTxtF.text = "\(self.noteTxtF.text ?? "") #\(self.itemss[index])"
-//////                    }
-////
-////
-//////                    if self.noteTxtF.text?.contains("#") == true{
-//////
-//////                        if self.noteTxtF.text?.first == "#"{
-//////                           self.noteTxtF.text = " #\(self.itemss[index])"
-//////                        }
-//////                        else{
-//////                       let s1 = self.noteTxtF.text?.split(separator: "#")
-//////
-//////                        let s = s1?[0] ?? ""
-//////
-//////                        self.noteTxtF.text = ""
-//////                        self.noteTxtF.text = (s) + " #\(self.itemss[index])"
-//////                    }
-//////                    }
-//////
-//////
-//////                    else{
-//////
-//////                    self.noteTxtF.text = " #\(self.itemss[index])"
-//////                    }
-////
-////
-//////                                     if self.noteTxtF.text?.contains("#") == false{
-//////
-//////                                         self.noteTxtF.text = "\(self.noteTxtF.text ?? "") #\(self.itemss[index])"
-//////                                     }
-//////
-////
-////        }
-//
-//
-//
-//        // Give array of items to SwiftyMenu
-////        tablesDrop.items = items
-////         tablesDrop.delegate = self
-//        itemsTableV.isScrollEnabled = true
-     
-//        itemsTableV.frame.size = itemsTableV.contentSize
-        //        visibleAddress(visibility: false)
+
     }
-   
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        tableView.endEditing(true)
-//        super.touchesBegan(touches, with: event)
-//    }
-   
-    
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -452,69 +707,63 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
 //        self.navigationController?.setNavigationBarHidden(false, animated: true)
 
     }
-    //    func getAlOredrs(){
-    //
-    //
-    //
-    //        ProductsApi.detail_Cart_Info { (success, result,_) in
-    //
-    //
-    //            if success{
-    //
-    //
-    //                let object = (result as! NSDictionary).value(forKey: "object") as? NSDictionary
-    //                let applied_couponss = object?.value(forKey: "applied_coupons") as? [String:String]
-    //
-    //                UserDefaults.standard.setValue(applied_couponss, forKey: "yess")
-    //                //                self.applied_coupons = applied_couponss
-    //                //
-    //                //
-    //                //                if self.applied_coupons?.count == 0{
-    //                //                    self.coupanLBL.text = "Coupon :"
-    //                //                }
-    //                //                else {
-    //                //
-    //                //                    let coupanAmount = self.applied_coupons!.first!.value
-    //                //                    print(coupanAmount)
-    //                //
-    //                //
-    //                //
-    //                //                    self.coupanLBL.text = "Coupon :\nApplied Coupan\nYou saved $\(String(describing: coupanAmount))"
-    //                //                }
-    //
-    //            }
-    //
-    //
-    //        }
-    //
-    //
-    //
-    //    }
-    
+ 
     
   @objc func afterCoupon(){
-    deliveryMethodTableV.isScrollEnabled = false
-        self.getAlOredrsAFTERCOUPON(completion: {
-            
+//    self.view.isUserInteractionEnabled = false
+
+//    deliveryMethodTableV.isScrollEnabled = false
+//        self.getAlOredrsAFTERCOUPON(completion: {
+//
+//            (succ,error) in
+//
+//            if !succ{
+//                print("eeeeeeeeeeeee",error)
+//
+//                print(error)
+//                if (error?.contains("INVALID") ?? false) || (error?.contains("Invalid") ?? false) {
+//                    self.deleteInvAlidBucket()
+//                    return
+//
+//                }
+//
+//                SCLAlertView().showError("error", subTitle: error ?? "Some error occur") // Error
+//            }
+//            else{
+//
+//            }
+//
+//        })
+//    self.view.isUserInteractionEnabled = false
+//    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        print("yoooooooooo")
+
+        self.getAlOredrs(completion: {
+
+
             (succ,error) in
-            
+//            self.view.isUserInteractionEnabled = true
+
             if !succ{
+
                 print("eeeeeeeeeeeee",error)
 
                 print(error)
                 if (error?.contains("INVALID") ?? false) || (error?.contains("Invalid") ?? false) {
                     self.deleteInvAlidBucket()
                     return
-                    
+
                 }
-                
+
                 SCLAlertView().showError("error", subTitle: error ?? "Some error occur") // Error
             }
             else{
-                
+
             }
-            
+
         })
+  //  }
+//
     }
     
     func initialSetUp(){
@@ -522,7 +771,7 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
       //  setTableViewData()
         // after setting tableview data refrsh address
        // visibleAddress(visibility: false)
-        
+        self.view.isUserInteractionEnabled = false
         NetworkManager.isUnreachable { (_) in
             SCLAlertView().showError("network unreachable")
         }
@@ -534,7 +783,8 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
             self.getAlOredrs(completion: {
                 
                 (succ,error) in
-                
+//                self.view.isUserInteractionEnabled = true
+
                 //self.setUI()
                 hideactivityIndicator(activityIndicator: activityIndicator)
                 
@@ -614,25 +864,25 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
           let showCar = UserDefaults.standard.value(forKey: "showCar") as? Bool
         
         if showTables == true{
-                                self.tableView.isHidden = false
+                               // self.tableView.isHidden = false
             self.selectedTableLbl.isHidden = false
 
                                  }
                                  else{
-                                self.tableView.isHidden = true
+                               // self.tableView.isHidden = true
             self.selectedTableLbl.isHidden = true
 
                                  }
         
         if showCar == true{
-                  self.tableView.isHidden = false
+                //  self.tableView.isHidden = false
                   //self.tableTF.isHidden = true
             self.selectedTableLbl.isHidden = true
 
             
               }
                            else if showTables == true{
-                                                           self.tableView.isHidden = false
+                                                         //  self.tableView.isHidden = false
             
                           //  self.tableTF.isHidden = false
                         self.selectedTableLbl.isHidden = false
@@ -641,7 +891,7 @@ class PlaceOrderVC : UIViewController,CustomStepperDelegate{
             
                                                             }
                                                             else{
-                                                           self.tableView.isHidden = true
+                                                          // self.tableView.isHidden = true
             
             
                                                             }
@@ -673,9 +923,16 @@ extension PlaceOrderVC{
    //     itemsTableV.reloadData()
         self.viewDidLayoutSubviews()
         setUI()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//            print("22323e323323232")
+//            self.deliveryMethodTableV.updateDeliveryMethod(shippingId: self.deliveryMethodTableV.userselected_shippingMethod)
+//        }
     }
     func setTableViewData(){
+        //print(viewModel.getCartDataFromDB(),"-----------",viewModel)
         let v = viewModel.getCartDataFromDB().1
+      
+      
 //        itemsTableV.reloadData()
         self.viewDidLayoutSubviews()
         
@@ -719,9 +976,9 @@ extension PlaceOrderVC{
         totalAmountLbl.text = viewModel.getTotalPrice()
         totalPriceLblPlace.text = "\(viewModel.getTotalPrice())"
 //        placeOrderBtn.setTitle("PLACE ORDER :  \(viewModel.getTotalPrice())", for: .normal)
-        couponBtn.setTitle(viewModel.getAppliedCoupon().0, for: .normal)
-        couponApplyBtn.setTitle(viewModel.getAppliedCoupon().1, for: .normal)
-        
+//        couponBtn.setTitle(viewModel.getAppliedCoupon().0, for: .normal)
+//        couponApplyBtn.setTitle(viewModel.getAppliedCoupon().1, for: .normal)
+//
         let (tiprate,tipamount) = viewModel.getTiprateAndAmount()
         tipBtn.setTitle(tiprate, for: .normal)
         tipPriceLbl.text = tipamount
@@ -730,11 +987,13 @@ extension PlaceOrderVC{
         let iscomefromApply = UserDefaults.standard.value(forKey: "iscomefromApply") as? Bool
         let come = UserDefaults.standard.value(forKey: "come") as? Bool
         let savedCouponValue = UserDefaults.standard.value(forKey: "yess") as? String ?? "0.0"
+        let yessKey = UserDefaults.standard.value(forKey: "yessKey") as? String ?? ""
+
         if iscomefromApply == true {
             if come == true {
                 
                 if already_applied_coupons?.count == 0{
-                    coupanLBL.text = "Coupon :\nApplied Coupon\nYou saved $\(savedCouponValue)"
+                    coupanLBL.text = "Coupon :\nApplied Coupon: \(yessKey)\nYou saved $\(savedCouponValue)"
                 }
                 else {
                     if already_applied_coupons != nil{
@@ -742,19 +1001,22 @@ extension PlaceOrderVC{
                     print(coupanAmount)
                     
                     
-                    
-                    coupanLBL.text = "Coupon :\nApplied Coupon\nYou saved $\(String(describing: coupanAmount))"
+                    coupanLBL.text = "Coupon :\nApplied Coupon: \(yessKey)\nYou saved $\(String(describing: coupanAmount))"
                 }
                 }
             }
             else {
                 coupanLBL.text = "Coupon :"
+                UserDefaults.standard.setValue("", forKey: "yessKey")
+
             }
         }
         else {
             
             if already_applied_coupons?.count == 0{
                 coupanLBL.text = "Coupon :"
+                UserDefaults.standard.setValue("", forKey: "yessKey")
+
             }
             else {
                 
@@ -762,13 +1024,55 @@ extension PlaceOrderVC{
                 let coupanAmount = already_applied_coupons!.first!.value
                 print(coupanAmount)
                 
-                coupanLBL.text = "Coupon :\nApplied Coupon\nYou saved $\(String(describing: coupanAmount))"
+                coupanLBL.text = "Coupon :\nApplied Coupon: \(yessKey)\nYou saved $\(String(describing: coupanAmount))"
                 }
                 else{
-                    coupanLBL.text = "Coupon :\nApplied Coupon\nYou saved $\(String(describing: "0"))"
+                    coupanLBL.text = "Coupon :\nApplied Coupon: \(yessKey)\nYou saved $\(String(describing: "0"))"
 
                 }
             }
+          
+        }
+        let yessKeyy = UserDefaults.standard.value(forKey: "yessKey") as? String ?? ""
+
+//        if yessKeyy == "bfg21"{
+//            if yessKeyy != ""{
+        print("offerNamescount",offerNames.count)
+        if offerNames.count != 0 {
+            couponBtnAfter.isHidden = false
+            let off = offerNames.joined(separator: ", ")
+            
+            getFreeItemsAvaiblae()
+            couponBtn.setTitle("You're eligible to add free items in your cart :\n\(off)", for: .normal)
+            couponBtn.titleLabel?.lineBreakMode = .byWordWrapping
+
+//            if freeArr.count == 0 {
+//                return
+//            }
+//            for i in items{
+//                for j in 0...freeArr.count - 1{
+//                    let dic:NSDictionary = freeArr[j] as! NSDictionary
+//
+//                    print("iiiiiii",i.product_id, dic["productId"] as? String,dic)
+//                    if i.product_id == dic["productId"] as? String{
+//                        print("iiiiiiijjjjjj",i.product_id, dic["productId"] as? String,dic)
+//
+//                        couponBtnAfter.isHidden = true
+//                        return
+//                    }
+//                    else{
+//                        print("iiiiiiijjjjjjhhhhhh",i.product_id, dic["productId"] as? String,dic)
+//
+//                        couponBtnAfter.isHidden = false
+//                    }
+//                }
+//            }
+            
+        }
+        else{
+            couponBtn.setTitle("Select Coupon / Apply Coupon", for: .normal)
+            couponBtnAfter.isHidden = true
+
         }
        // setTableViewData()
         
@@ -988,12 +1292,17 @@ extension PlaceOrderVC{
 
 extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+      
         return items.count
+//        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+//        if tableView == freeItemsCollView{
+//
+//        }
+//        else{
         let cell = Bundle.main.loadNibNamed("HomeTVC", owner: Any?.self, options: nil)?[6] as! CartThirdTVC
         if items.count == 0{
             return cell
@@ -1021,44 +1330,7 @@ extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
         }
       
         
-        
-        
-        // cell.adOnLbl.text = "AddOns: \n" + items[indexPath.row].addons[1].addon_full_name
-        
-        
-//        func getAdOnString(adOns : [AdOnObjectModel])->NSMutableAttributedString?{
-//            if adOns.count == 0{return nil}
-//            let heading = NSMutableAttributedString(string: "AddOns: \n", attributes: attributesHeading())
-//            for i in adOns{
-//                let subH = NSAttributedString(string: i.addon_full_name, attributes: attributesSubHeading())
-//               // let qty = NSAttributedString(string: "   x \(i.qty)", attributes: attributesSubHeading())
-//               // let unitPrice = NSAttributedString(string: "  :  USD \(i.unit_price) $\n", attributes: attributesSubHeading())
-//                cell.adOnLbl.text = i.addon_full_name
-//                heading.append(subH)
-////                heading.append(qty)
-////                heading.append(unitPrice)
-//            }
-//            return heading
-//        }
-//        func attributesHeading()->[NSAttributedString.Key: Any]{
-//            let font = UIFont(name: "GlacialIndifference-Bold", size: 14)
-//            let attributes: [NSAttributedString.Key: Any] = [
-//                .font: font,
-//                .foregroundColor: UIColor.black,
-//            ]
-//            return attributes
-//        }
-//        func attributesSubHeading()->[NSAttributedString.Key: Any]{
-//            let font = UIFont(name: "GlacialIndifference-Regular", size: 12)
-//
-//            let attributes: [NSAttributedString.Key: Any] = [
-//                .font: font,
-//                .foregroundColor: UIColor.darkGray,
-//            ]
-//            return attributes
-//        }
-        
-//        cell.adOnLbl.text = items[indexPath.row].addons(add)
+  
         let a = Double(cell.quantity_lbl.text ?? "0") ?? 0
         let p = items[indexPath.row].unit_price * a
         let pr = cleanDollars(String(p))
@@ -1094,14 +1366,7 @@ extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
             }
             cell.variation_lbl.sizeToFit()
             cell.Spicy_heading_lbl.sizeToFit()
-//            let key = items[indexPath.row].variations_attrubutes[0].category_key
-//            let values = items[indexPath.row].variations_attrubutes[0].value
-//
-//            if values.count != 0{
-//                cell.Spicy_heading_lbl.text = key
-//                cell.variation_lbl.text = values[0]
-//            }
-            
+
         }
         
         
@@ -1131,9 +1396,11 @@ extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
         cell.custom_stepperV.minValue = CGFloat(min)
         cell.custom_stepperV.maxValue = CGFloat(max)
         
+     
+        
         
         return cell
-        
+      //  }
     }
     
     
@@ -1142,9 +1409,13 @@ extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
 //        let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
 //        self.view.addSubview(activityIndicator) // or use  webView.addSubview(activityIndicator)
 //        activityIndicator.startAnimating()
-        if sender.tag < items.count{
-          //  hideactivityIndicator(activityIndicator: activityIndicator)
+        print("YESSSSSQQQQQ",self.items[sender.tag].item_id,value,items.count,sender.tag)
 
+//        if sender.tag
+        
+        if sender.tag < items.count || sender.tag == items.count - 1{
+          //  hideactivityIndicator(activityIndicator: activityIndicator)
+            print("YESSSSSQQQQQ",self.items[sender.tag].item_id,value,items.count,sender.tag)
             present_action_sheet(itemid: self.items[sender.tag].item_id, qty: String(describing: value)) { (update) in
                 if !update{
                     if increment{
@@ -1155,6 +1426,7 @@ extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
                     }
                     
                 }else{
+                    
                     try? DBManager.sharedInstance.database.write {
                         if self.items.count != 0{
                         self.items[sender.tag].qty = Double(value)
@@ -1204,7 +1476,7 @@ extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
     
     func present_action_sheet(itemid:String,qty:String,callback:@escaping ((Bool)->())){
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
+        print("YESSSSSSSSSAAAAA")
         let update_action = UIAlertAction(title: "Update item", style: .default) { (_) in
             self.submitThe_qty(bucketItemId: itemid, quantity: qty, completion: {
                 (success) in
@@ -1228,7 +1500,6 @@ extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
             popoverController.sourceView = self.view //to set the source of your alert
             
             
-            
             //            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
             popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
           //  popoverController.sourceRect = chkOutBtn.frame
@@ -1241,7 +1512,7 @@ extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
     }
     @objc func
         deleteitemBtn(at index:Int){
-        
+       
         print("items", items)
         if index >= items.count{
             return
@@ -1256,10 +1527,13 @@ extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
         self.view.addSubview(activityIndicator) // or use  webView.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         print("deleteitemBtn press")
+        self.view.isUserInteractionEnabled = false
         
         ProductsApi.delete_item_from_cart(item_id: itemid) { (success, result) in
             hideactivityIndicator(activityIndicator: activityIndicator)
             print("deleteitemBtn api response")
+            self.view.isUserInteractionEnabled = true
+
             if success{
                 
                 let obj = self.items.remove(at: index)
@@ -1290,8 +1564,11 @@ extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
         let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
         self.view.addSubview(activityIndicator) // or use  webView.addSubview(activityIndicator)
         activityIndicator.startAnimating()
+        self.view.isUserInteractionEnabled = false
+
         ProductsApi.delete_cart { (success, result) in
-            
+            self.view.isUserInteractionEnabled = true
+
             hideactivityIndicator(activityIndicator: activityIndicator)
             if success{
                 self.items.removeAll()
@@ -1325,6 +1602,7 @@ extension PlaceOrderVC: UITableViewDelegate,UITableViewDataSource{
         self.view.addSubview(activityIndicator) // or use  webView.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         
+        print("YESSSSSSSSS")
         SubmissionAPIs.update_quantity_of_product(bucketItemId: bucketItemId, quantity: quantity) { (success, _) in
             
             hideactivityIndicator(activityIndicator: activityIndicator)
@@ -1410,10 +1688,13 @@ extension PlaceOrderVC : STPAddCardViewControllerDelegate{
     }
     func getAlOredrsAFTERCOUPON(completion: @escaping (Bool,String?)->()){
         already_applied_coupons = [:]
+        self.view.isUserInteractionEnabled = false
+
          let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
         ProductsApi.detail_Cart_Info { (success, result,_) in
               activityIndicator.startAnimating()
 
+            self.view.isUserInteractionEnabled = true
 
             if success{
                 print("----",self.self.items.count)
@@ -1428,30 +1709,38 @@ extension PlaceOrderVC : STPAddCardViewControllerDelegate{
 
     func getAlOredrs(completion: @escaping (Bool,String?)->()){
 
+        view.isUserInteractionEnabled = false
          let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
+        self.view.addSubview(activityIndicator)
         itemsTableV.allowsSelection  = false
+        activityIndicator.startAnimating()
 
-        items.removeAll()
+       // items.removeAll()
 
         ProductsApi.detail_Cart_Info { (success, result,_) in
-              activityIndicator.startAnimating()
             self.itemsTableV.allowsSelection  = true
+            activityIndicator.stopAnimating()
+            if success {
 
-            if success{
                 print("----",self.self.items.count)
 
                 let object = (result as! NSDictionary).value(forKey: "object") as? NSDictionary
                 let applied_coupons = object?.value(forKey: "applied_coupons") as? [String:String]
                 self.already_applied_coupons = applied_coupons
+                
+                print("aaaaaaaaaa",applied_coupons)
+                
             }
-
-
+           
 
             if DBManager.sharedInstance.get_CartData_DataFromDB().count > 0 {
-
+print("ooooooooooojjjjjjjjjj")
                 self.orderData = DBManager.sharedInstance.get_CartData_DataFromDB()[0] as CartData
 
+                print("-------",self.orderData)
                 if let items = self.orderData.object?.items{
+                    
+                    
                     self.items.removeAll()
                     self.rowselcted = nil
                     for item in items{
@@ -1459,6 +1748,17 @@ extension PlaceOrderVC : STPAddCardViewControllerDelegate{
                         self.items.append(item)
                     }
                 }
+                
+                print("OFFER_NAME",self.orderData.object?.offer_name.count,self.orderData.object?.offer_name.first)
+                self.offerNames.removeAll()
+
+                if self.orderData.object?.offer_name.count != 0{
+                    for i in 0...self.orderData.object!.offer_name.count - 1{
+                        self.offerNames.append(self.orderData.object!.offer_name[i])
+                    }
+                    UserDefaults.standard.setValue(self.offerNames, forKey: "offerNames")
+                }
+                
                 let totalPrice = self.orderData.object?.sub_total ?? 0
                 let tp = cleanDollars(String(describing: totalPrice))
                // self.chkOutBtn.setTitle("CHECK OUT \(tp)", for: .normal)
@@ -1467,6 +1767,8 @@ extension PlaceOrderVC : STPAddCardViewControllerDelegate{
                 self.itemsTableV.reloadData()
             }
             else{
+                print("ooooooooooojjjjjjjjjjkkkkkkk")
+
                 if result == nil{
                     completion(false, nil)
                 }else{
@@ -1475,7 +1777,7 @@ extension PlaceOrderVC : STPAddCardViewControllerDelegate{
                             completion(false, error)
                         }
                     }
-                    self.items.removeAll()
+                  //  self.items.removeAll()
                 }
 
             }
@@ -1485,12 +1787,181 @@ extension PlaceOrderVC : STPAddCardViewControllerDelegate{
               // after setting tableview data refrsh address
             self.visibleAddress(visibility: false)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.view.isUserInteractionEnabled = true
 
             self.viewDidLayoutSubviews()
             }
         }
 
+    }
+}
+extension PlaceOrderVC: UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+//    func numberOfSections(in collectionView: UICollectionView) -> Int {
+//        return freeArr.count
+//    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return freeArr.count
+//        let freeAr = freeArr[section] as! NSDictionary
+//        let products = freeAr["products"] as! NSArray
+//
+//        guard let count = (products[freeArr[section] as! Int] as AnyObject).count else {
+//            return 0
+//        }
+//        return (count + 1)
+//
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let dicCat:NSDictionary = freeArr[indexPath.section] as! NSDictionary
+//        let name = dicCat["name"] as? String ?? ""
+//
+//        if indexPath.row == 0{
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sectionCell", for: indexPath)
+//            let lbl = cell.viewWithTag(1) as! UILabel
+//            lbl.text = name
+//
+//            return cell
+//        }
+//
+//
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCVC", for: indexPath)  as! HomeCVC
+        
+        let dic:NSDictionary = freeArr[indexPath.row] as! NSDictionary
+//        let dic = dicc.value(forKey: "products") as! NSDictionary
+        cell.addBtn.tag = indexPath.row;
+        cell.addBtn.addTarget(self, action: #selector(oneTapped(_:)), for: .touchUpInside)
+        cell.productName_lbl.text =  dic.value(forKey: "name") as? String
+        
+        cell.product_Desciption_lbl.text = (dic.value(forKey: "descriptions") as? String)
+        cell.productPrice_lbl.text = cleanDollars(String(dic.value(forKey: "price") as? Double ?? 0.0))
+        cell.categoryLbl.text = "Available Free items"
 
+        for i in items{
+//            for j in 0...freeArr.count - 1{
+//                let dic = freeArr[indexpa] as? NSDictionary
+            let freeeitemID = dic["productId"] as? String ?? ""
+                if i.product_id == freeeitemID{
+                UserDefaults.standard.setValue(i.item_id, forKey: "freeItemID")
+
+                    cell.addBtn.setTitle("Delete", for: .normal)
+                    cell.addBtn.setTitleColor(UIColor.red, for: .normal)
+                    cell.addBtn.layer.borderColor = UIColor.red.cgColor
+return cell
+                }
+                else{
+                    cell.addBtn.setTitle("Add", for: .normal)
+                    cell.addBtn.setTitleColor(UIColor.init(named: "MaroonTheme"), for: .normal)
+                    cell.addBtn.layer.borderColor = UIColor.init(named: "MaroonTheme")?.cgColor
+                }
+            
+
+//            }
+        }
+
+        return cell
 
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        if indexPath.row != 0{
+        let dic:NSDictionary = freeArr[indexPath.row] as! NSDictionary
+//        let dic = dicc.value(forKey: "products") as! NSDictionary
+        
+       var freeiTemsProductIds = [String]()
+        var itemsProductIDS = [String]()
+        
+        let productId =  dic.value(forKey: "productId") as? String ?? ""
+        
+        var itemsProductsIDs = [String]()
+                for i in self.items {
+                    print(i.product_id,productId,"----------",i)
+                    itemsProductsIDs.append(i.product_id)
+                }
+        
+        if itemsProductsIDs.contains(productId) == true{
+           // Message.showErrorMessage(style: .bottom, message: "This item already exists in your cart", title: "")
+            let freeItemID = UserDefaults.standard.value(forKey: "freeItemID") as? String ?? ""
+            
+            
+            let alert = UIAlertController(title: "Delete Free item", message: "Are you sure you want to delete?",         preferredStyle: UIAlertController.Style.alert)
+            
+            alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { _ in
+                self.deleteFreeItem(itemid: freeItemID)
+
+            }))
+            alert.addAction(UIAlertAction(title: "No",
+                                          style: UIAlertAction.Style.default,
+                                          handler: {(_: UIAlertAction!) in
+                                          self.dismiss(animated: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        else{
+            
+            for i in self.items{
+                for j in 0...self.freeArr.count - 1{
+                    let dic:NSDictionary = self.freeArr[j] as! NSDictionary
+//                    let dic:NSDictionary = dicc["products"] as! NSDictionary
+
+                let freeItem = dic["productId"] as? String ?? ""
+                    
+                    freeiTemsProductIds.append(freeItem)
+                    itemsProductIDS.append(i.product_id)
+                    
+                  
+                }
+            }
+            var set1:Set<String> = Set(freeiTemsProductIds)
+            var set2:Set<String> = Set(itemsProductIDS)
+//            if freeiTemsProductIds.contains(itemsProductIDS) == true{
+            if #available(iOS 13, *) {
+//                let difference = freeiTemsProductIds - itemsProductIDS
+//                for word in itemsProductIDS {
+//                    if let ix = freeiTemsProductIds.index(of: word) {
+//                        freeiTemsProductIds.remove(at: ix)
+//                    }
+//                }
+//                freeiTemsProductIds = freeiTemsProductIds.filter { !itemsProductIDS.contains($0) }
+//                freeiTemsProductIds = Array(Set(freeiTemsProductIds).subtracting(itemsProductIDS))
+                set1.subtract(set2)
+                set2.subtract(set1)
+                let commonElements: Array = Set(freeiTemsProductIds).filter(Set(itemsProductIDS).contains)
+
+//                if itemsProductIDS.contains(productId) == false{
+//
+//                }
+//                else{
+                print(set1.count,set1,set2.count,set2,itemsProductIDS,freeiTemsProductIds,commonElements,"booo")
+                if commonElements.count > 1 || commonElements.count == 1{
+                
+                    Message.showErrorMessage(style: .bottom, message: "Free item can't be added more than one", title: "")
+                    return
+                }
+                else{
+
+                    addToCartFreeItemsAvaiblae(bucket_item_id: productId)
+                    return
+                }
+            } else {
+                // Fallback on earlier versions
+            }
+
+          
+        }
+        
+        //addToCartFreeItemsAvaiblae(bucket_item_id: productId)
+//    }
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let yy = collectionView.bounds.width / 2.2
+//        let yh = yy * 1.2
+//
+//        return CGSize(width: yy, height: yh)
+        let w = collectionView.frame.width/2 - 0
+        let h  : CGFloat = 160
+      
+        return CGSize(width: collectionView.frame.width, height: h)
+    }
+
 }

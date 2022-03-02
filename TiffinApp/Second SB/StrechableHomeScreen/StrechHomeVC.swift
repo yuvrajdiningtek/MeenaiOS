@@ -28,7 +28,8 @@ class StrechHomeVC: UIViewController {
     @IBOutlet weak var historyImg: UIImageView!
     @IBOutlet weak var historyLbl: UILabel!
     @IBOutlet weak var withoutLoginHeight: NSLayoutConstraint!
-    
+    @IBOutlet weak var orderAheadPopupViewFirstTime: UIView!
+
     var collapseCntrl : CollapseControl!
     var productArr = [String:[Products]]()
     var categories : [String] = [String]()
@@ -63,6 +64,23 @@ class StrechHomeVC: UIViewController {
         let vc = storyBoard.instantiateViewController(withIdentifier: "OrdersVC") as! OrdersVC
         return vc
     }()
+    
+    @IBAction func orderAheadPopupBtn(_ sender: Any) {
+        orderAheadPopupViewFirstTime.isHidden = true
+        UserDefaults.standard.setValue(true, forKey: "newFeatures")
+
+    let uvc = UIStoryboard(name: "Second", bundle: nil).instantiateViewController(withIdentifier: "OrderAheadCalenderVC") as! OrderAheadCalenderVC
+
+    self.navigationController?.pushViewController(uvc, animated: true)
+        
+    }
+    @IBAction func crossOrderAhead(_ sender: Any) {
+        UserDefaults.standard.setValue(true, forKey: "newFeatures")
+
+        orderAheadPopupViewFirstTime.isHidden = true
+    }
+
+    
     @IBAction func showww(_ sender: Any) {
         hostoryView.isHidden = false
         
@@ -82,6 +100,27 @@ class StrechHomeVC: UIViewController {
         orderLbl.textColor = UIColor.black
         hostoryView.isHidden = true
     }
+    
+    func showSimpleAlert() {
+        let version : Any! = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
+        let vr = version as! String
+       // version_lbl.text = "Version \(vr)"
+        let alert = UIAlertController(title: "New features available! ", message: "(Version \(vr))\n\n➤ Order Ahead Days\n➤ Automatic offers\n➤ Free items",         preferredStyle: UIAlertController.Style.alert)
+
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: { _ in
+            UserDefaults.standard.setValue(true, forKey: "newFeatures")
+               //Cancel Action
+            //Userdegfault truethis
+           }))
+//           alert.addAction(UIAlertAction(title: "Sign out",
+//                                         style: UIAlertAction.Style.default,
+//                                         handler: {(_: UIAlertAction!) in
+//                                           //Sign out action
+//           }))
+        alert.view.tintColor = UIColor.init(named: "MaroonTheme")
+           self.present(alert, animated: true, completion: nil)
+       }
+    
     
     @IBAction func searchBtnAction(_ sender: Any) {
         let vc = secondSBVC("SearchProductVC")
@@ -114,7 +153,6 @@ class StrechHomeVC: UIViewController {
             }
         }
     }
-    
 }
 
 extension StrechHomeVC{
@@ -137,6 +175,8 @@ extension StrechHomeVC{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+  
+        orderAheadPopupViewFirstTime.isHidden = true
         withoutLoginHeight.constant = 0
 
         historyImg.tintColor = UIColor.lightGray
@@ -210,12 +250,13 @@ extension StrechHomeVC{
         collectionView.register(UINib(nibName: "CollectionVXibs", bundle: nil), forCellWithReuseIdentifier: "HomeCVC")
         collectionView.register(UINib(nibName: "CvcForSectionHeader", bundle: nil), forCellWithReuseIdentifier: "sectionCell")
         self.checkRestrauntIsOpen()
-        
+//        self.view.isUserInteractionEnabled = false
+
         self.getAlOredrs(completion: {
-            
             (succ,error) in
             
-            
+//            self.view.isUserInteractionEnabled = true
+
             if !succ{
                 
                 print(error)
@@ -265,10 +306,45 @@ extension StrechHomeVC{
                             DBManager.sharedInstance.create_merchantIDData_DB(value: a)
                             
                             let MD  = DBManager.sharedInstance.get_merchntId_DataFromDB()[0] as MerchantID
-                           
+                            guard let object = a.value(forKey: "object") as? [String:Any] else {return}
+
                             let isShopOpen = MD.object?.IS_SHOP_OPEN
                             let PRODUCT_IMAGE_PREVIEW = MD.object?.PRODUCT_IMAGE_PREVIEW
                             UserDefaults.standard.setValue(PRODUCT_IMAGE_PREVIEW, forKey: "PRODUCT_IMAGE_PREVIEW")
+                            
+                            guard let ORDER_AHEAD_DAYS = object["ORDER_AHEAD_DAYS"] as? [String] else{return}
+                            guard let SHOP_TIMING = object["SHOP_TIMING"] as? [[String:Any]] else{return}
+                            guard let ENABLE_ORDER_AHEAD = object["ENABLE_ORDER_AHEAD"] as? Bool else{return}
+                            UserDefaults.standard.setValue(ENABLE_ORDER_AHEAD, forKey: "ENABLE_ORDER_AHEAD")
+                            UserDefaults.standard.setValue(ORDER_AHEAD_DAYS, forKey: "ORDER_AHEAD_DAYS")
+                            UserDefaults.standard.setValue(SHOP_TIMING, forKey: "SHOP_TIMING")
+                            
+                            if ENABLE_ORDER_AHEAD == true{
+                                self.upperView?.futureOrderDate.isHidden = false
+                                self.upperView?.futureOrderUnderLineLbl.isHidden = false
+                            }
+                            
+                            let newFeatures = UserDefaults.standard.value(forKey: "newFeatures") as? Bool
+                            if newFeatures == true{
+                                self.orderAheadPopupViewFirstTime.isHidden = true
+                            }
+                            else{
+                              //  let ENABLE_ORDER_AHEAD = UserDefaults.standard.value(forKey: "ENABLE_ORDER_AHEAD") as? Bool
+                                if ENABLE_ORDER_AHEAD == true{
+                                    self.orderAheadPopupViewFirstTime.isHidden = false
+                                }
+                            }
+                            
+                            let currentWeekday = Date().dayOfWeek()?.uppercased()
+                            print("yooooooo",SHOP_TIMING.count,currentWeekday)
+                            if SHOP_TIMING.count != 0{
+                            for i in 0...SHOP_TIMING.count - 1{
+                                if currentWeekday == SHOP_TIMING[i]["name"] as? String{
+                                    print("yooooooo",SHOP_TIMING[i]["time"],SHOP_TIMING[i]["name"],"yooooooo")
+                                    self.upperView?.timingLbl.text = SHOP_TIMING[i]["time"] as! String + "\n20-40 Minutes"
+                                }
+                            }}
+                            
                             self.setcollectionViewiewDataSet()
                             return
                         }else{
@@ -334,6 +410,9 @@ extension StrechHomeVC{
                 print("time",data)
                 
                 self.timingArr = data
+                
+                
+                
                 self.timingTableView.reloadData()
                 self.checkRestrauntIsOpen()
                 
@@ -393,6 +472,7 @@ extension StrechHomeVC{
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    
         
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         let urlOfprodCAt = String()
@@ -440,6 +520,8 @@ extension StrechHomeVC{
                     }
                     else {
                         self.timeView.isHidden = true
+//                        self.getTiming()
+
                         print("opennnnn")
                     }
                     
@@ -463,6 +545,7 @@ extension StrechHomeVC{
         let top = (CollapsablePublicTerms.topSafeAreaMargin) ?? 0
         let frame = CGRect(x: 0, y: -top, width: UIScreen.main.bounds.size.width, height: CollapsablePublicTerms().hederViewHeight)
         upperView = CollapseViewHeader(frame: frame)
+    
         self.view.insertSubview(upperView!, belowSubview: menubtn)
         collapseCntrl = CollapseControl(collapseV: upperView!)
         
@@ -622,3 +705,13 @@ extension String {
         return components(separatedBy: .whitespaces).joined()
     }
 }
+extension Date {
+    func dayOfWeek() -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        return dateFormatter.string(from: self).capitalized
+        // or use capitalized(with: locale) if you want
+    }
+}
+
+//print(Date().dayOfWeek()!) // Wednesday

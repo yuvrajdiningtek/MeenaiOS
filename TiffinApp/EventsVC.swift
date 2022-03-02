@@ -31,6 +31,7 @@ class EventsVC: UIViewController {
 //         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
+   
     @IBAction func menubtnAction(_ sender: Any) {
         //        self.sideMenuController?.toggle()
         sideMenuController?.performSegue(withIdentifier: "toHome", sender: nil)
@@ -114,7 +115,7 @@ class EventsVC: UIViewController {
                 break
             case .failure:
                 
-                self.showAlert(msg: error!)
+                self.showAlert(msg: error ?? "")
                 break
             }
         }
@@ -286,7 +287,7 @@ extension EventsVC : UITableViewDataSource,UITableViewDelegate {
                 break
             case .failure:
                 
-                self.showAlert(msg: error!)
+                self.showAlert(msg: error ?? "")
                 break
             }
             

@@ -18,6 +18,8 @@ class SideMenuHandlerVC: SideMenuController {
         
         performSegue(withIdentifier: "toHome", sender: nil)
         performSegue(withIdentifier: "toSideMenu", sender: nil)
+//        performSegue(withIdentifier: "toOrderAhead", sender: nil)
+
         // Do any additional setup after loading the view.
     }
     required init?(coder aDecoder: NSCoder) {

@@ -197,17 +197,39 @@ class ProductsApi:NSObject{
                 var appliedCoupons : AppliedCoupon? = nil
                 guard let result = respose.result.value as? NSDictionary else {return callback(false,respose,appliedCoupons)}
                 
-                DeleteDataBaseObjects.delete_cartData()
+
                 if let request_status = result.value(forKey: "request_status") as? Int {
                     if request_status == 1{
-                        
+
 //                    try! DBManager.sharedInstance.database.write {
 //                        DBManager.sharedInstance.database.create(CartData.self, value: result)
 //                    }
+                        DeleteDataBaseObjects.delete_cartData()
+
                         let cartData = ParseCartData().map_CartData(data: result)
+                        print(cartData,"-=-=-=-=-=-=-=-=-=-=----")
                         try! DBManager.sharedInstance.database.write {
+                            print(DBManager.sharedInstance.database,"----")
+                            print(DBManager.sharedInstance.database,"----")
+
+                            if DBManager.sharedInstance.database.isEmpty == true{
+                                print("ooooooooooooooo")
+                                return
+                            }
+                            print(cartData.requestId,"----ccccccc")
+//                            if cartData.requestId != ""{
                             DBManager.sharedInstance.database.add(cartData)
-                            
+//                            }
+//                            else{
+                                //print(cartData.requestId,"----noooooooooooo")
+
+                           // }
+                          //  print(cartData.requestId,"----ccccccc")
+
+//
+//                            print(DBManager.sharedInstance.database,"----",cartData)
+                         
+
                         }
                         // ******************** cart button badge ********************
                         if DBManager.sharedInstance.get_CartData_DataFromDB().count != 0{
@@ -227,20 +249,21 @@ class ProductsApi:NSObject{
                             }
                             UserDefaults.standard.set(cartbadgevalue, forKey: userdefaultKeys().number_of_items_in_Cart)
                            // DeleteDataBaseObjects.deleteAppliedCouponsData()
-                            if let obj  = result.value(forKey: "object") as? NSDictionary{
-                                if let appliedcoupons = obj.value(forKey: "applied_coupons") as? NSDictionary{
-                                    appliedCoupons = AppliedCoupon()
-                                    
-                                    for (key,value) in appliedcoupons{
-                                        let data = AppliedCouponData(key : (key as? String ?? "" ),value : (value as? String ?? "" ))
-                                        appliedCoupons!.data.append(data)
-                                    }
-                                    try! DBManager.sharedInstance.database.write {
-                                        DBManager.sharedInstance.database.add(appliedCoupons!)
-                                    }
-                                    
-                                }
-                            }
+//                            if let obj  = result.value(forKey: "object") as? NSDictionary{
+//                                if let appliedcoupons = obj.value(forKey: "applied_coupons") as? NSDictionary{
+//                                    appliedCoupons = AppliedCoupon()
+//
+//                                    for (key,value) in appliedcoupons{
+//                                        let data = AppliedCouponData(key : (key as? String ?? "" ),value : (value as? String ?? "" ))
+//                                        appliedCoupons!.data.append(data)
+//                                    }
+//                                    UserDefaults.standard.setValue(appliedcoupons, forKey: "appliedcoupons")
+////                                    try! DBManager.sharedInstance.database.write {
+////                                        DBManager.sharedInstance.database.add(appliedCoupons!)
+////                                    }
+//
+//                                }
+//                            }
                         }
                         callback(true, result,appliedCoupons)
                     }
@@ -305,6 +328,95 @@ class ProductsApi:NSObject{
                 
             }
             callApi(apiurl: apiurl)
+            
+        }
+        
+        
+        
+    }
+    
+    class public func detail_Cart_InfoFree(callback:@escaping (( _ success :Bool, _ results: Any?)->())){
+        func invalidresult()->NSDictionary{
+            
+            
+            let dic : [String:Any] = ["object":["error":"Invalid Bucket Data Id"]]
+            return dic as NSDictionary
+        }
+        func callApiFree(apiurl : URLComponents?){
+            
+            
+            Alamofire.request(apiurl!,method: .get, encoding: JSONEncoding.default).responseJSON { (respose) in
+                
+           //     var appliedCoupons : AppliedCoupon? = nil
+                guard let result = respose.result.value as? NSDictionary else {return callback(false,respose)}
+                
+
+                if let request_status = result.value(forKey: "request_status") as? Int {
+                    if request_status == 1{
+
+                        callback(true, result)
+                    }
+                    else{
+                        cartbadgevalue = ""
+                        UserDefaults.standard.set(cartbadgevalue, forKey: userdefaultKeys().number_of_items_in_Cart)
+                        
+                        callback(false, result)
+                    }
+                }else{
+                    
+                    
+                    
+                    callback(false, nil)
+                }
+            }
+            
+        }
+        let coupon = UserDefaults.standard.value(forKey: "yessKey") as? String ?? ""
+        let apiStr = ApiKeys.apibase + ApiKeys.getFreeDCI + "\(coupon)/offer/compliment"
+        var apiurl = URLComponents(string: apiStr)
+        
+        
+        if isUserLoggedIn {
+            let user_id = UserDefaults.standard.value(forKey: usercredential().email) as? String ?? ""
+            let logindata = DBManager.sharedInstance.get_loginUser_DataFromDB()[0] as LoginUserDAta
+            let accesstoken = (logindata.object?.access_token)!
+            
+            let bucket_id =  DBManager.sharedInstance.getBucketId()
+            
+            if bucket_id != nil || bucket_id != ""{
+                apiurl?.queryItems = [URLQueryItem(name: "user_id", value: user_id),
+                                      URLQueryItem(name: "access_token", value: accesstoken),
+                                      URLQueryItem(name: "bucket_id", value: bucket_id)
+                ]
+                callApiFree(apiurl: apiurl)
+            }
+            else{
+                SomeInformationApi.get_bucketid { (succ, bucketid) in
+                    apiurl?.queryItems = [URLQueryItem(name: "user_id", value: user_id),
+                                          URLQueryItem(name: "access_token", value: accesstoken),
+                                          URLQueryItem(name: "bucket_id", value: bucketid ?? "")
+                    ]
+                    callApiFree(apiurl: apiurl)
+                }
+            }
+           
+            
+        }else{
+            let accesstoken = GuestUserCredential.access_token
+            let user_id = GuestUserCredential.user_id
+            let bucket_id = DBManager.sharedInstance.getBucketId()
+            apiurl?.queryItems = [URLQueryItem(name: "user_id", value: user_id),
+                                  URLQueryItem(name: "access_token", value: accesstoken),
+                                  URLQueryItem(name: "bucket_id", value: bucket_id ?? "")
+            ]
+            
+            if bucket_id == nil || bucket_id == "" {
+                cartbadgevalue = ""
+                callback(false,invalidresult())
+                return
+                
+            }
+            callApiFree(apiurl: apiurl)
             
         }
         
@@ -472,7 +584,7 @@ class ProductsApi:NSObject{
         if isUserLoggedIn{
             
             let logindata = DBManager.sharedInstance.get_loginUser_DataFromDB()[0] as LoginUserDAta
-            accesstoken = (logindata.object?.access_token)!
+            accesstoken = (logindata.object?.access_token) ?? ""
             
             
             
@@ -534,8 +646,8 @@ class ProductsApi:NSObject{
         if isUserLoggedIn{
             
             let logindata = DBManager.sharedInstance.get_loginUser_DataFromDB()[0] as LoginUserDAta
-            accesstoken = (logindata.object?.access_token)!
-            
+            accesstoken = (logindata.object?.access_token) ?? ""
+        
             
             
         } else{

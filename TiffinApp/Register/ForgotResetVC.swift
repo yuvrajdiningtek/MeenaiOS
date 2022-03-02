@@ -95,7 +95,7 @@ class ForgotResetVC: UIViewController,UITextFieldDelegate {
                 self.present(alert, animated: true, completion: nil)
                   }
                   else {
-                    self.showAlert(msg: error!)
+                    self.showAlert(msg: error ?? "")
                   }
                 break
             case .failure:

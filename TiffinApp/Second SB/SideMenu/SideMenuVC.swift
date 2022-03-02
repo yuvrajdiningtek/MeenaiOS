@@ -55,11 +55,20 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
     let tabldataFor_GuestUser = ["FirstSec":["Menu","Event List"],
                                  "Others":["Share App","About Us", "Contact Us","Privacy Policy","LogIn"]]
     
+    let tabldataFor_LoginUserOrderAhead = ["FirstSec":["Menu","Event List","Order Ahead Days","My Addresses"],
+                                 "Others":["Share App","About Us", "Contact Us","Privacy Policy","Logout"]]
+    let tabldataFor_GuestUserOrderAhead = ["FirstSec":["Menu","Event List","Order Ahead Days"],
+                                 "Others":["Share App","About Us", "Contact Us","Privacy Policy","LogIn"]]
     
-    let iconNnTable : [String:[String]] = ["FirstSec":["restaurant-menu@x1","oredrHistory_@x1","location@x1"],
+    //oredrHistory_@x1
+    
+    let iconNnTable : [String:[String]] = ["FirstSec":["restaurant-menu@x1","eventy","location@x1"],
                                            "Others":["ShareApp_@x1","aboutsUs@x1","contactUs@x1","PrivacyPolicy@x1","logOut_@x1"]]
     
-    let segues = ["toHome", "toEvents",  "toAddresses","toAboutUs"]
+    let iconNnTableOrderAhead : [String:[String]] = ["FirstSec":["restaurant-menu@x1","eventy","calen","location@x1"],
+                                           "Others":["ShareApp_@x1","aboutsUs@x1","contactUs@x1","PrivacyPolicy@x1","logOut_@x1"]]
+    
+    let segues = ["toHome", "toEvents","toOrderAhead",  "toAddresses","toAboutUs"]
     
     
     
@@ -69,22 +78,78 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
         super.viewDidLoad()
         self.view.layer.cornerRadius = 20
         self.view.clipsToBounds = true
-        
+        let version : Any! = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
+        let vr = version as! String
+        version_lbl.text = "Version \(vr)"
+        //let ENABLE_ORDER_AHEAD = UserDefaults.standard.value(forKey: "ENABLE_ORDER_AHEAD") as? Bool
         if isUserLoggedIn{
             getuserInformation()
-            dataInTable = tabldataFor_LoginUser
+//            if ENABLE_ORDER_AHEAD == true{
+//                dataInTable = tabldataFor_LoginUserOrderAhead
+//
+//            }
+//            else{
+//            dataInTable = tabldataFor_LoginUser
+//            }
         }else{
+            
             username_lbl.text = "Log In"
             email_lbl.text = ""
-            dataInTable = tabldataFor_GuestUser
-            
+//            if ENABLE_ORDER_AHEAD == true{
+//                dataInTable = tabldataFor_GuestUserOrderAhead
+//
+//            }
+//            else{
+//            dataInTable = tabldataFor_GuestUser
+//            }
         }
         NotificationCenter.default.addObserver(self, selector: #selector(userLogInStatusChange), name: NSNotification.Name.init(NotificationName.userLoginStatus), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(userInfoUpdate), name: NSNotification.Name.init(NotificationName.userInfoUpdate), object: nil)
     }
+    @IBAction func showVersionPopup(_ sender: Any) {
+       // self.showSimpleAlert()
+    }
+    func showSimpleAlert() {
+        let version : Any! = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
+        let vr = version as! String
+       // version_lbl.text = "Version \(vr)"
+        let alert = UIAlertController(title: "New features available! ", message: "(Version \(vr))\n\n➤ Order Ahead Days\n➤ Automatic offers\n➤ Free items",         preferredStyle: UIAlertController.Style.alert)
+
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: { _ in
+            UserDefaults.standard.setValue(true, forKey: "newFeatures")
+               //Cancel Action
+            //Userdegfault truethis
+           }))
+//           alert.addAction(UIAlertAction(title: "Sign out",
+//                                         style: UIAlertAction.Style.default,
+//                                         handler: {(_: UIAlertAction!) in
+//                                           //Sign out action
+//           }))
+        alert.view.tintColor = UIColor.init(named: "MaroonTheme")
+           self.present(alert, animated: true, completion: nil)
+       }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        let ENABLE_ORDER_AHEAD = UserDefaults.standard.value(forKey: "ENABLE_ORDER_AHEAD") as? Bool
+        if isUserLoggedIn {
+            if ENABLE_ORDER_AHEAD == true{
+                dataInTable = tabldataFor_LoginUserOrderAhead
+            }
+            else{
+            dataInTable = tabldataFor_LoginUser
+            }
+        }else{
+            if ENABLE_ORDER_AHEAD == true{
+                dataInTable = tabldataFor_GuestUserOrderAhead
+            }
+            else{
+            dataInTable = tabldataFor_GuestUser
+            }
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(userLogInStatusChange), name: NSNotification.Name.init(NotificationName.userLoginStatus), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userInfoUpdate), name: NSNotification.Name.init(NotificationName.userInfoUpdate), object: nil)
     }
     @objc func userInfoUpdate(_ sender: NotificationCenter) {
         if DBManager.sharedInstance.get_userInfo_DataFromDB().count != 0{
@@ -103,13 +168,26 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
     @objc func userLogInStatusChange(_ sender : NotificationCenter){
         if isUserLoggedIn{
             getuserInformation()
+            let ENABLE_ORDER_AHEAD = UserDefaults.standard.value(forKey: "ENABLE_ORDER_AHEAD") as? Bool
+            if ENABLE_ORDER_AHEAD == true{
+                dataInTable = tabldataFor_LoginUserOrderAhead
+
+            }
+            else{
             dataInTable = tabldataFor_LoginUser
+            }
             table_V.reloadData()
         }else{
             username_lbl.text = "Log In"
             email_lbl.text = ""
-            
+            let ENABLE_ORDER_AHEAD = UserDefaults.standard.value(forKey: "ENABLE_ORDER_AHEAD") as? Bool
+            if ENABLE_ORDER_AHEAD == true{
+                dataInTable = tabldataFor_GuestUserOrderAhead
+
+            }
+            else{
             dataInTable = tabldataFor_GuestUser
+            }
             table_V.reloadData()
         }
     }
@@ -147,11 +225,18 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SideMenuTVC
+        let ENABLE_ORDER_AHEAD = UserDefaults.standard.value(forKey: "ENABLE_ORDER_AHEAD") as? Bool
+        var iconofFirst = [String]()
         if indexPath.section == 0{
             let dataofFirst = dataInTable["FirstSec"]
-            let iconofFirst = iconNnTable["FirstSec"]
+            if ENABLE_ORDER_AHEAD == true{
+            iconofFirst = iconNnTableOrderAhead["FirstSec"]!
+            }
+            else{
+                iconofFirst = iconNnTable["FirstSec"]!
+            }
             cell.title_lbl.text = dataofFirst?[indexPath.row]
-            cell.icon_imgV.image = UIImage(named: (iconofFirst?[indexPath.row])!)
+            cell.icon_imgV.image = UIImage(named: (iconofFirst[indexPath.row]))
             
         }
         else if indexPath.section == 1{
@@ -213,6 +298,7 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
                 sideMenuController?.embed(centerViewController: vc)
             }
                 //
+            
             else if indexPath.row == 4{
                 if isUserLoggedIn{
                     let alert = UIAlertController(title: "Confirm Logout...", message: "Do you want to logout?", preferredStyle: .alert)
@@ -240,9 +326,9 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
     }
     
     func shareButtonClicked() {
-        let textToShare = "Smoky Hill Indian!  Check out this app!"
+        let textToShare = "Tandoori!  Check out this app!"
         
-        if let myWebsite = NSURL(string: "https://apps.apple.com/us/app/smoky-hill-indian/id1601783867") {
+        if let myWebsite = NSURL(string: "https://itunes.apple.com/in/app/tandoori/id1476393330?mt=8") {
             let objectsToShare = [textToShare, myWebsite] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             

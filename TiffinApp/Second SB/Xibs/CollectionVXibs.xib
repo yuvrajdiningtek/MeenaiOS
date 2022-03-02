@@ -61,13 +61,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aNt-dU-gxi">
-                                <rect key="frame" x="266" y="51" width="73" height="68"/>
+                                <rect key="frame" x="251.5" y="34" width="87.5" height="85"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tpw-d9-7dI">
                                 <rect key="frame" x="272" y="102" width="62" height="25.5"/>
                                 <subviews>
                                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZkA-lN-XOF">
-                                        <rect key="frame" x="-0.5" y="-2" width="62" height="30"/>
+                                        <rect key="frame" x="-8" y="-2" width="62" height="30"/>
                                         <color key="backgroundColor" red="0.95077968106278243" green="0.9557575851521164" blue="0.9557575851521164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="xZF-xI-sii"/>
@@ -105,15 +105,15 @@
                             <constraint firstItem="QqB-yb-jHW" firstAttribute="leading" secondItem="hDc-Qf-bdE" secondAttribute="leading" constant="10" id="9QK-Sb-e65"/>
                             <constraint firstAttribute="trailing" secondItem="OzW-uM-16S" secondAttribute="trailing" constant="10" id="9u1-ou-1id"/>
                             <constraint firstItem="rSM-1k-IlZ" firstAttribute="leading" secondItem="QqB-yb-jHW" secondAttribute="leading" id="EAh-4k-UHS"/>
-                            <constraint firstItem="aNt-dU-gxi" firstAttribute="height" secondItem="hDc-Qf-bdE" secondAttribute="height" multiplier="0.4" id="FdB-ta-kFr"/>
+                            <constraint firstItem="aNt-dU-gxi" firstAttribute="height" secondItem="hDc-Qf-bdE" secondAttribute="height" multiplier="0.5" id="FdB-ta-kFr"/>
                             <constraint firstItem="OzW-uM-16S" firstAttribute="leading" secondItem="hDc-Qf-bdE" secondAttribute="leading" constant="10" id="GcA-yE-DI6"/>
                             <constraint firstItem="rSM-1k-IlZ" firstAttribute="leading" secondItem="hDc-Qf-bdE" secondAttribute="leading" constant="10" id="Oul-T0-i37"/>
                             <constraint firstItem="ZkA-lN-XOF" firstAttribute="centerX" secondItem="aNt-dU-gxi" secondAttribute="centerX" id="PkU-Jx-Zn3"/>
                             <constraint firstItem="eZs-Fl-wYU" firstAttribute="width" secondItem="hDc-Qf-bdE" secondAttribute="width" multiplier="0.9" id="Rcg-Qy-SaM"/>
-                            <constraint firstItem="aNt-dU-gxi" firstAttribute="centerY" secondItem="hDc-Qf-bdE" secondAttribute="centerY" id="TQZ-Kg-d2o"/>
+                            <constraint firstItem="aNt-dU-gxi" firstAttribute="centerY" secondItem="hDc-Qf-bdE" secondAttribute="centerY" multiplier="0.9" id="TQZ-Kg-d2o"/>
                             <constraint firstItem="tpw-d9-7dI" firstAttribute="centerX" secondItem="hDc-Qf-bdE" secondAttribute="centerX" multiplier="1.66" id="Zw7-KD-gez"/>
                             <constraint firstAttribute="bottom" secondItem="eZs-Fl-wYU" secondAttribute="bottom" id="ahE-6W-7fg"/>
-                            <constraint firstItem="aNt-dU-gxi" firstAttribute="width" secondItem="hDc-Qf-bdE" secondAttribute="width" multiplier="0.2" id="apU-A9-jSt"/>
+                            <constraint firstItem="aNt-dU-gxi" firstAttribute="width" secondItem="hDc-Qf-bdE" secondAttribute="width" multiplier="0.24" id="apU-A9-jSt"/>
                             <constraint firstItem="QqB-yb-jHW" firstAttribute="width" secondItem="hDc-Qf-bdE" secondAttribute="width" multiplier="0.5" id="cSe-FF-4HO"/>
                             <constraint firstItem="eZs-Fl-wYU" firstAttribute="centerX" secondItem="hDc-Qf-bdE" secondAttribute="centerX" id="dFK-l4-hRh"/>
                             <constraint firstItem="rSM-1k-IlZ" firstAttribute="top" secondItem="EnB-gc-hAb" secondAttribute="bottom" constant="10" id="dOD-Z4-Vq1"/>
@@ -154,7 +154,7 @@
     </objects>
     <resources>
         <namedColor name="MaroonTheme">
-            <color red="0.90784353427786046" green="0.33460321564001899" blue="0.15669012971461393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.027450980392156862" green="0.34901960784313724" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="supportcolor">
             <color red="0.87058823529411766" green="0.75294117647058822" blue="0.019607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

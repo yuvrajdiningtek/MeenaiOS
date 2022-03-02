@@ -26,6 +26,8 @@ class ObjectCartData:Object{
     @objc dynamic var is_delivery = 0
     @objc dynamic var is_pickup = 0
     @objc dynamic var is_shop_open = 0
+    var offer_name = List<String>()
+
     var available_delivery_methods = List<Available_delivery_methods>()
     @objc dynamic var available_pickup_methods = ""
     var available_checkout_methods = List<Available_checkout_methods>()

@@ -22,7 +22,7 @@ class DBManager{
     
     func getallObjectsOfRealm()->[Object.Type]{
         
-        return [LoginUserDAta.self,LoginObject.self,MerchantID.self,MerchantObject.self,ProductCatData.self,AllCategory.self,ProdCategory.self,Products.self,Attributes.self,VarianceAttribute.self,RawValue.self,MerchantDetail.self,MerchantDetailObject.self,GroupVarianceAttribute.self,CategoryVarianceAttribute.self,Variations.self,CartData.self,ObjectCartData.self,ItemsObjectOrdersData.self,FeesObjectOrdersData.self,TaxesObjectOrdersData.self,Applied_couponsObjectOrdersData.self,Available_delivery_methods.self,Available_checkout_methods.self, CurrencyModel.self , DataCurrencyModel.self, AdressModel.self , DataAdressModel.self,OrdersData.self, DatainOrdersData.self, ItemsOrdersData.self, ItemsFeesOrdersData.self ,AdditionalFeesOrdersData.self, OrderStatusOrdersData.self , MetaInfoObjectData.self, OrderRefunedsObjectData.self , TaxesOrdersData.self , CheckoutMethod.self,UserInfo.self, UserInfoObject.self, /*GroupVarianceAttributeOrders.self, CategoryVarianceAttributeOrders.self,*/CountryModel.self, DatainCountryModel.self,ObjectBankCardModel.self,BankCards.self,GalleryImages.self,OpenTimingVsec.self,OpenTimingVsecData.self,RestrauntTiming.self,RestrauntTimingData.self,UserDataLocal.self
+        return [LoginUserDAta.self,LoginObject.self,MerchantID.self,MerchantObject.self,ProductCatData.self,AllCategory.self,ProdCategory.self,Products.self,Attributes.self,VarianceAttribute.self,RawValue.self,MerchantDetail.self,MerchantDetailObject.self,GroupVarianceAttribute.self,CategoryVarianceAttribute.self,Variations.self,CartData.self,ObjectCartData.self,ItemsObjectOrdersData.self,FeesObjectOrdersData.self,TaxesObjectOrdersData.self,Available_delivery_methods.self,Available_checkout_methods.self, CurrencyModel.self , DataCurrencyModel.self, AdressModel.self , DataAdressModel.self,OrdersData.self, DatainOrdersData.self, ItemsOrdersData.self, ItemsFeesOrdersData.self ,AdditionalFeesOrdersData.self, OrderStatusOrdersData.self , MetaInfoObjectData.self, OrderRefunedsObjectData.self , TaxesOrdersData.self , CheckoutMethod.self,UserInfo.self, UserInfoObject.self, /*GroupVarianceAttributeOrders.self, CategoryVarianceAttributeOrders.self,*/CountryModel.self, DatainCountryModel.self,ObjectBankCardModel.self,BankCards.self,GalleryImages.self,OpenTimingVsec.self,OpenTimingVsecData.self,RestrauntTiming.self,RestrauntTimingData.self,UserDataLocal.self//,ShopTimimgObject.self//Applied_couponsObjectOrdersData.self,
         ]
     }
     
@@ -280,7 +280,7 @@ class DBManager{
     func deleteApplyCoupon(){
         let rst = database.objects(AppliedCoupon.self)
         try? database.write {
-            database.delete(rst)
+          //  database.delete(rst)
         }
     }
     

@@ -206,13 +206,14 @@ extension ExistingAddressVC:UITableViewDelegate,UITableViewDataSource{
         let vc = secondSBVC("EditCreateAddressVC") as! EditCreateAddressVC
         vc.passedAddress = addressArr[sender.tag]
         vc.update = true
+        vc.comeFrom = true
         vc.statenameForAdddrss = addressArr[sender.tag].stateName
         self.navigationController?.pushViewController(vc, animated: true)
     }
     @objc func newaddress(_sender:Any){
         let vc = secondSBVC("EditCreateAddressVC") as! EditCreateAddressVC
         vc.update = true
-        
+        vc.comeFrom = true
         vc.passedAddress = nil
         self.navigationController?.pushViewController(vc, animated: true)
     }

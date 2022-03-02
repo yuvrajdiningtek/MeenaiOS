@@ -347,8 +347,6 @@ class SomeInformationApi : NSObject{
             ]
         }
         
-        
-        
         Alamofire.request(apiurl!,method: .get, encoding: JSONEncoding.default).responseJSON { (respose) in
             guard let rst = respose.result.value as? NSDictionary else {return callback(false,respose)}
             guard let request_status = rst.value(forKey: "request_status") as? Int , request_status == 1 else {return callback(false,rst)}

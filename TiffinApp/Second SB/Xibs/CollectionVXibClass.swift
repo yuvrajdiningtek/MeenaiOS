@@ -18,15 +18,18 @@ class HomeCVC : UICollectionViewCell{
         super.awakeFromNib()
         
         
-//        let PRODUCT_IMAGE_PREVIEW = UserDefaults.standard.value(forKey: "PRODUCT_IMAGE_PREVIEW") as? String
-//        if PRODUCT_IMAGE_PREVIEW == "true"{
+        let PRODUCT_IMAGE_PREVIEW = UserDefaults.standard.value(forKey: "PRODUCT_IMAGE_PREVIEW") as? String
+        if PRODUCT_IMAGE_PREVIEW == "true"{
 //            imggHeight.constant = 100
 //            descHeight.constant = 0
-//        }
-//        else{
+            product_imgV.isHidden = false
+        }
+        else{
+            product_imgV.isHidden = true
+
 //            imggHeight.constant = 0
 //            descHeight.constant = 60
-//        }
+        }
         
         product_imgV.layer.masksToBounds = true
         product_imgV.clipsToBounds = true

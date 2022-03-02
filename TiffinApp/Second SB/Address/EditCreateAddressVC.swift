@@ -17,7 +17,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
             self.state_btn.setTitle("  State", for: .normal)
             self.state_btn.setTitleColor(UIColor(hex: 0xB8B8B8) , for: .normal)
             
-            self.country_btn.setTitle("  \(Country)", for: .normal)
+            self.country_btn.setTitle("  \(Country ?? "")", for: .normal)
         }
         else if State != nil{
             
@@ -25,11 +25,13 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
             stateid = State
             self.state_btn.setTitleColor(.black, for: .normal)
 
-            self.state_btn.setTitle("  \(state)", for: .normal)
+            self.state_btn.setTitle("  \(state ?? "")", for: .normal)
         }
         
     }
     
+    var comeFrom = Bool()
+    @IBOutlet weak var topSpaceOrderTail: NSLayoutConstraint!
 
    //MARK: - IBOUTLETS
     @IBOutlet weak var firstnameTxtF: UITextField!
@@ -167,6 +169,15 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if comeFrom == true {
+            topSpaceOrderTail.constant = 30
+        }
+        else{
+            topSpaceOrderTail.constant = 10
+
+        }
+        
         add_address_btn.layer.cornerRadius = 15
         textFields()
         

@@ -36,11 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var stripeAccountID = String()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
-        let instabugId = "9201b648502e44470a13571c8f2a5aea"
-        Instabug.start(withToken: instabugId, invocationEvents: [.shake, .floatingButton])
-        Instabug.tintColor = UIColor.MyTheme.supportcolor
-//        BugReporting.floatingButtonEdge = CGRectEdge(rawValue: 200)!
-        BugReporting.floatingButtonTopOffset = CGFloat(350)
+//        let instabugId = "9201b648502e44470a13571c8f2a5aea"
+//        Instabug.start(withToken: instabugId, invocationEvents: [.shake, .floatingButton])
+//        Instabug.tintColor = UIColor.MyTheme.supportcolor
+////        BugReporting.floatingButtonEdge = CGRectEdge(rawValue: 200)!
+//        BugReporting.floatingButtonTopOffset = CGFloat(350)
     
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 3600) {
 //            var alertController = UIAlertController(title: "SCREEN TIMEOUT", message: "", preferredStyle: .alert)
@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func getProDev() {
         
         
-        let merchantid = "f333f8362cc10b1c7d09aa8bcbdeead3"
+        let merchantid = "80ce8de93f71d4b188e62d10fe56eff2"
         
         let version : Any! = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
         
@@ -121,7 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             :]
         print("parameters==========\(parameters)")
         
-        Alamofire.request("https://prod.diningtek.com/service/status/\(merchantid)/SMOKYHILL-i\(vr)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+        Alamofire.request("https://prod.diningtek.com/service/status/\(merchantid)/TANDOORI-i\(vr)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             debugPrint(response.result)
             print("",response.result.value)
             let json = response.result.value as? [String: Any]
@@ -137,11 +137,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // UserDefaults.standard.setValue(PROD_STATUS, forKey: "PROD_STATUSDev")
                 let checkProdStatus = "false"
                 if PROD_STATUS == checkProdStatus.uppercased() || PROD_STATUS == checkProdStatus.lowercased() || PROD_STATUS == "False"{
-                    ApiKeys.domain = "https://rules.diningtek.com/"
+                    ApiKeys.domain = "https://in-prod.diningtek.com/"
                     
                 }
                 else {
-                    ApiKeys.domain = "https://prod.diningtek.com/"
+                    ApiKeys.domain = "https://in-prod.diningtek.com/"
                 }
                 self.merchant_id()
                 //self.getStripeAccountID()
@@ -215,6 +215,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             guard let STRIPE_ACCOUNT_ID = object["STRIPE_ACCOUNT_ID"] as? String else{return}
                             UserDefaults.standard.setValue(STRIPE_ACCOUNT_ID, forKey: "s_acc_id")
                             UserDefaults.standard.setValue(STRIPE_ACCOUNT_ID, forKey: "stripeIDStatus")
+                            
+                            guard let ORDER_AHEAD_DAYS = object["ORDER_AHEAD_DAYS"] as? [String] else{return}
+                            guard let SHOP_TIMING = object["SHOP_TIMING"] as? [[String:Any]] else{return}
+
+                            guard let ENABLE_ORDER_AHEAD = object["ENABLE_ORDER_AHEAD"] as? Bool else{return}
+                            UserDefaults.standard.setValue(ENABLE_ORDER_AHEAD, forKey: "ENABLE_ORDER_AHEAD")
+
+                            
+                            print(ORDER_AHEAD_DAYS,"----------")
+                            UserDefaults.standard.setValue(ORDER_AHEAD_DAYS, forKey: "ORDER_AHEAD_DAYS")
+                            UserDefaults.standard.setValue(SHOP_TIMING, forKey: "SHOP_TIMING")
                             
                             self.getStripeAccountID(merchantIDD: MERCHANT_ID)
                             

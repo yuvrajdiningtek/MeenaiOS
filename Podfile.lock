@@ -6,6 +6,7 @@ PODS:
   - CreditCardForm (0.1.8)
   - DropDown (2.3.13)
   - Fabric (1.9.0)
+  - FSCalendar (2.8.2)
   - FSPagerView (0.8.2)
   - GoogleMaps/Base (3.0.2)
   - GooglePlaces (3.0.2):
@@ -44,6 +45,7 @@ DEPENDENCIES:
   - CreditCardForm
   - DropDown
   - Fabric
+  - FSCalendar
   - FSPagerView
   - GooglePlaces
   - Hero
@@ -69,6 +71,7 @@ SPEC REPOS:
     - CreditCardForm
     - DropDown
     - Fabric
+    - FSCalendar
     - FSPagerView
     - GoogleMaps
     - GooglePlaces
@@ -104,6 +107,7 @@ SPEC CHECKSUMS:
   CreditCardForm: 7e67bc394545eda9e502652af0858552b4931728
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   Fabric: 09ef2d9b99b104702bede1acaf469fb8f20a9146
+  FSCalendar: e6a2eb9c571bf0719ed797ef807e08426753c241
   FSPagerView: 816a18842306973cc7cc6df8a5332272f7815c30
   GoogleMaps: 941cd655e009b4d8e42df19a3d749bc3fccec973
   GooglePlaces: c086e0055dc5f0177d7c9d65fc77a1734f9a4825
@@ -124,6 +128,6 @@ SPEC CHECKSUMS:
   Stripe: 4305b646743612854819fb5d5cf67aaeb93577c0
   SwiftMessages: 8b3cc68dba2f1c91aac1a74c90b10287aac35371
 
-PODFILE CHECKSUM: eb6d0a05b8e441431c6773485dc74d87189f90a9
+PODFILE CHECKSUM: ed3829705fa12f52faab287685d6b32e42d11fd9
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

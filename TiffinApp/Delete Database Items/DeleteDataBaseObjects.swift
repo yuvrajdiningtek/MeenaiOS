@@ -63,7 +63,7 @@ struct DeleteDataBaseObjects {
             let obj2 = DBManager.sharedInstance.database.objects(ItemsObjectOrdersData.self)
             let obj3 = DBManager.sharedInstance.database.objects(FeesObjectOrdersData.self)
             let obj4 = DBManager.sharedInstance.database.objects(TaxesObjectOrdersData.self)
-            let obj5 = DBManager.sharedInstance.database.objects(Applied_couponsObjectOrdersData.self)
+//            let obj5 = DBManager.sharedInstance.database.objects(Applied_couponsObjectOrdersData.self)
             let obj6 = DBManager.sharedInstance.database.objects(Available_delivery_methods.self)
             let obj7 = DBManager.sharedInstance.database.objects(Available_checkout_methods.self)
             
@@ -72,7 +72,7 @@ struct DeleteDataBaseObjects {
                 DBManager.sharedInstance.database.delete(obj2)
                 DBManager.sharedInstance.database.delete(obj3)
                 DBManager.sharedInstance.database.delete(obj4)
-                DBManager.sharedInstance.database.delete(obj5)
+//                DBManager.sharedInstance.database.delete(obj5)
                 DBManager.sharedInstance.database.delete(obj6)
                 DBManager.sharedInstance.database.delete(obj7)
             }

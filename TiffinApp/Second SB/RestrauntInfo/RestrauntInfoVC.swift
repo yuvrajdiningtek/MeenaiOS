@@ -39,6 +39,7 @@ class RestrauntInfoVC: UIViewController {
         self.appPinAtLocation()
         self.backbtn.fromSideMenu  = fromSideMenu
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
@@ -51,7 +52,7 @@ class RestrauntInfoVC: UIViewController {
         
         let lonitude = merchantDetail.object?.location_longitude ?? 77.1857
         let latitude = merchantDetail.object?.location_latitude ?? 28.5691
-        
+
         sourceLocation = CLLocationCoordinate2D(latitude: latitude, longitude: lonitude)
         
     }

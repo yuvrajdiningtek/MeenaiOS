@@ -60,7 +60,9 @@ import UIKit
     // MARK: - VARIABLES
     var currentValue : CGFloat = 0.0 {
         didSet{
+            if currentValue != nil{
             currentValue_lbl.text = String(describing: Int(currentValue))
+            }
         }
     }
     var delegate : CustomStepperDelegate?

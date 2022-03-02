@@ -80,6 +80,7 @@ class ProductsDetailViewModel{
                 "cookingInstruction":cookingInstruction
             ]
         ]
+        print(parametrs)
          showLoader()
         ProductsApi.addToCart(parameters: parametrs) { (success, result) in
             self.hideLoader()

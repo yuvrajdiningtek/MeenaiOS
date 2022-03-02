@@ -100,6 +100,7 @@ class PushBtn : UIButton{
         let nv = self.viewContainingController()?.navigationController
         let vc = secondSBVC(vcid!)
         nv?.hero.isEnabled = heroEnable
+        nv?.navigationBar.isHidden = true
         nv?.pushViewController(vc, animated: true)
     }
     

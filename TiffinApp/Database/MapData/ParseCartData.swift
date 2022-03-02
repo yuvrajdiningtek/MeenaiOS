@@ -58,14 +58,14 @@ struct ParseCartData{
         }
         return r
     }
-    private func map_applied_coupons(data : NSDictionary)->Applied_couponsObjectOrdersData{
-        var r : Applied_couponsObjectOrdersData = Applied_couponsObjectOrdersData()
-        try! DBManager.sharedInstance.database.write {
-            r = DBManager.sharedInstance.database.create(Applied_couponsObjectOrdersData.self, value: data, update: false)
-            
-        }
-        return r
-    }
+//    private func map_applied_coupons(data : NSDictionary)->Applied_couponsObjectOrdersData{
+//        var r : Applied_couponsObjectOrdersData = Applied_couponsObjectOrdersData()
+//        try! DBManager.sharedInstance.database.write {
+//            r = DBManager.sharedInstance.database.create(Applied_couponsObjectOrdersData.self, value: data, update: false)
+//
+//        }
+//        return r
+//    }
     private func map_available_delivery_methods(data : NSDictionary)->Available_delivery_methods{
         var r : Available_delivery_methods = Available_delivery_methods()
         try! DBManager.sharedInstance.database.write {

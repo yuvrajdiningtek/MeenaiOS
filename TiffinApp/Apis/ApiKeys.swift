@@ -7,8 +7,8 @@ class ApiKeys {
 //  New Order History Url https://rules.diningtek.com/api/v1/users/business/order/history/merchandise
 
     
-    static var domain = "https://rules.diningtek.com/"
-     var domain = "https://prod.diningtek.com/"
+    static var domain = "https://in-prod.diningtek.com/"
+     var domain = "https://in-prod.diningtek.com/"
     static let merchantapibaseevents = domain + "api/v1/merchants/events"
     static let merchantapibaseEventDelete = domain + "api/v1/merchants/event"
     static let apibase = domain + "api/v1/users/"
@@ -17,6 +17,9 @@ class ApiKeys {
     static let getAddresses = "addresses"
     static let pastOrders = "business/order/history/merchandise"
     static let getDCI = "business/bucket/dci"
+    static let getFreeDCI = "business/bucket/"
+    static let addToCartFreeDCI = "business/bucket/"
+
     static let addToCart = "business/bucket/item"
     static let deleteCart = ApiKeys.apibase + "business/bucket"
     static let updateFeeTip = ApiKeys.apibase + "business/bucket/custom_taxrate"

@@ -8,8 +8,8 @@ import Alamofire
 class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControllerDelegate{
 
     //MARK: - IBOUTLETS
+    
     @IBOutlet weak var topSpaceOrderTail: NSLayoutConstraint!
-
     @IBOutlet weak var item_fees_tv: UITableView!
     
     @IBOutlet weak var taxes_table_v: UITableView!
@@ -205,8 +205,9 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
        
     }
         else {
+            
             topSpaceOrderTail.constant = 50
-
+            
 //            if passedOrderData?.metaInfo!.COUPON != ""  {
 //                coupanLbl.text = "Applied Coupan : " + (passedOrderData?.metaInfo!.COUPON)! + "   - " + "(" + (passedOrderData?.metaInfo!.COUPON_TIFFIN10_AMOUNT)! + " $" + ")"
 //            }
@@ -226,7 +227,7 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
         super.updateViewConstraints()
         tableview_height_constraint.constant = CGFloat(70 * table_v.numberOfRows(inSection: 0))
         item_fee_tv_height_constraint.constant = item_fees_tv.contentSize.height
-        taxes_tv_height_constraint.constant = taxes_table_v.contentSize.height  
+        taxes_tv_height_constraint.constant = taxes_table_v.contentSize.height
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -335,6 +336,9 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
             
             totalamount_lbl.text =  "\(cleanDollars(String(describing: passedOrderData?.orderTotal ?? 0.0)))  "
             coupanAmontLbl.text = "$\(self.passedOrderData!.metaInfo!.COUPON_TIFFIN10_AMOUNT)"
+                    if self.passedOrderData!.metaInfo!.COUPON_TIFFIN10_AMOUNT == ""{
+                        coupanAmontLbl.text = ""
+                    }
             coupanLbll.text = "Applied Coupon : \(self.passedOrderData!.metaInfo!.COUPON)"
             orderTotalLbl.text = "  Order Total"
             }
