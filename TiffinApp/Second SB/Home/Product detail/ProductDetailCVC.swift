@@ -341,12 +341,13 @@ extension ProductDetailCVC: SelectedVariationsDelegate{
             if succ{
                 Message.showSuccessmsg(style: .bottom, message: "Added successfully")
                 NotificationCenter.default.post(name: Notification.Name("MoveToHome"), object: true, userInfo: nil)
+                UserDefaults.standard.setValue(false, forKey: "comeFromOrder")
 
                 self.viewController.dismiss(animated: true)
                 //MyCartVC
-                let vc = secondSBVC("PlaceOrderVC")//PlaceOrderVC
-                self.viewController.navigationController?.pushViewController(vc, animated: true)
-                
+//                let vc = secondSBVC("PlaceOrderVC")//PlaceOrderVC
+//                self.viewController.navigationController?.pushViewController(vc, animated: true)
+//
             }
             else{
                 Message.showErrorMessage(style: .bottom, message: msg, title: "error")

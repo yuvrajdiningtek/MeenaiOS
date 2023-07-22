@@ -20,7 +20,10 @@ struct MapOrderData {
             orderData.data.append(i)
         }
         try! DBManager.sharedInstance.database.write {
-            DBManager.sharedInstance.database.add(orderData)
+//            DBManager.sharedInstance.database.add(orderData)
+       DBManager.sharedInstance.database.create(OrdersData.self, value: orderData)
+
+            
         }
     }
     
@@ -89,6 +92,9 @@ struct MapOrderData {
             }
             if let orderTotal = item.value(forKey: "orderTotal") as? Double {
                 data_OrderData.orderTotal = orderTotal
+            }
+            if let orderCreatedDate = item.value(forKey: "orderCreatedDate") as? String {
+                data_OrderData.orderCreatedDate = orderCreatedDate
             }
             
             if let orderId = item.value(forKey: "orderId") as? String {

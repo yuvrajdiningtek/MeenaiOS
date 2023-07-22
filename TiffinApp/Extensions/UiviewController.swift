@@ -149,9 +149,7 @@ extension UIViewController: UNUserNotificationCenterDelegate{
         addCardViewController.title = "Pay \(amount)"
         addCardViewController.delegate = delegate
         addCardViewController.navigationItem.backBarButtonItem = UIBarButtonItem(title:"Back", style:.plain, target:nil, action:nil)
-        
-        
-        
+                
         Global().setStripePublishKey()
         IQKeyboardManager.shared.enable = false
         self.navigationController?.pushViewController(addCardViewController, animated: true)

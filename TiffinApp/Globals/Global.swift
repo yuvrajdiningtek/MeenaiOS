@@ -70,7 +70,7 @@ func attributesDetail()->[NSAttributedString.Key: Any]{
 }
 }
 class GlobalVariables {
-    static let placeholderImg = UIImage(named: "placeholder img")!
+    static let placeholderImg = UIImage(named: "tiffinpc")!
 }
 class AddOnForAddToCart : NSObject{
     var addon : AddOns

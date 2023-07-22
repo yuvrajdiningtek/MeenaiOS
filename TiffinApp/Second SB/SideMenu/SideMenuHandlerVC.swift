@@ -22,6 +22,7 @@ class SideMenuHandlerVC: SideMenuController {
 
         // Do any additional setup after loading the view.
     }
+    
     required init?(coder aDecoder: NSCoder) {
         
         SideMenuController.preferences.drawing.sidePanelPosition = .overCenterPanelLeft
@@ -44,5 +45,4 @@ class SideMenuHandlerVC: SideMenuController {
         
     }
     
-
 }

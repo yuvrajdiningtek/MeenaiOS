@@ -109,8 +109,9 @@ class ProductsApi:NSObject{
                         DBManager.sharedInstance.database.delete(obj2)
                     }
                     try! DBManager.sharedInstance.database.write {
-                        DBManager.sharedInstance.database.add(prod)
-//                        DBManager.sharedInstance.database.create(ProductCatData.self, value: result)
+//                        DBManager.sharedInstance.database.add(prod)
+                        
+                        DBManager.sharedInstance.database.create(ProductCatData.self, value: result)
                     }
                     callback(true, result)
                 }
@@ -205,7 +206,7 @@ class ProductsApi:NSObject{
 //                        DBManager.sharedInstance.database.create(CartData.self, value: result)
 //                    }
                         DeleteDataBaseObjects.delete_cartData()
-
+                        print("\n\n\\nn\\nn\\n\n\\n\n\n\n\n\n\n\(result)\n\n\\nn\n\n\\n\n\n\n\n\n\n\n\\n\n,\(appliedCoupons)\n\n\n\\n")
                         let cartData = ParseCartData().map_CartData(data: result)
                         print(cartData,"-=-=-=-=-=-=-=-=-=-=----")
                         try! DBManager.sharedInstance.database.write {
@@ -218,7 +219,9 @@ class ProductsApi:NSObject{
                             }
                             print(cartData.requestId,"----ccccccc")
 //                            if cartData.requestId != ""{
-                            DBManager.sharedInstance.database.add(cartData)
+//                            DBManager.sharedInstance.database.add(cartData)
+                            DBManager.sharedInstance.database.create(CartData.self,value: cartData)
+
 //                            }
 //                            else{
                                 //print(cartData.requestId,"----noooooooooooo")
@@ -232,39 +235,24 @@ class ProductsApi:NSObject{
 
                         }
                         // ******************** cart button badge ********************
-                        if DBManager.sharedInstance.get_CartData_DataFromDB().count != 0{
-                            let cartData = DBManager.sharedInstance.get_CartData_DataFromDB()[0] as CartData
-                            
-                            cartbadgevalue = String(describing: (cartData.object?.items.count)!)
-                            
-                            if let items = cartData.object?.items{
-                                var qty:Double = 0
-                                var q: Double = 0
-                                for itm in items{
-                                    qty = qty + itm.qty
-                                    q = Double(items.count)
-                                }
-                                cartbadgevalue = String(describing: Int(q))
-                                
-                            }
-                            UserDefaults.standard.set(cartbadgevalue, forKey: userdefaultKeys().number_of_items_in_Cart)
-                           // DeleteDataBaseObjects.deleteAppliedCouponsData()
-//                            if let obj  = result.value(forKey: "object") as? NSDictionary{
-//                                if let appliedcoupons = obj.value(forKey: "applied_coupons") as? NSDictionary{
-//                                    appliedCoupons = AppliedCoupon()
+//                        if DBManager.sharedInstance.get_CartData_DataFromDB().count != 0{
+//                            let cartData = DBManager.sharedInstance.get_CartData_DataFromDB()[0] as CartData
 //
-//                                    for (key,value) in appliedcoupons{
-//                                        let data = AppliedCouponData(key : (key as? String ?? "" ),value : (value as? String ?? "" ))
-//                                        appliedCoupons!.data.append(data)
-//                                    }
-//                                    UserDefaults.standard.setValue(appliedcoupons, forKey: "appliedcoupons")
-////                                    try! DBManager.sharedInstance.database.write {
-////                                        DBManager.sharedInstance.database.add(appliedCoupons!)
-////                                    }
+//                            cartbadgevalue = String(describing: (cartData.object?.items.count)!)
 //
+//                            if let items = cartData.object?.items{
+//                                var qty:Double = 0
+//                                var q: Double = 0
+//                                for itm in items{
+//                                    qty = qty + itm.qty
+//                                    q = Double(items.count)
 //                                }
+//                                cartbadgevalue = String(describing: Int(q))
+//
 //                            }
-                        }
+//                            UserDefaults.standard.set(cartbadgevalue, forKey: userdefaultKeys().number_of_items_in_Cart)
+//
+//                        }
                         callback(true, result,appliedCoupons)
                     }
                     else{

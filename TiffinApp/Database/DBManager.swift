@@ -132,8 +132,9 @@ class DBManager{
         
         try! database.write {
             
-            database.add(object, update: false)
-            
+//            database.add(object, update: false)
+            database.create(Object.self, value: object)
+
             
             
         }
@@ -155,7 +156,9 @@ class DBManager{
             else{
                 let obj = UserDataLocal()
                 obj.bucketId = id
-                database.add(obj)
+//                database.add(obj)
+                database.create(UserDataLocal.self,value: obj)
+                
             }
         }
         
@@ -246,7 +249,9 @@ class DBManager{
                 g.image.append(i)
             }
             
-            database.add(g)
+//            database.add(g)
+            database.create(GalleryImages.self,value: g)
+
         }
     }
     func saveBuketId(bucket id : String){
@@ -261,7 +266,9 @@ class DBManager{
             try? database.write {
                 let obj = UserDataLocal()
                 obj.bucketId = id
-                database.add(obj)
+//                database.add(obj)
+                database.create(UserDataLocal.self,value: obj)
+
             }
         }
     }
@@ -291,7 +298,9 @@ class DBManager{
         try? database.write ({
             // If update = true, objects that are already in the Realm will be
             // updated instead of added a new.
-            database.add(objs, update: true)
+//            database.add(objs, update: true)
+            database.create(LoginUserDAta.self,value: objs)
+
         })
     }
     

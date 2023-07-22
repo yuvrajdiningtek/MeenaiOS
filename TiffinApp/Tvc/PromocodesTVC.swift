@@ -98,7 +98,7 @@ class PromocodesTVC: UITableViewCell {
                 //self.v.navigationController?.popViewController(animated: true)
             }
             else{
-                UserDefaults.standard.setValue("", forKey: "yessKey")
+//                UserDefaults.standard.setValue("", forKey: "yessKey")
 
                 Message.showErrorMessage(style: .bottom, message: err , title: "")
 
@@ -107,11 +107,12 @@ class PromocodesTVC: UITableViewCell {
         }
     }
     func removeCoupon(){
+        let yessKey = UserDefaults.standard.value(forKey: "yessKey") as? String
         self.showLoader()
         self.contentView.isUserInteractionEnabled = false
 
          UserDefaults.standard.setValue(false, forKey: "come")
-        ProductsApi.delete_coupon(rule: dataSet.0) { (succ, rst) in
+        ProductsApi.delete_coupon(rule: yessKey ?? dataSet.0) { (succ, rst) in
             self.hideLoader()
             self.contentView.isUserInteractionEnabled = true
 

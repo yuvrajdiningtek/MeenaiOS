@@ -7,8 +7,10 @@ class ApiKeys {
 //  New Order History Url https://rules.diningtek.com/api/v1/users/business/order/history/merchandise
 
     
-    static var domain = "https://in-prod.diningtek.com/"
-     var domain = "https://in-prod.diningtek.com/"
+    static var domain = "https://prod.diningtek.com/"
+     var domain = "https://prod.diningtek.com/"
+  
+
     static let merchantapibaseevents = domain + "api/v1/merchants/events"
     static let merchantapibaseEventDelete = domain + "api/v1/merchants/event"
     static let apibase = domain + "api/v1/users/"

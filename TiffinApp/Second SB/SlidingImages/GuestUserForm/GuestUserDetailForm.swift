@@ -58,7 +58,9 @@ class GuestUserDetailForm: UIViewController,UITextFieldDelegate {
             SCLAlertView().showNotice("Phone number should be 10 digit number.")
         }
         else if txtfields[3].text != nil , !isValidEmail(testStr: txtfields[3].text!){SCLAlertView().showNotice("Email is not valid")}
-        
+        else if txtfields[3].text?.contains("..") == true{
+            SCLAlertView().showNotice("Email is not valid")
+        }
         else if txtfields[7].text!.isValidZip == false {
             SCLAlertView().showNotice("Please enter a valid Zip Code.")
         }

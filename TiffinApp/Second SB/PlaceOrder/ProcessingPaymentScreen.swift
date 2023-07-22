@@ -50,7 +50,6 @@ class ProcessingPaymentScreen: UIViewController {
                 
                 UserDefaults.standard.setValue("", forKey: "selectedDate")
                 UserDefaults.standard.setValue("", forKey: "selectedTime")
-                
                 UserDefaults.standard.setValue(rst, forKey: "rst")
                 
                 Message.showSuccessmsg(style: .bottom, message: "Thankyou for your order. Your order is successfully placed")
@@ -59,7 +58,8 @@ class ProcessingPaymentScreen: UIViewController {
                 var x : [NSDictionary] = []
                 x.append(rst as! NSDictionary)
               //  print(x)
-               
+                UserDefaults.standard.setValue(true, forKey: "comeFromOrder")
+
                  //MapOrderData().mapData(value: x)
                 let vc = secondSBVC("OrderDetailVC") as! OrderDetailVC
     
@@ -142,6 +142,26 @@ class ProcessingPaymentScreen: UIViewController {
         }
         return orderDetail
     }
+    func deleteAllFromDataBse(){
+        let bucketid = DBManager.sharedInstance.getBucketId()
+        if isUserLoggedIn{
+            var allobjs = DBManager.sharedInstance.getallObjectsOfRealm()
+            allobjs.removeFirst()
+            allobjs.removeFirst()
+            for i in allobjs{
+                let db = DBManager.sharedInstance.database
+                let obj = db.objects(i)
+                try! db.write {
+                    db.delete(obj)
+                }
+            }
+        }else{
+            DBManager.sharedInstance.deleteAllFromDatabase()
+        }
+        DBManager.sharedInstance.saveBuketId(bucket: bucketid ?? "")
+        
+    }
+    
 //    func getTotalAmount()->String{
 //        if let dbm = DBManager.sharedInstance.get_CartData_DataFromDB().first{
 //            if let total = (dbm.object?.total_amount){

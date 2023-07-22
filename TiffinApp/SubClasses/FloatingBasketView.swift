@@ -66,6 +66,7 @@ class FloatingBasketView : UIView{
     func setAmount(){
         
         let rstCartd = DBManager.sharedInstance.get_CartData_DataFromDB()
+    
         if rstCartd.count>0{
             let amount = rstCartd.first?.object?.sub_total
             let price = cleanDollars(String(amount ?? 0))

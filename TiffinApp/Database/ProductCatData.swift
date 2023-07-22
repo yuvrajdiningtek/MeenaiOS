@@ -33,6 +33,8 @@ class Products:Object{
     @objc dynamic var shortDescription = ""
     @objc dynamic var descriptions = ""
     @objc dynamic var enabledUserInstructions = true
+    @objc dynamic var available_for_sale = 0
+    @objc dynamic var qty = 0
 
     var image = List<String>()
     @objc dynamic var attributes : Attributes?

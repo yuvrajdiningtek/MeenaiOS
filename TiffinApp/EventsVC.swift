@@ -110,7 +110,7 @@ class EventsVC: UIViewController {
 //                    self.present(alert, animated: true, completion: nil)
                 }
                 else {
-                    self.showAlert(msg: message!)
+                    self.showAlert(msg: message ?? "")
                 }
                 break
             case .failure:
@@ -282,7 +282,7 @@ extension EventsVC : UITableViewDataSource,UITableViewDelegate {
                     //                    self.present(alert, animated: true, completion: nil)
                 }
                 else {
-                    self.showAlert(msg: message!)
+                    self.showAlert(msg: message ?? "")
                 }
                 break
             case .failure:

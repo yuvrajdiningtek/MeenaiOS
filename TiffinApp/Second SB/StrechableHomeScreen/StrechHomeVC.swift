@@ -3,8 +3,15 @@ import UIKit
 import Crashlytics
 import Alamofire
 import NVActivityIndicatorView
+var cartproductIDS = [String]()
+var cartitemIDS = [String]()
+var cartproductQTY = [Double]()
+var allProductIDS = [String]()
 
 class StrechHomeVC: UIViewController {
+    
+    var stepperValues = [String]()
+    
     var activityIndicator  : NVActivityIndicatorView?
 
     var accesstoken = String()
@@ -37,7 +44,7 @@ class StrechHomeVC: UIViewController {
     @IBOutlet weak var floatingBasketView: FloatingBasketView!
     
     @IBOutlet weak var maintainanceModeView: UIView!
-    
+
     var items = [ItemsObjectOrdersData]()
     var orderData = CartData()
     var selecttitleIndex : Int?{
@@ -173,9 +180,10 @@ extension StrechHomeVC{
         })
     }
     
+  
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-  
         orderAheadPopupViewFirstTime.isHidden = true
         withoutLoginHeight.constant = 0
 
@@ -312,28 +320,35 @@ extension StrechHomeVC{
                             let PRODUCT_IMAGE_PREVIEW = MD.object?.PRODUCT_IMAGE_PREVIEW
                             UserDefaults.standard.setValue(PRODUCT_IMAGE_PREVIEW, forKey: "PRODUCT_IMAGE_PREVIEW")
                             
-                            guard let ORDER_AHEAD_DAYS = object["ORDER_AHEAD_DAYS"] as? [String] else{return}
-                            guard let SHOP_TIMING = object["SHOP_TIMING"] as? [[String:Any]] else{return}
-                            guard let ENABLE_ORDER_AHEAD = object["ENABLE_ORDER_AHEAD"] as? Bool else{return}
-                            UserDefaults.standard.setValue(ENABLE_ORDER_AHEAD, forKey: "ENABLE_ORDER_AHEAD")
-                            UserDefaults.standard.setValue(ORDER_AHEAD_DAYS, forKey: "ORDER_AHEAD_DAYS")
+                            if let ORDER_AHEAD_DAYS = object["ORDER_AHEAD_DAYS"] as? [String] {
+                                UserDefaults.standard.setValue(ORDER_AHEAD_DAYS, forKey: "ORDER_AHEAD_DAYS")
+
+                            }
+                             let SHOP_TIMING = object["SHOP_TIMING"] as? [[String:Any]] ?? []
+                            if let ENABLE_ORDER_AHEAD = object["ENABLE_ORDER_AHEAD"] as? Bool {
+                                UserDefaults.standard.setValue(ENABLE_ORDER_AHEAD, forKey: "ENABLE_ORDER_AHEAD")
+
+                            }
                             UserDefaults.standard.setValue(SHOP_TIMING, forKey: "SHOP_TIMING")
                             
-                            if ENABLE_ORDER_AHEAD == true{
-                                self.upperView?.futureOrderDate.isHidden = false
-                                self.upperView?.futureOrderUnderLineLbl.isHidden = false
-                            }
-                            
-                            let newFeatures = UserDefaults.standard.value(forKey: "newFeatures") as? Bool
-                            if newFeatures == true{
-                                self.orderAheadPopupViewFirstTime.isHidden = true
-                            }
-                            else{
-                              //  let ENABLE_ORDER_AHEAD = UserDefaults.standard.value(forKey: "ENABLE_ORDER_AHEAD") as? Bool
+                            if let ENABLE_ORDER_AHEAD = object["ENABLE_ORDER_AHEAD"] as? Bool {
+                            UserDefaults.standard.setValue(ENABLE_ORDER_AHEAD, forKey: "ENABLE_ORDER_AHEAD")
                                 if ENABLE_ORDER_AHEAD == true{
-                                    self.orderAheadPopupViewFirstTime.isHidden = false
+                                    self.upperView?.futureOrderDate.isHidden = false
+                                    self.upperView?.futureOrderUnderLineLbl.isHidden = false
+                                }
+                                let newFeatures = UserDefaults.standard.value(forKey: "newFeatures") as? Bool
+                                if newFeatures == true{
+                                    self.orderAheadPopupViewFirstTime.isHidden = true
+                                }
+                                else{
+                                  //  let ENABLE_ORDER_AHEAD = UserDefaults.standard.value(forKey: "ENABLE_ORDER_AHEAD") as? Bool
+                                    if ENABLE_ORDER_AHEAD == true{
+                                        self.orderAheadPopupViewFirstTime.isHidden = false
+                                    }
                                 }
                             }
+                           
                             
                             let currentWeekday = Date().dayOfWeek()?.uppercased()
                             print("yooooooo",SHOP_TIMING.count,currentWeekday)
@@ -541,6 +556,7 @@ extension StrechHomeVC{
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
     }
+    
     func setUpperView(){
         let top = (CollapsablePublicTerms.topSafeAreaMargin) ?? 0
         let frame = CGRect(x: 0, y: -top, width: UIScreen.main.bounds.size.width, height: CollapsablePublicTerms().hederViewHeight)
@@ -552,7 +568,7 @@ extension StrechHomeVC{
         upperView!.selectCategory = {
             (title,index) in
             let indexpath  = IndexPath(row: 0, section: index)
-            let att = self.collectionView.layoutAttributesForItem(at: indexpath )!.frame
+            let att = self.collectionView.layoutAttributesForItem(at: indexpath)!.frame
             //            let offset_y = CollapsablePublicTerms().hederViewHeight - (CollapsablePublicTerms().hederViewHeight/2.5)
             let offset_y =  (CollapsablePublicTerms().hederViewHeight/2.5)
             let origin = CGPoint(x: att.origin.x, y: att.origin.y-offset_y)
@@ -572,11 +588,16 @@ extension StrechHomeVC{
     }
     
     func getAlOredrs(completion: @escaping (Bool,String?)->()){
+        self.hideLoader()
 
-
+        showLoader()
+        view.isUserInteractionEnabled = false
         
         ProductsApi.detail_Cart_Info { (success, result,_) in
-            
+            self.hideLoader()
+
+            self.view.isUserInteractionEnabled = true
+
             
             if success{
                 print("----",self.self.items.count)
@@ -586,18 +607,127 @@ extension StrechHomeVC{
 
             
             self.floatingBasketView.isHidden = true
+            let res = result as? NSDictionary
+            let object = res?.value(forKey: "object") as? NSDictionary
+            let error = object?.value(forKey: "error") as? String
+            
+            if error?.contains("Invalid") == true || error?.contains("invalid") == true{
+                print("invaliddddddd")
+                self.stepperValues.removeAll()
+                cartitemIDS.removeAll()
+                cartproductIDS.removeAll()
+                cartproductQTY.removeAll()
+                allProductIDS.removeAll()
+                self.items.removeAll()
+                self.floatingBasketView.isHidden = true//true
+                self.collectionView.reloadData()
+                return
 
+            }
+            else{
             if DBManager.sharedInstance.get_CartData_DataFromDB().count > 0 {
                 
                 self.orderData = DBManager.sharedInstance.get_CartData_DataFromDB()[0] as CartData
                 
                 if self.orderData.object?.items.count != 0 {
+                    
+                    //FOR ALREADY SHOW POPUP
+                    cartproductIDS.removeAll()
+                    cartproductQTY.removeAll()
+                    cartitemIDS.removeAll()
+                        if self.orderData.object?.items.count != 0{
+                            for i in 0...((self.orderData.object?.items.count ?? 1)) - 1{
+                        cartproductIDS.append((self.orderData.object?.items[i].product_id)!)
+                        cartproductQTY.append((self.orderData.object?.items[i].qty)!)
+                                cartitemIDS.append((self.orderData.object?.items[i].item_id)!)
+                  }
+                            
+                            print(cartproductIDS.count,"cartproductIDS")
+                            print(cartproductQTY.count,"cartproductQTY",cartproductQTY)
+                            print(cartitemIDS.count,"cartitemIDS",cartitemIDS)
+
+                            if self.categories.count != 0{
+                            for k in 0...self.categories.count - 1{
+                                for i in self.productArr[self.categories[k]]!{
+                                
+                                    if self.productArr[self.categories[k]].debugDescription.contains("invalid"){
+                                      self.collectionView.reloadData()
+
+                                        let comeFromOrder = UserDefaults.standard.value(forKey: "comeFromOrder") as? Bool
+                                        if comeFromOrder == false{
+                                        self.floatingBasketView.isHidden = false
+                                        self.floatingBasketView.setAmount()
+                                        }
+                                        else{
+                                            self.stepperValues.removeAll()
+                                            cartitemIDS.removeAll()
+                                            cartproductIDS.removeAll()
+                                            cartproductQTY.removeAll()
+                                            allProductIDS.removeAll()
+                                            
+                
+                                        }
+                                        return
+                                    }
+                                    
+                                    allProductIDS.append(i.productId)
+                                    
+                            
+                            }
+                            }
+                                
+                                if allProductIDS.count != 0{
+                         //   for h in allProductIDS{
+                            for j in 0...allProductIDS.count - 1{
+                                
+                                //for h in 0...cartproductIDS.count - 1{
+                                //if allProductIDS[j] == cartproductIDS[h]{
+                                    if cartproductIDS.contains(allProductIDS[j]) {//}== cartproductIDS[h]{
+
+                                        for h in 0...cartproductIDS.count - 1{
+//                                    if i.productId == cartproductIDS[j]{
+                                    self.stepperValues.append(cartitemIDS[h])
+                                        }
+                                }
+                                else{
+                                    self.stepperValues.append("")
+                                }
+                                    
+                            }
+                            }
+                            print(self.stepperValues.count,self.stepperValues,"=====",allProductIDS.count)
+                           // }
+                            }
+                            
+                    }
+//                    self.collectionView.reloadData()
+                    //FOR ALREADY SHOW POPUP
+
+                    let comeFromOrder = UserDefaults.standard.value(forKey: "comeFromOrder") as? Bool
+                    if comeFromOrder == false{
                     self.floatingBasketView.isHidden = false
                     self.floatingBasketView.setAmount()
+                    }
+                    else{
+                        self.stepperValues.removeAll()
+                        cartitemIDS.removeAll()
+                        cartproductIDS.removeAll()
+                        cartproductQTY.removeAll()
+                        allProductIDS.removeAll()
+                        
+//                        ProductsApi.detail_Cart_Info(callback: { (_, _,_) in
+//
+//                        })
+                        
+                    }
+                    self.collectionView.reloadData()
 
                 }
+
                 else {
                     self.floatingBasketView.isHidden = true//true
+//                    self.collectionView.reloadData()
+
                 }
                 
             }
@@ -616,7 +746,7 @@ extension StrechHomeVC{
             }
             
         }
-        
+        }
         
         
     }
@@ -638,8 +768,8 @@ extension StrechHomeVC{
 extension StrechHomeVC : CollapseControlDelegate{
     func collapseFully() {
         UIView.animate(withDuration: 0.2) {
-            self.menuImgv.tintColor = UIColor.black
-            self.searchImgv.tintColor = UIColor.black
+            self.menuImgv.tintColor = UIColor.white
+            self.searchImgv.tintColor = UIColor.white
         }
         
     }

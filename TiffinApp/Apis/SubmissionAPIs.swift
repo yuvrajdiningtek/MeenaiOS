@@ -126,6 +126,7 @@ class SubmissionAPIs : NSObject{
                 }
                 callback(false,result,error);
                 return}
+            
             DBManager.sharedInstance.deleteBucketId()
             callback(true,result,"success")
             
@@ -246,7 +247,15 @@ class SubmissionAPIs : NSObject{
                 
             ]
         }
-        
+        var formattedDate = String()
+        let selectedDate = UserDefaults.standard.value(forKey: "selectedDate") as? String ?? ""
+        let selectedTime = UserDefaults.standard.value(forKey: "selectedTime") as? String ?? ""
+        if selectedDate != ""{
+            formattedDate = selectedDate.replacingOccurrences(of: "/", with: "-", options: .literal, range: nil)
+        }
+        else{
+            formattedDate = ""
+        }
         
         let parametrs : [String:Any] = [
             "form_id" : "",

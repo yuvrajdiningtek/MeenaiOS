@@ -9,6 +9,7 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
 
     //MARK: - IBOUTLETS
     
+    var orderCreated_At = String()
     @IBOutlet weak var topSpaceOrderTail: NSLayoutConstraint!
     @IBOutlet weak var item_fees_tv: UITableView!
     
@@ -142,6 +143,8 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
         submit_btn.isHidden = true
     }
     @IBAction func backk(_ sender: Any) {
+        NotificationCenter.default.post(name: Notification.Name("MoveToHome"), object: true, userInfo: nil)
+
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -172,7 +175,7 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
       print("ooo",notee)
         
         if isOrderHistory == true {
-            topSpaceOrderTail.constant = 20
+            topSpaceOrderTail.constant = 30
 
         self.getOrderDetail(completion: {
             
@@ -189,7 +192,7 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
 //            }
 //            else {
 //            if self.passedOrderData?.metaInfo!.COUPON != ""  {
-//                self.coupanLbl.text = "Applied Coupan : " + (self.passedOrderData?.metaInfo!.COUPON)! + "   - " + "(" + "$" + (self.passedOrderData?.metaInfo!.COUPON_TIFFIN10_AMOUNT)! + ")"
+//                self.coupanLbl.text = "Applied Coupan : " + (self.passedOrderData?.metaInfo!.COUPON)! + "   - " + "(" + "$" + (self.passedOrderData?.metaInfo!.COUPON_bfg21_AMOUNT)! + ")"
 //            }
 //            else {
 //                self.coupanLbl.isHidden = true
@@ -209,7 +212,7 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
             topSpaceOrderTail.constant = 50
             
 //            if passedOrderData?.metaInfo!.COUPON != ""  {
-//                coupanLbl.text = "Applied Coupan : " + (passedOrderData?.metaInfo!.COUPON)! + "   - " + "(" + (passedOrderData?.metaInfo!.COUPON_TIFFIN10_AMOUNT)! + " $" + ")"
+//                coupanLbl.text = "Applied Coupan : " + (passedOrderData?.metaInfo!.COUPON)! + "   - " + "(" + (passedOrderData?.metaInfo!.COUPON_bfg21_AMOUNT)! + " $" + ")"
 //            }
 //            else {
 //                coupanLbl.isHidden = true
@@ -335,7 +338,7 @@ class OrderDetailVC: UIViewController, UITextFieldDelegate , UINavigationControl
           //  self.coupanLbl.text = "Applied Coupan : " + (self.passedOrderData?.metaInfo!.COUPON)! + "   - " + "(" + "$" + (self.passedOrderData?.metaInfo!.COUPON_TIFFIN10_AMOUNT)! + ")"
             
             totalamount_lbl.text =  "\(cleanDollars(String(describing: passedOrderData?.orderTotal ?? 0.0)))  "
-            coupanAmontLbl.text = "$\(self.passedOrderData!.metaInfo!.COUPON_TIFFIN10_AMOUNT)"
+            coupanAmontLbl.text = "-$\(self.passedOrderData!.metaInfo!.COUPON_TIFFIN10_AMOUNT)"
                     if self.passedOrderData!.metaInfo!.COUPON_TIFFIN10_AMOUNT == ""{
                         coupanAmontLbl.text = ""
                     }
@@ -540,6 +543,8 @@ extension OrderDetailVC {
         
         if let data = getDatafrmDatabase(){
             self.passedOrderData = data
+            print(self.passedOrderData)
+
             completion()
         }else{
             self.getdataFromApi(orderid: orderId) { (d) in

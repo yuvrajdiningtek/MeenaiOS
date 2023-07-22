@@ -66,8 +66,36 @@ class ProductsDetailViewModel{
                 adonDict.append(dic)
             }
         }
-        
-        let parametrs : [String:Any] = [
+        var formattedDate = String()
+        let selectedDate = UserDefaults.standard.value(forKey: "selectedDate") as? String ?? ""
+        let selectedTime = UserDefaults.standard.value(forKey: "selectedTime") as? String ?? ""
+        if selectedDate != ""{
+            formattedDate = selectedDate.replacingOccurrences(of: "/", with: "-", options: .literal, range: nil)
+        }
+        else{
+            formattedDate = ""
+        }
+        var parametrs = [String:Any]()
+        let ENABLE_ORDER_AHEAD = UserDefaults.standard.value(forKey: "ENABLE_ORDER_AHEAD") as? Bool
+        if ENABLE_ORDER_AHEAD == true{
+            parametrs  = [
+               "form_id" : "",
+               "user_id" : userid,
+               
+               "fields" : [
+                   "bucketId" : DBManager.sharedInstance.getBucketId(),
+                   "productId" : productid,
+                   "productVariationId" : productVariationId,
+                   "quantity" : quantity,
+                   "addOns":adonDict,
+                   "cookingInstruction":cookingInstruction,
+                   "orderDate" : formattedDate,
+                   "orderTime" : selectedTime,
+               ]
+           ]
+        }
+        else{
+         parametrs  = [
             "form_id" : "",
             "user_id" : userid,
             
@@ -77,9 +105,12 @@ class ProductsDetailViewModel{
                 "productVariationId" : productVariationId,
                 "quantity" : quantity,
                 "addOns":adonDict,
-                "cookingInstruction":cookingInstruction
+                "cookingInstruction":cookingInstruction//,
+//                "orderDate" : formattedDate,
+//                "orderTime" : selectedTime,
             ]
         ]
+        }
         print(parametrs)
          showLoader()
         ProductsApi.addToCart(parameters: parametrs) { (success, result) in

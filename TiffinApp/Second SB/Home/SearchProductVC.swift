@@ -31,11 +31,17 @@ extension SearchProductVC : UICollectionViewDelegate , UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCVC", for: indexPath)  as! HomeCVC
         cell.dataSet = filteredItems[indexPath.row]
+        if filteredItems.count != 0{
+            cell.custom_stepperV.isHidden = true
+        }
+        
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+       
+        
         return filteredItems.count
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

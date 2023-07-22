@@ -13,6 +13,7 @@ class HomeCVC : UICollectionViewCell{
     @IBOutlet weak var descHeight: NSLayoutConstraint!
     @IBOutlet weak var addBtn: UIButton!
     @IBOutlet weak var categoryLbl: UILabel!
+    @IBOutlet weak var custom_stepperV: CustomStepper!
 
     override func awakeFromNib() {
         super.awakeFromNib()

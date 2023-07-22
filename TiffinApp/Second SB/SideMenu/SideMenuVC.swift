@@ -68,8 +68,9 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
     let iconNnTableOrderAhead : [String:[String]] = ["FirstSec":["restaurant-menu@x1","eventy","calen","location@x1"],
                                            "Others":["ShareApp_@x1","aboutsUs@x1","contactUs@x1","PrivacyPolicy@x1","logOut_@x1"]]
     
-    let segues = ["toHome", "toEvents","toOrderAhead",  "toAddresses","toAboutUs"]
-    
+    let seguesOrderAhead = ["toHome", "toEvents","toOrderAhead","toAddresses","toAboutUs"]
+    let segues = ["toHome", "toEvents","toAddresses","toOrderAhead","toAboutUs"]
+
     
     
     
@@ -279,7 +280,15 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0{
+            let ENABLE_ORDER_AHEAD = UserDefaults.standard.value(forKey: "ENABLE_ORDER_AHEAD") as? Bool
+                if ENABLE_ORDER_AHEAD == true{
+                    sideMenuController?.performSegue(withIdentifier: seguesOrderAhead[indexPath.row], sender: nil)
+
+                }
+            else{
+            
             sideMenuController?.performSegue(withIdentifier: segues[indexPath.row], sender: nil)
+            }
         }
         else if indexPath.section == 1{
             if indexPath.row == 0{
@@ -326,9 +335,9 @@ class SideMenuVC: UIViewController , UITableViewDelegate, UITableViewDataSource{
     }
     
     func shareButtonClicked() {
-        let textToShare = "Tandoori!  Check out this app!"
+        let textToShare = "Meena's Restaurant!  Check out this app!"
         
-        if let myWebsite = NSURL(string: "https://itunes.apple.com/in/app/tandoori/id1476393330?mt=8") {
+        if let myWebsite = NSURL(string: "https://apps.apple.com/us/developer/dining-software-group-inc/id1450779706") {
             let objectsToShare = [textToShare, myWebsite] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             

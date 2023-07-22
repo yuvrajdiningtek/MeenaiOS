@@ -22,7 +22,7 @@ import Fabric
 import Crashlytics
 import Alamofire
 import Instabug
-
+import Firebase
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var stripeAccountID = String()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
+        FirebaseApp.configure()
 //        let instabugId = "9201b648502e44470a13571c8f2a5aea"
 //        Instabug.start(withToken: instabugId, invocationEvents: [.shake, .floatingButton])
 //        Instabug.tintColor = UIColor.MyTheme.supportcolor
@@ -102,10 +103,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //         getProDev()
         return true
     }
+    func application(_app: UIApplication,
+                     open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+        if components.scheme == "firebase-game-loop" {
+            // ...Enter Game Loop Test logic to override application(_:open:options:).
+        }
+        return true
+    }
     func getProDev() {
         
         
-        let merchantid = "80ce8de93f71d4b188e62d10fe56eff2"
+        let merchantid = "e3ba92170cc92b34858d743da2ec514f"
         
         let version : Any! = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
         
@@ -121,7 +131,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             :]
         print("parameters==========\(parameters)")
         
-        Alamofire.request("https://prod.diningtek.com/service/status/\(merchantid)/TANDOORI-i\(vr)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+        Alamofire.request("https://prod.diningtek.com/service/status/\(merchantid)/MEENAS-i\(vr)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             debugPrint(response.result)
             print("",response.result.value)
             let json = response.result.value as? [String: Any]
@@ -137,11 +147,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // UserDefaults.standard.setValue(PROD_STATUS, forKey: "PROD_STATUSDev")
                 let checkProdStatus = "false"
                 if PROD_STATUS == checkProdStatus.uppercased() || PROD_STATUS == checkProdStatus.lowercased() || PROD_STATUS == "False"{
-                    ApiKeys.domain = "https://in-prod.diningtek.com/"
+                    ApiKeys.domain = "https://prod.diningtek.com/"
                     
                 }
                 else {
-                    ApiKeys.domain = "https://in-prod.diningtek.com/"
+                    ApiKeys.domain = "https://prod.diningtek.com/"
                 }
                 self.merchant_id()
                 //self.getStripeAccountID()
@@ -150,10 +160,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 DispatchQueue.main.async {
                     print("...")
                 }
-                
             }
         }
     }
+    
     func merchant_id(){
         
         var apiurl = URLComponents(string: ApiKeys.merchantID)
@@ -198,34 +208,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             UserDefaults.standard.setValue(PRODUCT_IMAGE_PREVIEW, forKey: "PRODUCT_IMAGE_PREVIEW")
                             let merchantIDD = MD.object?.MERCHANT_ID
                             UserDefaults.standard.setValue(merchantIDD, forKey: "m_idd")
-                            
+                            print(merchantIDD,"9999999")
                             guard let _ = a.value(forKey: "request_status") as? Int else {
                                 return
                             }
                             
                             
                             guard let object = a.value(forKey: "object") as? [String:Any] else {return}
-                            
+                            print(object,"oooooooooooo")
+
                             STPPaymentConfiguration.shared().publishableKey = object["STRIPE_PUBLISHABLE_KEY"] as! String
                             
-                            guard let MERCHANT_ID = object["MERCHANT_ID"] as? String else {return}
-                            guard let STATIC_RESOURCE_CATEGORIES_PREFIX = object["STATIC_RESOURCE_CATEGORIES_PREFIX"] as? String else {return}
-                            guard let STATIC_RESOURCE_ENDPOINT = object["STATIC_RESOURCE_ENDPOINT"] as? String else{return}
-                            guard let STATIC_RESOURCE_SUFFIX = object["STATIC_RESOURCE_SUFFIX"] as? String else{return}
-                            guard let STRIPE_ACCOUNT_ID = object["STRIPE_ACCOUNT_ID"] as? String else{return}
+                             let MERCHANT_ID = object["MERCHANT_ID"] as? String ?? ""
+                             let STATIC_RESOURCE_CATEGORIES_PREFIX = object["STATIC_RESOURCE_CATEGORIES_PREFIX"] as? String ?? ""
+                             let STATIC_RESOURCE_ENDPOINT = object["STATIC_RESOURCE_ENDPOINT"] as? String  ?? ""
+                             let STATIC_RESOURCE_SUFFIX = object["STATIC_RESOURCE_SUFFIX"] as? String  ?? ""
+                             let STRIPE_ACCOUNT_ID = object["STRIPE_ACCOUNT_ID"] as? String  ?? ""
                             UserDefaults.standard.setValue(STRIPE_ACCOUNT_ID, forKey: "s_acc_id")
                             UserDefaults.standard.setValue(STRIPE_ACCOUNT_ID, forKey: "stripeIDStatus")
                             
-                            guard let ORDER_AHEAD_DAYS = object["ORDER_AHEAD_DAYS"] as? [String] else{return}
-                            guard let SHOP_TIMING = object["SHOP_TIMING"] as? [[String:Any]] else{return}
+                             let ORDER_AHEAD_DAYS = object["ORDER_AHEAD_DAYS"] as? [String]  ?? []
+                            if let SHOP_TIMING = object["SHOP_TIMING"] as? [[String:Any]] {
+                                UserDefaults.standard.setValue(SHOP_TIMING, forKey: "SHOP_TIMING")
 
-                            guard let ENABLE_ORDER_AHEAD = object["ENABLE_ORDER_AHEAD"] as? Bool else{return}
+                            }
+
+                             let ENABLE_ORDER_AHEAD = object["ENABLE_ORDER_AHEAD"] as? Bool  ?? false
                             UserDefaults.standard.setValue(ENABLE_ORDER_AHEAD, forKey: "ENABLE_ORDER_AHEAD")
 
                             
                             print(ORDER_AHEAD_DAYS,"----------")
                             UserDefaults.standard.setValue(ORDER_AHEAD_DAYS, forKey: "ORDER_AHEAD_DAYS")
-                            UserDefaults.standard.setValue(SHOP_TIMING, forKey: "SHOP_TIMING")
                             
                             self.getStripeAccountID(merchantIDD: MERCHANT_ID)
                             
@@ -253,6 +266,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
     
     func getStripeAccountID(merchantIDD : String) {
         

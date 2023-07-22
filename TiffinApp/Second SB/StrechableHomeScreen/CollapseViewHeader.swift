@@ -49,7 +49,7 @@ class CollapseViewHeader: UIView {
 //        innerViewTopConstraint.constant = CollapsablePublicTerms.topSafeAreaMargin ?? 20
       //  locatonBubbleyConstraint.constant = constant1 // between 0-18 value of y goes 0 to -1.5 so for change of one "constant" , y will be (1.5/18) and for x == (1.5/18)*x
         
-        if constant <= 4{
+        if constant <= 4 {
 print("locationBubble.alpha = 1")
             locationBubble.alpha = 1
             return
@@ -76,8 +76,11 @@ print("locationBubble.alpha = 1")
             ratingView.isHidden = false
             timingImg.isHidden = false
             timingLbl.isHidden = false
-            futureOrderDate.isHidden = false
-            futureOrderUnderLineLbl.isHidden = false
+            let ENABLE_ORDER_AHEAD = UserDefaults.standard.value(forKey: "ENABLE_ORDER_AHEAD") as? Bool
+            if ENABLE_ORDER_AHEAD == true{
+          futureOrderDate.isHidden = false
+          futureOrderUnderLineLbl.isHidden = false
+            }
 
 
         }
@@ -97,10 +100,10 @@ extension CollapseViewHeader{
         let selectedTime = UserDefaults.standard.value(forKey: "selectedTime") as? String ?? ""
         if selectedTime != ""{
             futureOrderDate.setTitle("Selected Future Date/Time: \(selectedDate) \(selectedTime)", for: .normal)
-        
         }
 //        print("layout change",self.frame.minY)
     }
+    
     func commonInit(){
         
         Bundle.main.loadNibNamed("CollapseViewHeader", owner: self, options: nil)
@@ -144,7 +147,7 @@ extension CollapseViewHeader{
         GetData().getAllProductsList { (_, cat) in
             self.selectionListTitle = cat
             self.selectionList.reloadData()
-        }        
+        }
     }
 
     func setUI(){

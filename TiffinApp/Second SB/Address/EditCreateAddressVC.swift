@@ -129,7 +129,9 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
         else if cityTxt_F.text == ""{SCLAlertView().showNotice("fill all the fields")}
         else if postal_txtF.text == ""{SCLAlertView().showNotice("fill all the fields")}
         else if email_txtF.text != nil , !isValidEmail(testStr: email_txtF.text!){SCLAlertView().showNotice("Email is not valid")}
-        
+        else if email_txtF.text?.contains("..") == true{
+            SCLAlertView().showNotice("Email is not valid")
+        }
         else if phone_txtF.text?.isValidPhone == false {
             SCLAlertView().showNotice("Phone number should be 10 digit number.")
         }
@@ -174,7 +176,7 @@ class EditCreateAddressVC: UIViewController, CountryStateDelegate,UITextFieldDel
             topSpaceOrderTail.constant = 30
         }
         else{
-            topSpaceOrderTail.constant = 10
+            topSpaceOrderTail.constant = 20
 
         }
         

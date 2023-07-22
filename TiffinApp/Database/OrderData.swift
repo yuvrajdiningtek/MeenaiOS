@@ -22,6 +22,10 @@ class DatainOrdersData:Object{
 
     @objc dynamic var checkoutMethod : CheckoutMethod?
     @objc dynamic var orderedDate = ""
+    @objc dynamic var orderCreatedDate = ""
+//    @objc dynamic var order_ahead = 0
+
+    //orderCreatedDate
     @objc dynamic var billingAddress : DataAdressModel?
     @objc dynamic var shippingAddress : DataAdressModel?
     @objc dynamic var pickupAddress : DataAdressModel?
@@ -54,7 +58,9 @@ class MetaInfoObjectData:Object{
     @objc dynamic var SHIPPING_METHOD = ""
     @objc dynamic var BUCKET = ""
     @objc dynamic var COUPON = ""
+//    @objc dynamic var COUPON_bfg21_AMOUNT = ""
     @objc dynamic var COUPON_TIFFIN10_AMOUNT = ""
+
 }
 class OrderRefunedsObjectData:Object{
     

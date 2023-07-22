@@ -14,6 +14,8 @@ class ApplyPromocodeVC: UIViewController {
     @IBOutlet weak var noCouponLbl : UILabel!
 
     var tvds : [CouponsModel] = [CouponsModel]()
+    var tvdsFor : [CouponsModel] = [CouponsModel]()
+
    // var appliedCoupon : AppliedCoupon?
     
     override func viewDidLoad() {
@@ -113,6 +115,7 @@ class ApplyPromocodeVC: UIViewController {
 //                    self.coupanLBL.text = "Coupon :\nApplied Coupan\nYou saved $\(String(describing: coupanAmount))"
 //                }
                 
+                
             }
             
             
@@ -147,7 +150,7 @@ class ApplyPromocodeVC: UIViewController {
             else{
                // Message.showErrorOnTopStatusBar(message: err)
                 
-                UserDefaults.standard.setValue("", forKey: "yessKey")
+               // UserDefaults.standard.setValue("", forKey: "yessKey")
 
                 Message.showErrorMessage(style: .bottom, message: err , title: "")
 
@@ -156,6 +159,7 @@ class ApplyPromocodeVC: UIViewController {
     }
 
     func getCoupons(){
+        let offerNames = UserDefaults.standard.value(forKey: "offerNames") as? [String]
 //        self.view.isUserInteractionEnabled = false
 
 //        NotificationCenter.default.post(name: Notification.Name("MoveToCoupon"), object: true, userInfo: nil)
@@ -164,6 +168,43 @@ class ApplyPromocodeVC: UIViewController {
             SomeInformationApi.get_coupons { (succ, modelArr) in
                 Message.hideMsgView()
                 self.tvds = modelArr
+//                print("counttttt",self.tvds.count,offerNames?.count)
+
+                //self.tvdsFor = modelArr
+//                if offerNames?.count == self.tvds.count {
+//                    self.noCouponLbl.isHidden = false
+//                    self.tableV.isHidden = true
+//                    self.view.isUserInteractionEnabled = true
+//
+//                    return
+//                }
+//
+//               else if offerNames?.count == 0 {
+//
+//                }
+//
+//                else{
+//
+//                if self.tvds.count != 0{
+//                if offerNames?.count != 0{
+//                    for j in 0...self.tvds.count - 1{
+//                for i in 0...offerNames!.count - 1{
+//                    print("j           ",j,self.tvds.count)
+//                    if self.tvds.count != 0{
+//
+////                    if self.tvds.count - 1 > j {
+//                    if self.tvds[j].name == offerNames?[i]{
+//                    self.tvds.remove(at: j)
+//                    }
+//
+////                    }
+//                    }
+//                }
+//                }
+//                   //self.tvds = self.tvdsFor
+//                }
+//                }
+//                }
                 self.view.isUserInteractionEnabled = true
 
                 if self.tvds.count == 0{
@@ -176,7 +217,7 @@ class ApplyPromocodeVC: UIViewController {
                     self.noCouponLbl.isHidden = true
 
                 }
-                
+                                                                                            
                 if !succ{
                     self.view.isUserInteractionEnabled = true
 
@@ -191,16 +232,16 @@ class ApplyPromocodeVC: UIViewController {
             self.view.isUserInteractionEnabled = true
 
 //            Message.showErrorOnTopStatusBar(message: "Oops! Internat Not Working")
-            Message.showErrorMessage(style: .bottom, message: "Oops! Internat Not Working", title: "")
+            Message.showErrorMessage(style: .bottom, message: "Oops! Internet Not Working", title: "")
 
         }
     }
+    
     @objc func detailAtion(sender: UIButton){
 //        getCoupons()
         let activityIndicator = loader(at: self.view, active: .circleStrokeSpin)
         self.view.addSubview(activityIndicator) // or use  webView.addSubview(activityIndicator)
         activityIndicator.startAnimating()
-            
         
         let index = sender.tag
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

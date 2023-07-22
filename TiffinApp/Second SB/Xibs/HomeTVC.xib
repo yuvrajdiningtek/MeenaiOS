@@ -920,14 +920,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Location and hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ySu-la-c9O">
-                        <rect key="frame" x="16" y="12" width="147" height="20"/>
+                        <rect key="frame" x="16" y="12" width="138.5" height="20.5"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <fontDescription key="fontDescription" name="GlacialIndifference-Regular" family="Glacial Indifference" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="View Info &gt;" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XsI-BK-D7c">
-                        <rect key="frame" x="274.5" y="12" width="84.5" height="20"/>
+                        <rect key="frame" x="277" y="12" width="82" height="20.5"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <fontDescription key="fontDescription" name="GlacialIndifference-Regular" family="Glacial Indifference" pointSize="17"/>
                         <color key="textColor" name="MaroonTheme"/>
@@ -947,7 +947,7 @@
         <image name="option" width="64" height="64"/>
         <image name="pingyros" width="512" height="512"/>
         <namedColor name="MaroonTheme">
-            <color red="0.90799999237060547" green="0.33500000834465027" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.027450980392156862" green="0.34901960784313724" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

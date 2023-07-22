@@ -54,7 +54,7 @@ class SplashVC: UIViewController {
     func getProDev() {
         
         
-        let merchantid = "80ce8de93f71d4b188e62d10fe56eff2"
+        let merchantid = "e3ba92170cc92b34858d743da2ec514f"
         
         let version : Any! = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
         
@@ -70,7 +70,7 @@ class SplashVC: UIViewController {
             :]
         print("parameters==========\(parameters)")
         
-        Alamofire.request("https://prod.diningtek.com/service/status/\(merchantid)/TANDOORI-i\(vr)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+        Alamofire.request("https://prod.diningtek.com/service/status/\(merchantid)/MEENAS-i\(vr)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             debugPrint(response.result)
             print("",response.result.value)
             let json = response.result.value as? [String: Any]
@@ -79,18 +79,18 @@ class SplashVC: UIViewController {
                 let dic = json as NSDictionary?
                 
                 let object = dic?.value(forKey: "object") as! NSDictionary
-                let PROD_STATUS = object.value(forKey: "PROD_STATUS") as! String
+                let PROD_STATUS = object.value(forKey: "PROD_STATUS") as? String
                 
                 print("PROD_STATUS",PROD_STATUS)
                 
                 // UserDefaults.standard.setValue(PROD_STATUS, forKey: "PROD_STATUSDev")
                 let checkProdStatus = "false"
                 if PROD_STATUS == checkProdStatus.uppercased() || PROD_STATUS == checkProdStatus.lowercased() || PROD_STATUS == "False"{
-                    ApiKeys.domain = "https://in-prod.diningtek.com/"
+                    ApiKeys.domain = "https://prod.diningtek.com/"
                     
                 }
                 else {
-                    ApiKeys.domain = "https://in-prod.diningtek.com/"
+                    ApiKeys.domain = "https://prod.diningtek.com/"
                 }
                 self.callApis()
                 //self.getStripeAccountID()
@@ -149,7 +149,6 @@ class SplashVC: UIViewController {
                 })
                 
             }
-            
             
         }
         else{

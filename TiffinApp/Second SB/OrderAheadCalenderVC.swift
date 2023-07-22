@@ -19,7 +19,11 @@ class OrderAheadCalenderVC: UIViewController,FSCalendarDelegateAppearance ,FSCal
     var maxTimeFinal = String()
     
     @IBOutlet weak var calender: FSCalendar!
+    @IBOutlet weak var stackVieww: UIStackView!
+
     @IBOutlet weak var submitBtn: UIButton!
+    @IBOutlet weak var doneBtn: UIButton!
+
     @IBOutlet weak var timeBtnText: UIButton!
 
     @IBOutlet weak var dropDownView: UIView!
@@ -46,6 +50,8 @@ class OrderAheadCalenderVC: UIViewController,FSCalendarDelegateAppearance ,FSCal
 //        datesTv.text = "Selected Date: \(dateStringg), Selected Time: \(startTime))"
 
         submitBtn.layer.cornerRadius = 10
+        doneBtn.layer.cornerRadius = 10
+
         submitBtn.setTitle("Reset", for: .normal)
         calender.layer.cornerRadius = 10
         calender.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
@@ -64,7 +70,7 @@ class OrderAheadCalenderVC: UIViewController,FSCalendarDelegateAppearance ,FSCal
         print(ORDER_AHEAD_DAYS,"-------")
         countLbl.text = "(\(ORDER_AHEAD_DAYS?.count ?? 0) Days)"
         datesTv.isHidden = true
-        submitBtn.isHidden = true
+        stackVieww.isHidden = true
         
         let selectedDate = UserDefaults.standard.value(forKey: "selectedDate") as? String ?? ""
         let selectedTime = UserDefaults.standard.value(forKey: "selectedTime") as? String ?? ""
@@ -74,7 +80,7 @@ class OrderAheadCalenderVC: UIViewController,FSCalendarDelegateAppearance ,FSCal
             dropDownView.isHidden = false
             timeBtnText.setTitle("  \(selectedTime)", for: .normal)
             datesTv.text = "Selected Date: \(selectedDate), Selected Time: \(selectedTime)"
-            submitBtn.isHidden = false
+            stackVieww.isHidden = false
 
         }
         
@@ -108,14 +114,14 @@ class OrderAheadCalenderVC: UIViewController,FSCalendarDelegateAppearance ,FSCal
         let dateFormatter3 = DateFormatter()
           dateFormatter3.dateFormat = "dd/MM/yyyy"
           let dateString = dateFormatter3.string(from: date)
-        submitBtn.isHidden = true
+        stackVieww.isHidden = true
 
         if ORDER_AHEAD_DAYS!.contains(dateString){
             dateStringg = dateString
             print("yessss")
             datesTv.text = "Selected Date: \(dateString)"
             datesTv.isHidden = false
-            submitBtn.isHidden = true
+            stackVieww.isHidden = true
           //  selectDstePicker.isHidden = false
             UserDefaults.standard.setValue("", forKey: "selectedDate")
             UserDefaults.standard.setValue("", forKey: "selectedTime")
@@ -283,7 +289,7 @@ class OrderAheadCalenderVC: UIViewController,FSCalendarDelegateAppearance ,FSCal
             timeBtnText.setTitle("  Time", for: .normal)
             datesTv.text = ""
             datesTv.isHidden = true
-            submitBtn.isHidden = true
+            stackVieww.isHidden = true
           //  selectDstePicker.isHidden = true
 
         }
@@ -309,13 +315,17 @@ class OrderAheadCalenderVC: UIViewController,FSCalendarDelegateAppearance ,FSCal
 
             UserDefaults.standard.setValue(dateStringg, forKey: "selectedDate")
             UserDefaults.standard.setValue(sortedArray[index], forKey: "selectedTime")
-            submitBtn.isHidden = false
+            stackVieww.isHidden = false
 
         }
         
         dropDown.show()
         
     }
+    @IBAction func doneBtn(_ sender: Any) {
+        sideMenuController?.performSegue(withIdentifier: "toHome", sender: nil)
+    }
+    
     func getTodayWeekDay(date:Date)-> String{
            let dateFormatter = DateFormatter()
            dateFormatter.dateFormat = "EEEE"
@@ -369,7 +379,7 @@ class OrderAheadCalenderVC: UIViewController,FSCalendarDelegateAppearance ,FSCal
         timeBtnText.setTitle("  Time", for: .normal)
         datesTv.text = ""
         datesTv.isHidden = true
-        submitBtn.isHidden = true
+        stackVieww.isHidden = true
         
     }
     

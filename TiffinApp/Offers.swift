@@ -9,10 +9,15 @@
 import UIKit
 
 class Offers: UICollectionViewCell {
+    @IBOutlet weak var offerNameLbl: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        contentView.layer.borderWidth = 0.5
+        contentView.layer.borderColor = UIColor.init(named: "MaroonTheme")?.cgColor
+        contentView.layer.cornerRadius = 7
+        contentView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+
     }
 
 }

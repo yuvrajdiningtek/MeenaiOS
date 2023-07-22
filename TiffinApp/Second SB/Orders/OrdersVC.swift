@@ -88,11 +88,26 @@ extension OrdersVC: UITableViewDelegate,UITableViewDataSource{
         let cell = Bundle.main.loadNibNamed("HomeTVC", owner: Any?.self, options: nil)?[4] as! OrdersTVC
         
         
-        cell.date_lbl.text =  "Placed at : " + items[indexPath.row].orderedDate
+       // cell.date_lbl.text =  "Placed at : " + items[indexPath.row].orderedDate
         cell.orderid_Lbl.text = items[indexPath.row].orderId
         cell.prize_Lbl.text = (cleanDollars(String(items[indexPath.row].orderTotal)))
         if items[indexPath.row].orderStatus.count > 0{
             cell.status_Lbl.text = items[indexPath.row].orderStatus[0].status
+            if items[indexPath.row].orderStatus.last?.status.contains("Order") == true{
+                if items[indexPath.row].orderCreatedDate != ""{
+                cell.date_lbl.text =  "Placed at : " + items[indexPath.row].orderCreatedDate
+                }
+                else{
+                    cell.date_lbl.text =  "Placed at : N/A"
+                }
+            }
+            else{
+                cell.date_lbl.text =  "Placed at : " + items[indexPath.row].orderedDate
+               
+            }
+        }
+        else{
+            cell.date_lbl.text =  "Placed at : " + items[indexPath.row].orderedDate
         }
         cell.viewdetail_btn.tag = indexPath.row
         
@@ -109,6 +124,7 @@ extension OrdersVC: UITableViewDelegate,UITableViewDataSource{
         vc.orderId = items[indexPath.row].orderId
         vc.stateNmae = items[indexPath.row].billingAddress?.stateName
         vc.notee = items[indexPath.row].note
+        vc.orderCreated_At = items[indexPath.row].orderCreatedDate
         UserDefaults.standard.setValue(true, forKey: "iscomefrompast")
 //
 //        let defaults = UserDefaults.standard
